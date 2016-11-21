@@ -1,3 +1,4 @@
+//Nicolas Aguirre Tobar
 #include <stdio.h>
 #include <mpi.h>
 
