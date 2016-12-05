@@ -96,7 +96,7 @@ void tablero_inicio(p (*m)[8]){
 															m[i][j].tipo_pieza.nombre='V';
 															m[i][j].tipo_pieza.posicion[0]=i;
 															m[i][j].tipo_pieza.posicion[1]=j;
-}						
+														}						
 													}
 												}
 												
