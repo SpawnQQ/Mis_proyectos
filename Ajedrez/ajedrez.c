@@ -4,9 +4,10 @@
 #include<metodos.h>
 
 int main(){
+	system("clear");
 	typedef struct pieza p;
 	p m[8][8];
-	tablero_inicio(&m);
-	system("clear");
-	mostrar_tablero(&m);
+	int termino_partida=0;
+	inicio_partida(&m,termino_partida);
+	
 }

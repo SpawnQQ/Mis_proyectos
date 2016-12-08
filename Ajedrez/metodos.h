@@ -3,6 +3,7 @@
 #include<stdbool.h>
 
 typedef struct pieza p;
+void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,int posicion_1,int posicion_2);
 
 void tablero_inicio(p (*m)[8]){
 	for(int i=0;i<8;i++){
@@ -72,11 +73,110 @@ void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,
 }
 
 void mostrar_tablero(p (*m)[8]){
+	printf("  a  b  c  d  e  f  g  h\n");
 	for(int i=0;i<8;i++){
+		printf("%d ", 9-(i+1));
 		for(int j=0;j<8;j++){
 			printf("%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 		}
+		printf("%d ", 9-(i+1));
 		printf("\n");
+	}
+	printf("  a  b  c  d  e  f  g  h\n");
+}
 
+void inicio_partida(p (*m)[8],int termino_partida){
+	tablero_inicio(m);
+	int cantidad_turnos=1;
+	char seleccion_pieza[2];
+	char posicion[2];	
+
+	//Sabemos el jugador, dividiendo la cantidad de turnos por 2, asi sabemos si el turno es par o impar
+	int jugador=cantidad_turnos%2;
+	//Iniciamos la partida
+	mostrar_tablero(m);
+	while(termino_partida==0){
+		printf("Jugador %d, seleccione pieza a mover\n",jugador);
+		scanf("%s", &seleccion_pieza);
+		system("clear");
+		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0){
+			printf("Error de tipeo, porfavor seleccione nuevamente\n");
+			mostrar_tablero(m);
+		}else{
+			printf("Ingrese un movimiento");
+			scanf("%s", &posicion);
+			cantidad_turnos++;
+			jugador=cantidad_turnos%2;
+		}	
+		
+	}
+}
+
+int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
+	int i_posicion=transformar_num(seleccion[0]);
+	int j_posicion=transformar_num(seleccion[1]);
+
+	//El rango de la pieza seleccionada esta dentro del tablero
+	if((i_posicion>-1 && i_posicion<8) && (j_posicion>-1 && j_posicion<8)){
+		if(jugador==1){
+			if(m[i_posicion][j_posicion].color=='w'){
+
+				//Si la posicion seleccionada esta dentro del dominio, es el jugador 1 y el color de la pieza es BLANCO
+				return 1;
+			}else{
+				printf("Posicion seleccionada %d, %d\n",i_posicion,j_posicion);
+				printf("Las piezas BLANCAS -w-, estan asignadas al JUGADOR 1\n");
+				return 0;
+			}	
+		}else{
+			if(m[i_posicion][j_posicion].color=='b'){
+
+				//Si la posicion seleccionada esta dentro del dominio, es el jugador 2 y el color de la pieza es NEGRO
+				return 1;
+			}else{
+				printf("Posicion seleccionada %d, %d\n",i_posicion,j_posicion);
+				printf("Las piezas NEGRAS -b-, estan asignadas al JUGADOR 2\n");
+				return 0;
+			}
+		}			
+	}else{
+		printf("Ingrese una posicion valida\n");
+		return 0;
+	}
+}
+
+int transformar_num(char* numero){
+	if(numero=='8' || numero=='a'){
+		return 0;
+	}else{
+		if(numero=='7' || numero=='b'){
+			return 1;
+		}else{
+			if(numero=='6' || numero=='c'){
+				return 2;
+			}else{
+				if(numero=='5' || numero=='d'){
+					return 3;
+				}else{
+					if(numero=='4' || numero=='e'){
+						return 4;	
+					}else{
+						if(numero=='3' || numero=='f'){
+							return 5;
+						}else{
+							if(numero=='2' || numero=='g'){
+								return 6;
+							}else{
+								if(numero=='1' || numero=='h'){
+									return 7;								
+								}else{
+									return -1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
