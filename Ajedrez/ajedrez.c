@@ -1,7 +1,7 @@
-#include<stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include<estructuras.h>
-#include<metodos.h>
+#include <estructuras.h>
+#include <metodos.h>
 
 int main(){
 	system("clear");

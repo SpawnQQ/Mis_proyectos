@@ -1,6 +1,6 @@
-#include<stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include<stdbool.h>
+#include <stdbool.h>
 
 typedef struct pieza p;
 void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,int posicion_1,int posicion_2);
@@ -44,7 +44,7 @@ void tablero_inicio(p (*m)[8]){
 														if(i==7 && j==4){
 															matriz_setPieza(m,i,j,'w',true,'Q',i,j);
 														}else{
-															matriz_setPieza(m,i,j,'V',true,'V',i,j);
+															matriz_setPieza(m,i,j,'V',false,'V',i,j);
 														}						
 													}
 												}
@@ -103,6 +103,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			mostrar_tablero(m);
 		}else{
+			mostrar_tablero(m);
 			printf("Ingrese un movimiento");
 			scanf("%s", &posicion);
 			cantidad_turnos++;
@@ -124,7 +125,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 1 y el color de la pieza es BLANCO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %d, %d\n",i_posicion,j_posicion);
+				printf("Posicion seleccionada %c, %c\n",seleccion[0],seleccion[1]);
 				printf("Las piezas BLANCAS -w-, estan asignadas al JUGADOR 1\n");
 				return 0;
 			}	
@@ -134,7 +135,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 2 y el color de la pieza es NEGRO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %d, %d\n",i_posicion,j_posicion);
+				printf("Posicion seleccionada %c, %c\n",seleccion[0],seleccion[1]);
 				printf("Las piezas NEGRAS -b-, estan asignadas al JUGADOR 2\n");
 				return 0;
 			}
@@ -180,3 +181,4 @@ int transformar_num(char* numero){
 		}
 	}
 }
+
