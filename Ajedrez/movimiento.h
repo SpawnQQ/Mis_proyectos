@@ -79,6 +79,22 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 	}
 }
 
+void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+
+}
+void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+
+}
+void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+
+}
+void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+
+}
+void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+
+}
+
 void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
 	int i=m[destino_fila][destino_columna].tipo_pieza.posicion[0];
 	int j=m[destino_fila][destino_columna].tipo_pieza.posicion[1];

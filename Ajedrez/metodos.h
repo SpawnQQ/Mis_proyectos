@@ -103,11 +103,22 @@ void inicio_partida(p (*m)[8],int termino_partida){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			mostrar_tablero(m);
 		}else{
+			int inicio_fila=transformar_num(seleccion_pieza[0]);
+			int inicio_columna=transformar_num(seleccion_pieza[1]);
+
 			mostrar_tablero(m);
 			printf("Ingrese un movimiento");
 			scanf("%s", &posicion);
+
+			int destino_fila=transformar_num(posicion[0]);
+			int destino_columna=transformar_num(posicion[1]);
+
+
+			elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m);
 			cantidad_turnos++;
 			jugador=cantidad_turnos%2;
+			system("clear");
+			mostrar_tablero(m);
 		}	
 		
 	}

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <estructuras.h>
 #include <metodos.h>
+#include <movimiento.h>
 
 int main(){
 	system("clear");
