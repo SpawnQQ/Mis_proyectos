@@ -89,7 +89,8 @@ void inicio_partida(p (*m)[8],int termino_partida){
 	tablero_inicio(m);
 	int cantidad_turnos=1;
 	char seleccion_pieza[2];
-	char posicion[2];	
+	char posicion[2];
+	int mov_permitido=1;
 
 	//Sabemos el jugador, dividiendo la cantidad de turnos por 2, asi sabemos si el turno es par o impar
 	int jugador=cantidad_turnos%2;
@@ -103,22 +104,31 @@ void inicio_partida(p (*m)[8],int termino_partida){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			mostrar_tablero(m);
 		}else{
-			int inicio_fila=transformar_num(seleccion_pieza[0]);
-			int inicio_columna=transformar_num(seleccion_pieza[1]);
+				//Este while, sirve para verificar que el movimiento ingresado sea correcto
+				do{
+				int inicio_fila=transformar_num(seleccion_pieza[0]);
+				int inicio_columna=transformar_num(seleccion_pieza[1]);
 
-			mostrar_tablero(m);
-			printf("Ingrese un movimiento");
-			scanf("%s", &posicion);
+				mostrar_tablero(m);
+				printf("Ingrese un movimiento");
+				scanf("%s", &posicion);
 
-			int destino_fila=transformar_num(posicion[0]);
-			int destino_columna=transformar_num(posicion[1]);
+				int destino_fila=transformar_num(posicion[0]);
+				int destino_columna=transformar_num(posicion[1]);
 
 
-			elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m);
-			cantidad_turnos++;
-			jugador=cantidad_turnos%2;
-			system("clear");
-			mostrar_tablero(m);
+				elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
+				//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
+				if(mov_permitido==1){
+					cantidad_turnos++;
+					jugador=cantidad_turnos%2;
+					system("clear");
+					mostrar_tablero(m);
+				}else{
+					system("clear");
+					printf("Movimiento no permitido\n");
+				}
+			}while(mov_permitido==0);
 		}	
 		
 	}

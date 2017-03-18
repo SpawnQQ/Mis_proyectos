@@ -3,24 +3,24 @@
 #include <stdbool.h>
 
 typedef struct pieza p;
-void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]) {
+void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido) {
 	if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='P'){
-		mover_peon(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+		mover_peon(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 	}else{
 		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='H'){
-			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
 		}else{
 			if (m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
-				mover_torre(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+				mover_torre(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
 			}else{
 				if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='B'){
-					mover_alfil(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+					mover_alfil(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
 				}else{
 					if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='Q'){
-						mover_reina(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+						mover_reina(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
 					}else{
 						if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='K'){
-							mover_rey(inicio_fila,inicio_columna,destino_fila, destino_columna, m);
+							mover_rey(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
 						}
 					}
 				}
@@ -30,7 +30,7 @@ void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fil
 }
 
 //Buscamos los casos posibles para el mov, si no cumple ningun caso posible, el movimiento no se podra realizar
-void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 	if(m[inicio_fila][inicio_columna].primer_turno==true){
 		//Puede avanzar dos espacios
 		//Si la pieza es blanca -w-
@@ -43,15 +43,19 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 						//Esta condicion soo cuenta para el siguiente turno, resrvo el espacio vacio detras del peon
 						peon_al_paso();
 						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
 					}else{
 						printf("Hay un obstaculo en su camino\n");
+						*mov_permitido=0;
 					}
 				}else{
 					//Si avanzo 1 solo espacio, este vacia esa casilla de destino
 					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
 				}
 			}else{
 				printf("Movimiento no permitido\n");
+				*mov_permitido=0;
 			}
 		}else{
 			//Si no, si la pieza es negra -b-
@@ -62,15 +66,20 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 						//Esta condicion soo cuenta para el siguiente turno, resrvo el espacio vacio detras del peon
 						peon_al_paso();
 						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
 					}else{
 						printf("Hay un obstaculo en su camino\n");
+						*mov_permitido=0;
 					}
 				}else{
 					//Si avanzo 1 solo espacio, este vacia esa casilla de destino
 					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
 				}
 			}else{
 				printf("Movimiento no permitido\n");
+				*mov_permitido=0;
+
 			}
 
 		}
@@ -79,19 +88,19 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 	}
 }
 
-void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
 }
-void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
 }
-void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
 }
-void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
 }
-void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
 }
 
