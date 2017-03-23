@@ -51,7 +51,7 @@ void ncientifica(double n[2]){
 }
 
 void mult_ncientifica(double n[2],double m[2],double resultado[2]){
-	float base,exponente;
+	double base,exponente;
 	base=n[0]*m[0];
 	exponente=n[1]+m[1];
 	resultado[0]=base;

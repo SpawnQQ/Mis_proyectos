@@ -8,7 +8,7 @@ int main(){
 	double secs;
 	t_ini = clock();
 	double v[2];
-	factorial(100000000000,v);
+	factorial(1000000000,v);
 	t_fin = clock();
 	secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
 	printf("\n%lfe+%lf",v[0],v[1]);
