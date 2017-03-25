@@ -85,7 +85,29 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 		}
 	}else{
 		//Movimiento del peon si este ya no es primera vez que se utiliza
+		if(m[inicio_fila][inicio_columna].color=='w'){
+			//Esta vacio y avanzo 2 espacios hacia adelante o esta vacio y avanzo 1 espacio hacia adelante
+			if(m[destino_fila][destino_columna].color=='V' && (destino_fila==inicio_fila-1 && destino_columna==inicio_columna)){
+				//Si avanza 2 espacios, me sirve para preguntar si al avanzar 2 espacios estan vacias las 2 casillas que avanza
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				printf("Hay un obstaculo en su camino\n");
+				 *mov_permitido=0;
+			}
+		}else{
+			//Si no, si la pieza es negra -b-
+			if(m[destino_fila][destino_columna].color=='V' && (destino_fila==inicio_fila+1 && destino_columna==inicio_columna)){
+				//Si avanza 2 espacios, me sirve para preguntar si al avanzar 2 espacios estan vacias las 2 casillas que avanza
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				printf("Hay un obstaculo en su camino\n");
+				 *mov_permitido=0;
+			}
+		}
 	}
+	//Deberia definir el comer una pieza
 }
 
 void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){

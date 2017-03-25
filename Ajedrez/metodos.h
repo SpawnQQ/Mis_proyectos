@@ -72,17 +72,49 @@ void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,
 	m[i][j].tipo_pieza.posicion[1]=posicion_2;
 }
 
+//Fuente de donde saque los colores
+//http://bitmote.com/index.php?post/2012/11/19/Using-ANSI-Color-Codes-to-Colorize-Your-Bash-Prompt-on-Linux
 void mostrar_tablero(p (*m)[8]){
-	printf("  a  b  c  d  e  f  g  h\n");
+	printf("   a  b  c  d  e  f  g  h\n");
 	for(int i=0;i<8;i++){
-		printf("%d ", 9-(i+1));
+		printf(" %d ", 9-(i+1));
 		for(int j=0;j<8;j++){
-			printf("%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+			if((j+i+(8*i))%2==0){
+				if(m[i][j].color=='V'){
+					//Si la casilla es par
+					printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+					printf("\033[0m");
+				}else{
+					//Si la casilla es par
+					printf("\033[0;1;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+					printf("\033[0m");
+				}	
+			}else{
+				if(m[i][j].color=='V'){
+					//Si la casilla es impar
+					printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+					printf("\033[0m");
+				}else{
+					//Si la casilla es par
+					printf("\033[0;1;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+					printf("\033[0m");
+				}	
+			
+			}
+			/*
+			if(m[i][j].color=='V'){
+				printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+				printf("\033[0m");
+			}else{
+				printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+				printf("\033[0m");
+			}
+			*/
 		}
-		printf("%d ", 9-(i+1));
+		printf(" %d ", 9-(i+1));
 		printf("\n");
 	}
-	printf("  a  b  c  d  e  f  g  h\n");
+	printf("   a  b  c  d  e  f  g  h\n");
 }
 
 void inicio_partida(p (*m)[8],int termino_partida){
