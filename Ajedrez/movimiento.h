@@ -91,7 +91,7 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				//Si avanza 2 espacios, me sirve para preguntar si al avanzar 2 espacios estan vacias las 2 casillas que avanza
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
-			}else{
+			}else{	
 				printf("Hay un obstaculo en su camino\n");
 				 *mov_permitido=0;
 			}
@@ -108,6 +108,7 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 		}
 	}
 	//Deberia definir el comer una pieza
+	
 }
 
 void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
@@ -148,4 +149,36 @@ void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, i
 
 void peon_al_paso(){
 
+}
+
+int verificacion_dominio(int inicio_fila,int inicio_columna){
+	if((inicio_fila>-1 && inicio_fila<8) && (inicio_columna>-1 && inicio_columna<8)){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+//Falta restringir que la resta no salga del tablero
+//Que al mover un peon, el rey deje de estar en peligro, se puede hacer en una funcion aparte o una funcion que involucre todas las restricciones
+int mover_peon_restringido(char seleccion[2], p (*m)[8]){
+	int inicio_fila=transformar_num(seleccion[0]);
+	int inicio_columna=transformar_num(seleccion[1]);
+
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		if(verificacion_dominio(inicio_fila-1,inicio_columna) && m[inicio_fila-1][inicio_columna].color=='V'){
+			//Agregar comer
+			return 1;
+		}else{
+			return 0;
+		}
+	}else{
+		//Pieza negra
+		if(verificacion_dominio(inicio_fila+1,inicio_columna) && m[inicio_fila+1][inicio_columna].color=='V'){
+			//Agregar comer
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 }
