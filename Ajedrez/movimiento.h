@@ -107,8 +107,30 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 			}
 		}
 	}
-	//Deberia definir el comer una pieza
-	
+	//No esta entrando aca
+	if(*mov_permitido==0){
+		//Deberia definir el comer una pieza, si y solo si no han efectuado un movimiento antes
+		if(m[inicio_fila][inicio_columna].color=='w'){
+			if(m[destino_fila][destino_columna].color=='b' && ((destino_fila==inicio_fila-1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila-1 && destino_columna==inicio_columna+1))){
+				//Si el peon se mueve en diagonal y la pieza es negra, entonces comera al rival
+				//Hay que restringir que este sea el rey
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				printf("No hay pieza que comer\n");
+				*mov_permitido=0;
+			}
+		}else{
+			//Pieza es negra
+			if(m[destino_fila][destino_columna].color=='w' && ((destino_fila==inicio_fila+1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila+1 && destino_columna==inicio_columna+1))){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				printf("No hay pieza que comer\n");
+				*mov_permitido=0;	
+			}
+		}
+	}
 }
 
 void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
@@ -146,10 +168,24 @@ void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, i
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[0]=i;
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[1]=j;
 }
-
+	
 void peon_al_paso(){
-
+	//La idea es dejar el color de la pieza detras. Por ejemplo si Pw avanza dos espacios, VV quedara en Vw
+	//y al volver al turno de este jugador en particular, Vw pasara a VV si no han comido esta pieza, En el caso de
+	//que se coman la pieza, Vw pasara a VV y Pw que avanzo dos espacios, sera destruido 
 }
+
+int mover_restringido(char seleccion[2], p (*m)[8]){
+	int inicio_fila=transformar_num(seleccion[0]);
+	int inicio_columna=transformar_num(seleccion[1]);
+	if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='P'){
+		return mover_peon_restringido(inicio_fila,inicio_columna,m);
+	}else{
+		//Generar la restriccion para las demas piezas
+		return 0;
+	}
+}
+
 
 int verificacion_dominio(int inicio_fila,int inicio_columna){
 	if((inicio_fila>-1 && inicio_fila<8) && (inicio_columna>-1 && inicio_columna<8)){
@@ -161,24 +197,27 @@ int verificacion_dominio(int inicio_fila,int inicio_columna){
 
 //Falta restringir que la resta no salga del tablero
 //Que al mover un peon, el rey deje de estar en peligro, se puede hacer en una funcion aparte o una funcion que involucre todas las restricciones
-int mover_peon_restringido(char seleccion[2], p (*m)[8]){
-	int inicio_fila=transformar_num(seleccion[0]);
-	int inicio_columna=transformar_num(seleccion[1]);
-
+int mover_peon_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 	if(m[inicio_fila][inicio_columna].color=='w'){
-		if(verificacion_dominio(inicio_fila-1,inicio_columna) && m[inicio_fila-1][inicio_columna].color=='V'){
-			//Agregar comer
+		if(verificacion_dominio(inicio_fila-1,inicio_columna) && m[inicio_fila-1][inicio_columna].color=='V'){	
 			return 1;
 		}else{
-			return 0;
+			if((verificacion_dominio(inicio_fila-1,inicio_columna-1) && m[inicio_fila-1][inicio_columna-1].color=='b') || ( verificacion_dominio(inicio_fila-1,inicio_columna+1) && m[inicio_fila-1][inicio_columna+1].color=='b')){
+				return 1;
+			}else{
+				return 0;
+			}	
 		}
 	}else{
 		//Pieza negra
 		if(verificacion_dominio(inicio_fila+1,inicio_columna) && m[inicio_fila+1][inicio_columna].color=='V'){
-			//Agregar comer
 			return 1;
 		}else{
-			return 0;
+			if((verificacion_dominio(inicio_fila+1,inicio_columna-1) && m[inicio_fila+1][inicio_columna-1].color=='w') || ( verificacion_dominio(inicio_fila+1,inicio_columna+1) && m[inicio_fila+1][inicio_columna+1].color=='w')){
+				return 1;
+			}else{
+				return 0;
+			}
 		}
 	}
 }

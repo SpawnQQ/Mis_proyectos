@@ -3,12 +3,14 @@
 #include <estructuras.h>
 #include <metodos.h>
 #include <movimiento.h>
+#include <manejo_ficheros.h>
 
 int main(){
 	system("clear");
 	typedef struct pieza p;
 	p m[8][8];
 	int termino_partida=0;
+	creacion_historial();
 	inicio_partida(&m,termino_partida);
 	
 }

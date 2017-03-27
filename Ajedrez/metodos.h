@@ -80,7 +80,7 @@ void mostrar_tablero(p (*m)[8]){
 		printf(" %d ", 9-(i+1));
 		for(int j=0;j<8;j++){
 			if((j+i+(8*i))%2==0){
-				if(m[i][j].color=='V'){
+				if(m[i][j].tipo_pieza.nombre=='V'){
 					//Si la casilla es par
 					printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
@@ -90,7 +90,7 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0m");
 				}	
 			}else{
-				if(m[i][j].color=='V'){
+				if(m[i][j].tipo_pieza.nombre=='V'){
 					//Si la casilla es impar
 					printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
@@ -99,17 +99,7 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0;1;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
 				}	
-			
 			}
-			/*
-			if(m[i][j].color=='V'){
-				printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
-				printf("\033[0m");
-			}else{
-				printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
-				printf("\033[0m");
-			}
-			*/
 		}
 		printf(" %d ", 9-(i+1));
 		printf("\n");
@@ -136,7 +126,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			mostrar_tablero(m);
 		}else{
-			if(mover_peon_restringido(seleccion_pieza,m)==0){
+			if(mover_restringido(seleccion_pieza,m)==0){
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
 				mostrar_tablero(m);
 			}else{
@@ -146,7 +136,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 					int inicio_columna=transformar_num(seleccion_pieza[1]);
 
 					mostrar_tablero(m);
-					printf("Ingrese un movimiento");
+					printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 					scanf("%s", &posicion);
 
 					int destino_fila=transformar_num(posicion[0]);
@@ -182,7 +172,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 1 y el color de la pieza es BLANCO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %c, %c\n",seleccion[0],seleccion[1]);
+				printf("Posicion seleccionada %c%c\n",seleccion[0],seleccion[1]);
 				printf("Las piezas BLANCAS -w-, estan asignadas al JUGADOR 1\n");
 				return 0;
 			}	
@@ -192,7 +182,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 2 y el color de la pieza es NEGRO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %c, %c\n",seleccion[0],seleccion[1]);
+				printf("Posicion seleccionada %c%c\n",seleccion[0],seleccion[1]);
 				printf("Las piezas NEGRAS -b-, estan asignadas al JUGADOR 2\n");
 				return 0;
 			}
@@ -238,4 +228,3 @@ int transformar_num(char* numero){
 		}
 	}
 }
-

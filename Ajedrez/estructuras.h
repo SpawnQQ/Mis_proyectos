@@ -13,4 +13,3 @@ struct pieza{
 	bool primer_turno;
 	struct pieza *enlace;
 };
-	
