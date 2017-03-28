@@ -148,12 +148,12 @@ void inicio_partida(p (*m)[8],int termino_partida){
 					pieza_mov[1]=m[inicio_fila][inicio_columna].color;
 
 					pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
-					pieza_remov[0]=m[destino_fila][destino_columna].color;
+					pieza_remov[1]=m[destino_fila][destino_columna].color;
 
 					elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
 					//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
 					if(mov_permitido==1){
-						movimiento_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
+						movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
 						cantidad_turnos++;
 						jugador=cantidad_turnos%2;
 						system("clear");
