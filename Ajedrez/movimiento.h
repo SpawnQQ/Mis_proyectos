@@ -41,8 +41,9 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				if(destino_fila==inicio_fila-2){
 					if(m[destino_fila+1][destino_columna].color=='V'){
 						//Esta condicion soo cuenta para el siguiente turno, resrvo el espacio vacio detras del peon
-						peon_al_paso();
 						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						//Reservamos el color a la casilla que esta al paso
+						m[destino_fila+1][destino_columna].color='w';
 						*mov_permitido=1;
 					}else{
 						printf("Hay un obstaculo en su camino\n");
@@ -64,8 +65,9 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				if(destino_fila==inicio_fila+2){
 					if(m[destino_fila-1][destino_columna].color=='V'){
 						//Esta condicion soo cuenta para el siguiente turno, resrvo el espacio vacio detras del peon
-						peon_al_paso();
 						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						//Reservamos el color a la casilla que esta al paso
+						m[destino_fila-1][destino_columna].color='b';
 						*mov_permitido=1;
 					}else{
 						printf("Hay un obstaculo en su camino\n");
@@ -107,13 +109,14 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 			}
 		}
 	}
-	//No esta entrando aca
+	//Ataque peon 
 	if(*mov_permitido==0){
 		//Deberia definir el comer una pieza, si y solo si no han efectuado un movimiento antes
 		if(m[inicio_fila][inicio_columna].color=='w'){
 			if(m[destino_fila][destino_columna].color=='b' && ((destino_fila==inicio_fila-1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila-1 && destino_columna==inicio_columna+1))){
 				//Si el peon se mueve en diagonal y la pieza es negra, entonces comera al rival
 				//Hay que restringir que este sea el rey
+				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -123,6 +126,7 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 		}else{
 			//Pieza es negra
 			if(m[destino_fila][destino_columna].color=='w' && ((destino_fila==inicio_fila+1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila+1 && destino_columna==inicio_columna+1))){
+				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -168,11 +172,45 @@ void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, i
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[0]=i;
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[1]=j;
 }
-	
-void peon_al_paso(){
+
+void borrar_pieza(int fila, int columna,p (*m)[8]){
+	m[fila][columna].color='V';
+	m[fila][columna].primer_turno=false;
+	m[fila][columna].tipo_pieza.nombre='V';
+	m[fila][columna].tipo_pieza.posicion[0]=fila;
+	m[fila][columna].tipo_pieza.posicion[1]=columna;
+}
+
+void peon_al_paso(int fila_paso,int columna_paso,p (*m)[8]){
 	//La idea es dejar el color de la pieza detras. Por ejemplo si Pw avanza dos espacios, VV quedara en Vw
 	//y al volver al turno de este jugador en particular, Vw pasara a VV si no han comido esta pieza, En el caso de
 	//que se coman la pieza, Vw pasara a VV y Pw que avanzo dos espacios, sera destruido 
+	if(m[fila_paso][columna_paso].tipo_pieza.nombre=='V' && m[fila_paso][columna_paso].color=='w'){
+		borrar_pieza(fila_paso-1,columna_paso,m);
+	}else{
+		if(m[fila_paso][columna_paso].tipo_pieza.nombre=='V' && m[fila_paso][columna_paso].color=='b'){
+			borrar_pieza(fila_paso+1,columna_paso,m);
+		}
+	}
+
+}
+
+void actualizar_PAP(int turno,p (*m)[8]){
+	//Los peones al paso, se actualizan cada turno
+	//Turno 1 pertenece al jugador de piezas blancas
+	if(turno%2!=0){
+		for(int j=0;j<8;j++){
+			if(m[5][j].tipo_pieza.nombre=='V' && m[5][j].color=='w'){
+				borrar_pieza(5,j,m);
+			}
+		}
+	}else{
+		for(int j=0;j<8;j++){
+			if(m[2][j].tipo_pieza.nombre=='V' && m[2][j].color=='b'){
+				borrar_pieza(2,j,m);
+			}
+		}
+	}
 }
 
 int mover_restringido(char seleccion[2], p (*m)[8]){

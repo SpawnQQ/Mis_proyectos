@@ -80,8 +80,8 @@ void mostrar_tablero(p (*m)[8]){
 		printf(" %d ", 9-(i+1));
 		for(int j=0;j<8;j++){
 			if((j+i+(8*i))%2==0){
-				if(m[i][j].tipo_pieza.nombre=='V'){
-					//Si la casilla es par
+				if(m[i][j].color=='V'){
+					//Si la casilla es par 33
 					printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
 				}else{
@@ -90,8 +90,8 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0m");
 				}	
 			}else{
-				if(m[i][j].tipo_pieza.nombre=='V'){
-					//Si la casilla es impar
+				if(m[i][j].color=='V'){
+					//Si la casilla es impar 31
 					printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
 				}else{
@@ -121,7 +121,8 @@ void inicio_partida(p (*m)[8],int termino_partida){
 	//Iniciamos la partida
 	mostrar_tablero(m);
 	while(termino_partida==0){
-		printf("Jugador %d, seleccione pieza a mover\n",jugador);
+		actualizar_PAP(cantidad_turnos,m);
+		printf("Jugador %d, seleccione pieza a mover: \n",jugador);
 		scanf("%s", &seleccion_pieza);
 		system("clear");
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
@@ -180,8 +181,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 1 y el color de la pieza es BLANCO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %c%c\n",seleccion[0],seleccion[1]);
-				printf("Las piezas BLANCAS -w-, estan asignadas al JUGADOR 1\n");
+				printf("Error con posicion seleccionada %c%c, a usted le pertenecen las piezas blancas\n",seleccion[0],seleccion[1]);
 				return 0;
 			}	
 		}else{
@@ -190,8 +190,7 @@ int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 				//Si la posicion seleccionada esta dentro del dominio, es el jugador 2 y el color de la pieza es NEGRO
 				return 1;
 			}else{
-				printf("Posicion seleccionada %c%c\n",seleccion[0],seleccion[1]);
-				printf("Las piezas NEGRAS -b-, estan asignadas al JUGADOR 2\n");
+				printf("Error con posicion seleccionada %c%c, a ustede le pertenecen las piezas negras\n",seleccion[0],seleccion[1]);
 				return 0;
 			}
 		}			
