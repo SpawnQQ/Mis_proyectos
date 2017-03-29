@@ -80,7 +80,7 @@ void mostrar_tablero(p (*m)[8]){
 		printf(" %d ", 9-(i+1));
 		for(int j=0;j<8;j++){
 			if((j+i+(8*i))%2==0){
-				if(m[i][j].color=='V'){
+				if(m[i][j].tipo_pieza.nombre=='V'){
 					//Si la casilla es par 33
 					printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
@@ -90,7 +90,7 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0m");
 				}	
 			}else{
-				if(m[i][j].color=='V'){
+				if(m[i][j].tipo_pieza.nombre=='V'){
 					//Si la casilla es impar 31
 					printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
@@ -144,6 +144,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 
 					int destino_fila=transformar_num(posicion[0]);
 					int destino_columna=transformar_num(posicion[1]);
+					printf("%d\n",destino_columna );
 
 					pieza_mov[0]=m[inicio_fila][inicio_columna].tipo_pieza.nombre;
 					pieza_mov[1]=m[inicio_fila][inicio_columna].color;
