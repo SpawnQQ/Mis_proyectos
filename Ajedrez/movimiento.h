@@ -282,9 +282,6 @@ void borrar_pieza(int fila, int columna,p (*m)[8]){
 }
 
 void peon_al_paso(int fila_paso,int columna_paso,p (*m)[8]){
-	//La idea es dejar el color de la pieza detras. Por ejemplo si Pw avanza dos espacios, VV quedara en Vw
-	//y al volver al turno de este jugador en particular, Vw pasara a VV si no han comido esta pieza, En el caso de
-	//que se coman la pieza, Vw pasara a VV y Pw que avanzo dos espacios, sera destruido 
 	if(m[fila_paso][columna_paso].tipo_pieza.nombre=='V' && m[fila_paso][columna_paso].color=='w'){
 		borrar_pieza(fila_paso-1,columna_paso,m);
 	}else{
