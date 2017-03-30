@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 Historial de movimientos
+=======
+Historial de movimientos
+1 select(Hw) 1g goto 3f
+>>>>>>> origin/master

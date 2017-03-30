@@ -8,7 +8,7 @@ void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fil
 		mover_peon(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 	}else{
 		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='H'){
-			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
+			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 		}else{
 			if (m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
 				mover_torre(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
@@ -116,7 +116,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 			if(m[destino_fila][destino_columna].color=='b' && ((destino_fila==inicio_fila-1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila-1 && destino_columna==inicio_columna+1))){
 				//Si el peon se mueve en diagonal y la pieza es negra, entonces comera al rival
 				//Hay que restringir que este sea el rey
-				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -126,7 +125,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 		}else{
 			//Pieza es negra
 			if(m[destino_fila][destino_columna].color=='w' && ((destino_fila==inicio_fila+1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila+1 && destino_columna==inicio_columna+1))){
-				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -137,8 +135,85 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 	}
 }
 
-void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
-
+void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		//Arriba izquierda
+		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila-2 && destino_columna==inicio_columna-1)){
+			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+			*mov_permitido=1;
+		}else{
+			//Arriba derecha
+			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila-2 && destino_columna==inicio_columna+1)){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				//Abajo izquierda
+				if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila+2 && destino_columna==inicio_columna-1)){
+					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
+				}else{
+					//Abajo derecha
+					if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila+2 && destino_columna==inicio_columna+1)){
+						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
+					}else{
+						//Izquierda arriba
+						if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila-1 && destino_columna==inicio_columna-2)){
+							realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+							*mov_permitido=1;
+						}else{
+							//Izquierda abajo
+							if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila+1 && destino_columna==inicio_columna-2)){
+								realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+								*mov_permitido=1;
+							}else{
+								//Derecha arriba
+								if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila-1 && destino_columna==inicio_columna+2)){
+									realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+									*mov_permitido=1;
+								}else{
+									//Derecha abajo
+									if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (destino_fila==inicio_fila+1 && destino_columna==inicio_columna+2)){
+										realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+										*mov_permitido=1;
+									}else{
+										*mov_permitido=0;
+									}
+								}
+							}
+						}	
+					}
+				}
+			}
+		}
+	}else{
+		//Piezas negras
+		//Arriba izquierda
+		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (destino_fila==inicio_fila-2 && destino_columna==inicio_columna-1)){
+			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+			*mov_permitido=1;
+		}else{
+			//Arriba derecha
+			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (destino_fila==inicio_fila-2 && destino_columna==inicio_columna+1)){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				//Abajo izquierda
+				if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (destino_fila==inicio_fila+2 && destino_columna==inicio_columna-1)){
+					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
+				}else{
+					//Abajo derecha
+					if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (destino_fila==inicio_fila+2 && destino_columna==inicio_columna+1)){
+						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
+					}else{
+						*mov_permitido=0;
+					}
+				}
+			}
+		}
+	}
 }
 void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
 
@@ -154,6 +229,7 @@ void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino
 }
 
 void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
+	peon_al_paso(destino_fila,destino_columna,m);
 	int i=m[destino_fila][destino_columna].tipo_pieza.posicion[0];
 	int j=m[destino_fila][destino_columna].tipo_pieza.posicion[1];
 
@@ -219,8 +295,12 @@ int mover_restringido(char seleccion[2], p (*m)[8]){
 	if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='P'){
 		return mover_peon_restringido(inicio_fila,inicio_columna,m);
 	}else{
-		//Generar la restriccion para las demas piezas
-		return 0;
+		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='H'){
+			return mover_caballo_restringido(inicio_fila,inicio_columna,m);
+		}else{
+			//Generar la restriccion para las demas piezas
+			return 0;
+		}
 	}
 }
 
@@ -255,6 +335,32 @@ int mover_peon_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 				return 1;
 			}else{
 				return 0;
+			}
+		}
+	}
+}
+
+int mover_caballo_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		//Arriba izquierda
+		if(verificacion_dominio(inicio_fila-2,inicio_columna-1) && (m[inicio_fila-2][inicio_columna-1].color=='V' || m[inicio_fila-2][inicio_columna-1].color=='b') ){
+			return 1;
+		}else{
+			//Arriba derecha
+			if(verificacion_dominio(inicio_fila-2,inicio_columna+1) && (m[inicio_fila-2][inicio_columna+1].color=='V' || m[inicio_fila-2][inicio_columna+1].color=='b') ){
+				return 1;
+			}else{
+				//Abajo izquierda
+				if(verificacion_dominio(inicio_fila+2,inicio_columna-1) && (m[inicio_fila+2][inicio_columna-1].color=='V' || m[inicio_fila+2][inicio_columna-1].color=='b') ){
+					return 1;
+				}else{
+					//Abajo derecha
+					if(verificacion_dominio(inicio_fila+2,inicio_columna+1) && (m[inicio_fila+2][inicio_columna+1].color=='V' || m[inicio_fila+2][inicio_columna+1].color=='b') ){
+						return 1;
+					}else{
+						return 0;
+					}
+				}
 			}
 		}
 	}
