@@ -11,16 +11,16 @@ void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fil
 			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 		}else{
 			if (m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
-				mover_torre(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
+				mover_torre(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 			}else{
 				if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='B'){
-					mover_alfil(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
+					mover_alfil(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 				}else{
 					if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='Q'){
-						mover_reina(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
+						mover_reina(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 					}else{
 						if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='K'){
-							mover_rey(inicio_fila,inicio_columna,destino_fila, destino_columna, m,mov_permitido);
+							mover_rey(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 						}
 					}
 				}
@@ -239,16 +239,20 @@ void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int des
 		}
 	}
 }
-void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
+void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+
+	}else{
+		//Pieza negra
+	}
+}
+void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 
 }
-void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
+void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 
 }
-void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
-
-}
-void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int mov_permitido){
+void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 
 }
 
@@ -271,6 +275,21 @@ void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, i
 	m[inicio_fila][inicio_columna].tipo_pieza.nombre='V';
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[0]=i;
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[1]=j;
+}
+
+int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_columna, int destino_fila, int destino_columna,p (*m)[8]){
+	//Arriba aa
+	if(direccion[0]=='a' && direccion[1]=='a'){
+		int aux = inicio_fila - 1;
+			while (aux > destino_fila) {
+		    	if (m[aux][destino_columna].color=='V') {
+					aux--;
+				}else{
+					return 0;
+				}
+			}
+			return 1;
+	}
 }
 
 void borrar_pieza(int fila, int columna,p (*m)[8]){
