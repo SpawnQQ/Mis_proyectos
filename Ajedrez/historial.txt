@@ -1,12 +1,14 @@
 Historial de movimientos
 1 select(Pw) 2a goto 4a
-2 select(Pb) 7b goto 6b
-3 select(Pw) 4a goto 5a
+2 select(Pb) 7d goto 6d
+3 select(Rw) 1a goto 3a
 4 select(Pb) 7h goto 5h
-5 select(Pw) 5a goto 6b remove(Pb)
+5 select(Rw) 3a goto 3b
 6 select(Pb) 5h goto 4h
-7 select(Rw) 1a goto 7a remove(Pb)
+7 select(Rw) 3b goto 7b remove(Pb)
 8 select(Pb) 4h goto 3h
-9 select(Rw) 7a goto 1a
-10 select(Rb) 8h goto 7h
-11 select(Rw) 1a goto 8a remove(Rb)
+9 select(Rw) 7b goto 3b
+10 select(Rb) 8h goto 5h
+11 select(Rw) 3b goto 3h remove(Pb)
+12 select(Rb) 8h goto 4r
+13 select(Rw) 3h goto 3a

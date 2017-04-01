@@ -243,15 +243,28 @@ void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int des
 }
 void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 	if(m[inicio_fila][inicio_columna].color=='w'){
+		//Arriba
 		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("aa",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna==inicio_columna)){
 			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 			*mov_permitido=1;
 		}else{
+			//Abajo
 			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("bb",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna==inicio_columna)){
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
-				*mov_permitido=0;
+				//Izquierda
+				if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("ii",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna < inicio_columna)){
+					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
+				}else{
+					if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("dd",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna > inicio_columna)){
+						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
+					}else{
+						*mov_permitido=0;
+					}
+				}	
 			}	
 		}	
 	}else{
@@ -312,6 +325,31 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 				}
 			}
 			return 1;
+		}else{
+			//Izquierda
+			if(direccion[0]=='i' && direccion[1]=='i'){
+				int aux = inicio_columna - 1;
+				while (aux > destino_columna) {
+				    if(m[destino_fila][aux].color=='V') {
+						aux--;
+					}else{
+						return 0;
+					}
+				}
+				return 1;
+			}else{
+				if(direccion[0]=='d' && direccion[1]=='d'){
+					int aux = inicio_columna + 1;
+					while (aux < destino_columna) {
+					    if(m[destino_fila][aux].color=='V') {
+							aux++;
+						}else{
+							return 0;
+						}
+					}
+					return 1;
+				}	
+			}
 		}
 	}
 }
