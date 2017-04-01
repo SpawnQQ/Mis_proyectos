@@ -21,10 +21,10 @@ void tablero_inicio(p (*m)[8]){
 							matriz_setPieza(m,i,j,'w',true,'R',i,j);
 						}else{
 							if(i==0 && (j==1 || j==6)){
-								matriz_setPieza(m,i,j,'b',true,'H',i,j);
+								matriz_setPieza(m,i,j,'b',true,'N',i,j);
 							}else{
 								if(i==7 && (j==1 || j==6)){
-									matriz_setPieza(m,i,j,'w',true,'H',i,j);
+									matriz_setPieza(m,i,j,'w',true,'N',i,j);
 								}else{
 									if(i==0 && (j==2 || j==5)){
 										matriz_setPieza(m,i,j,'b',true,'B',i,j);
@@ -85,9 +85,16 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0;33;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
 				}else{
-					//Si la casilla es par
-					printf("\033[0;1;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
-					printf("\033[0m");
+					if(m[i][j].color=='w'){
+						//Si la casilla es par
+						printf("\033[0;1;37;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+						printf("\033[0m");
+					}else{
+						//Si la casilla es par
+						printf("\033[0;1;43m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+						printf("\033[0m");
+					}
+					
 				}	
 			}else{
 				if(m[i][j].tipo_pieza.nombre=='V'){
@@ -95,9 +102,13 @@ void mostrar_tablero(p (*m)[8]){
 					printf("\033[0;31;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
 					printf("\033[0m");
 				}else{
-					//Si la casilla es par
-					printf("\033[0;1;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
-					printf("\033[0m");
+					if(m[i][j].color=='w'){
+						printf("\033[0;1;37;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+						printf("\033[0m");
+					}else{
+						printf("\033[0;1;41m%c%c ",m[i][j].tipo_pieza.nombre,m[i][j].color);
+						printf("\033[0m");
+					}
 				}	
 			}
 		}
