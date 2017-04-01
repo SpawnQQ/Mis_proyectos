@@ -326,7 +326,7 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 			}
 			return 1;
 		}else{
-			//Izquierda
+			//Izquierda ii
 			if(direccion[0]=='i' && direccion[1]=='i'){
 				int aux = inicio_columna - 1;
 				while (aux > destino_columna) {
@@ -338,6 +338,7 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 				}
 				return 1;
 			}else{
+				//Derecha dd
 				if(direccion[0]=='d' && direccion[1]=='d'){
 					int aux = inicio_columna + 1;
 					while (aux < destino_columna) {
