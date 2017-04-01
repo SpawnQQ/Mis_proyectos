@@ -1,2 +1,2 @@
 Historial de movimientos
-1 select(Hw) 1g goto 3f
+1 select(Hw) 1b goto 3a
