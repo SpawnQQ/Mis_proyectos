@@ -243,7 +243,17 @@ void mover_caballo(int inicio_fila,int inicio_columna, int destino_fila, int des
 }
 void mover_torre(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
 	if(m[inicio_fila][inicio_columna].color=='w'){
-
+		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("aa",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna==inicio_columna)){
+			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+			*mov_permitido=1;
+		}else{
+			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("bb",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna==inicio_columna)){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				*mov_permitido=0;
+			}	
+		}	
 	}else{
 		//Pieza negra
 	}
@@ -282,14 +292,27 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 	//Arriba aa
 	if(direccion[0]=='a' && direccion[1]=='a'){
 		int aux = inicio_fila - 1;
-			while (aux > destino_fila+1) {
-		    	if (m[aux][destino_columna].color=='V') {
-					aux--;
+		while (aux > destino_fila) {
+		    if(m[aux][destino_columna].color=='V') {
+				aux--;
+			}else{
+				return 0;
+			}
+		}
+		return 1;
+	}else{
+		//Abajo bb 
+		if(direccion[0]=='b' && direccion[1]=='b'){
+			int aux = inicio_fila + 1;
+			while (aux < destino_fila) {
+			    if(m[aux][destino_columna].color=='V') {
+					aux++;
 				}else{
 					return 0;
 				}
 			}
 			return 1;
+		}
 	}
 }
 
@@ -339,8 +362,12 @@ int mover_restringido(char seleccion[2], p (*m)[8]){
 		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='N'){
 			return mover_caballo_restringido(inicio_fila,inicio_columna,m);
 		}else{
-			//Generar la restriccion para las demas piezas
-			return 0;
+			if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
+				return mover_torre_restringido(inicio_fila,inicio_columna,m);
+			}else{
+				//Generar la restriccion para las demas piezas
+				return 0;
+			}
 		}
 	}
 }
@@ -458,6 +485,18 @@ int mover_caballo_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 					}
 				}
 			}
+		}
+	}
+}
+
+int mover_torre_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
+	if(verificacion_dominio(inicio_fila-1,inicio_columna) && (m[inicio_fila-1][inicio_columna].color=='V' || m[inicio_fila-1][inicio_columna].color=='b')){	
+		return 1;
+	}else{
+		if(verificacion_dominio(inicio_fila+1,inicio_columna) && (m[inicio_fila+1][inicio_columna].color=='V' || m[inicio_fila+1][inicio_columna].color=='b')){	
+			return 1;
+		}else{
+			return 0;
 		}
 	}
 }
