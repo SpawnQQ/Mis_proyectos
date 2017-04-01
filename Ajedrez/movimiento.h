@@ -116,6 +116,7 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 			if(m[destino_fila][destino_columna].color=='b' && ((destino_fila==inicio_fila-1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila-1 && destino_columna==inicio_columna+1))){
 				//Si el peon se mueve en diagonal y la pieza es negra, entonces comera al rival
 				//Hay que restringir que este sea el rey
+				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -125,6 +126,7 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 		}else{
 			//Pieza es negra
 			if(m[destino_fila][destino_columna].color=='w' && ((destino_fila==inicio_fila+1 && destino_columna==inicio_columna-1) || (destino_fila==inicio_fila+1 && destino_columna==inicio_columna+1))){
+				peon_al_paso(destino_fila,destino_columna,m);
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
@@ -257,7 +259,6 @@ void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino
 }
 
 void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8]){
-	peon_al_paso(destino_fila,destino_columna,m);
 	int i=m[destino_fila][destino_columna].tipo_pieza.posicion[0];
 	int j=m[destino_fila][destino_columna].tipo_pieza.posicion[1];
 
@@ -281,7 +282,7 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 	//Arriba aa
 	if(direccion[0]=='a' && direccion[1]=='a'){
 		int aux = inicio_fila - 1;
-			while (aux > destino_fila) {
+			while (aux > destino_fila+1) {
 		    	if (m[aux][destino_columna].color=='V') {
 					aux--;
 				}else{
