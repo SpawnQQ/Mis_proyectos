@@ -21,10 +21,10 @@ void tablero_inicio(p (*m)[8]){
 							matriz_setPieza(m,i,j,'w',true,'R',i,j);
 						}else{
 							if(i==0 && (j==1 || j==6)){
-								matriz_setPieza(m,i,j,'b',true,'H',i,j);
+								matriz_setPieza(m,i,j,'b',true,'N',i,j);
 							}else{
 								if(i==7 && (j==1 || j==6)){
-									matriz_setPieza(m,i,j,'w',true,'H',i,j);
+									matriz_setPieza(m,i,j,'w',true,'N',i,j);
 								}else{
 									if(i==0 && (j==2 || j==5)){
 										matriz_setPieza(m,i,j,'b',true,'B',i,j);

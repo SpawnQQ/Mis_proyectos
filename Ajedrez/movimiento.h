@@ -7,7 +7,7 @@ void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fil
 	if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='P'){
 		mover_peon(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 	}else{
-		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='H'){
+		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='N'){
 			mover_caballo(inicio_fila,inicio_columna,destino_fila, destino_columna, *m,mov_permitido);
 		}else{
 			if (m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
@@ -335,7 +335,7 @@ int mover_restringido(char seleccion[2], p (*m)[8]){
 	if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='P'){
 		return mover_peon_restringido(inicio_fila,inicio_columna,m);
 	}else{
-		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='H'){
+		if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='N'){
 			return mover_caballo_restringido(inicio_fila,inicio_columna,m);
 		}else{
 			//Generar la restriccion para las demas piezas
