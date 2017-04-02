@@ -535,8 +535,12 @@ int mover_restringido(char seleccion[2], p (*m)[8]){
 			if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='R'){
 				return mover_torre_restringido(inicio_fila,inicio_columna,m);
 			}else{
-				//Generar la restriccion para las demas piezas
-				return 0;
+				if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='B'){
+					return mover_alfil_restringido(inicio_fila,inicio_columna,m);
+				}else{
+					return 0;					
+				}	
+
 			}
 		}
 	}
@@ -689,6 +693,46 @@ int mover_torre_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 					return 1;
 				}else{
 					if(verificacion_dominio(inicio_fila,inicio_columna+1) && (m[inicio_fila][inicio_columna+1].color=='V' || m[inicio_fila][inicio_columna+1].color=='w')){	
+						return 1;
+					}else{
+						return 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+int mover_alfil_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		if(verificacion_dominio(inicio_fila-1,inicio_columna+1) && (m[inicio_fila-1][inicio_columna+1].color=='V' || m[inicio_fila-1][inicio_columna+1].color=='b')){	
+			return 1;
+		}else{
+			if(verificacion_dominio(inicio_fila-1,inicio_columna-1) && (m[inicio_fila-1][inicio_columna-1].color=='V' || m[inicio_fila-1][inicio_columna-1].color=='b')){	
+				return 1;
+			}else{
+				if(verificacion_dominio(inicio_fila+1,inicio_columna+1) && (m[inicio_fila+1][inicio_columna+1].color=='V' || m[inicio_fila+1][inicio_columna+1].color=='b')){	
+					return 1;
+				}else{
+					if(verificacion_dominio(inicio_fila+1,inicio_columna-1) && (m[inicio_fila+1][inicio_columna-1].color=='V' || m[inicio_fila+1][inicio_columna-1].color=='b')){	
+						return 1;
+					}else{
+						return 0;
+					}
+				}
+			}
+		}
+	}else{
+		if(verificacion_dominio(inicio_fila-1,inicio_columna+1) && (m[inicio_fila-1][inicio_columna+1].color=='V' || m[inicio_fila-1][inicio_columna+1].color=='w')){	
+			return 1;
+		}else{
+			if(verificacion_dominio(inicio_fila-1,inicio_columna-1) && (m[inicio_fila-1][inicio_columna-1].color=='V' || m[inicio_fila-1][inicio_columna-1].color=='w')){	
+				return 1;
+			}else{
+				if(verificacion_dominio(inicio_fila+1,inicio_columna+1) && (m[inicio_fila+1][inicio_columna+1].color=='V' || m[inicio_fila+1][inicio_columna+1].color=='w')){	
+					return 1;
+				}else{
+					if(verificacion_dominio(inicio_fila+1,inicio_columna-1) && (m[inicio_fila+1][inicio_columna-1].color=='V' || m[inicio_fila+1][inicio_columna-1].color=='w')){	
 						return 1;
 					}else{
 						return 0;
