@@ -136,6 +136,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador);
 		scanf("%s", &seleccion_pieza);
 		system("clear");
+		input(seleccion_pieza);
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			mostrar_tablero(m);
@@ -152,6 +153,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 					mostrar_tablero(m);
 					printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 					scanf("%s", &posicion);
+					input(posicion);
 					if(validacion_entrada(posicion)==1){
 						int destino_fila=transformar_num(posicion[0]);
 						int destino_columna=transformar_num(posicion[1]);
@@ -257,5 +259,18 @@ int transformar_num(char* numero){
 				}
 			}
 		}
+	}
+}
+
+void input(char seleccion[2]){
+	//numero=fila y letra=columna. Entonces si numero > letra, significa que numero es una letra
+	int numero,letra;
+	char aux;
+	numero=(int)seleccion[0];
+	letra=(int)seleccion[1];
+	if(numero > letra){
+		aux=seleccion[0];
+		seleccion[0]=seleccion[1];
+		seleccion[1]=aux;
 	}
 }
