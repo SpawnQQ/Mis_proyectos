@@ -167,6 +167,7 @@ void inicio_partida(p (*m)[8],int termino_partida){
 						elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
 						//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
 						if(mov_permitido==1){
+							system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.2.mp3");
 							movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
 							cantidad_turnos++;
 							jugador=cantidad_turnos%2;
