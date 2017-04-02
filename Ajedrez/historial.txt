@@ -1,1 +1,2 @@
 Historial de movimientos
+1 select(Nw) 1b goto 3a
