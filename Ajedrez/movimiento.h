@@ -354,6 +354,107 @@ void mover_alfil(int inicio_fila,int inicio_columna, int destino_fila, int desti
 	}
 }
 void mover_reina(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		//Arriba
+		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("aa",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna==inicio_columna)){
+			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+			*mov_permitido=1;
+		}else{
+			//Abajo
+			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("bb",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna==inicio_columna)){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				//Izquierda
+				if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("ii",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna < inicio_columna)){
+					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
+				}else{
+					//Derecha
+					if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("dd",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna > inicio_columna)){
+						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
+					}else{
+						if((destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("ad",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna > inicio_columna)){
+							realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+							*mov_permitido=1;
+						}else{
+							//Arriba Izquierda
+							if((inicio_fila-destino_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("ai",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna < inicio_columna)){
+								realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+								*mov_permitido=1;
+							}else{
+								//Abajo Derecha
+								if((destino_fila-inicio_fila==destino_columna-inicio_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("bd",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna > inicio_columna)){
+									realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+									*mov_permitido=1;
+								}else{
+									//Abajo Izquierda
+									if((destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && (verificacion_todas_direcciones("bi",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna < inicio_columna)){
+										realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+										*mov_permitido=1;
+									}else{
+										*mov_permitido=0;
+									}
+								}	
+							}	
+						}
+					}
+				}	
+			}	
+		}	
+	}else{
+		//Pieza negra
+		//Arriba
+		if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("aa",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna==inicio_columna)){
+			realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+			*mov_permitido=1;
+		}else{
+			//Abajo
+			if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("bb",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna==inicio_columna)){
+				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+				*mov_permitido=1;
+			}else{
+				//Izquierda
+				if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("ii",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna < inicio_columna)){
+					realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+					*mov_permitido=1;
+				}else{
+					//Derecha
+					if((m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("dd",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila == inicio_fila && destino_columna > inicio_columna)){
+						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+						*mov_permitido=1;
+					}else{
+						//Arriba Derecha
+						if( (destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("ad",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna > inicio_columna)){
+							realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+							*mov_permitido=1;
+						}else{
+							//Arriba Izquierda
+							if((inicio_fila-destino_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("ai",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila < inicio_fila && destino_columna < inicio_columna)){
+								realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+								*mov_permitido=1;
+							}else{
+								//Abajo Derecha
+								if((destino_fila-inicio_fila==destino_columna-inicio_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("bd",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna > inicio_columna)){
+									realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+									*mov_permitido=1;
+								}else{
+									//Abajo Izquierda
+									if( (destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='w') && (verificacion_todas_direcciones("bi",inicio_fila,inicio_columna,destino_fila,destino_columna,m) && destino_fila > inicio_fila && destino_columna < inicio_columna)){
+										realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+										*mov_permitido=1;
+									}else{
+										*mov_permitido=0;
+									}
+								}	
+							}	
+						}
+					}
+				}	
+			}	
+		}
+	}
 
 }
 void mover_rey(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
@@ -538,7 +639,11 @@ int mover_restringido(char seleccion[2], p (*m)[8]){
 				if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='B'){
 					return mover_alfil_restringido(inicio_fila,inicio_columna,m);
 				}else{
-					return 0;					
+					if(m[inicio_fila][inicio_columna].tipo_pieza.nombre=='Q'){
+						return mover_reina_restringido(inicio_fila,inicio_columna,m);
+					}else{
+						return 0;					
+					}					
 				}	
 
 			}
@@ -742,3 +847,75 @@ int mover_alfil_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 		}
 	}
 }
+
+int mover_reina_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		if(verificacion_dominio(inicio_fila-1,inicio_columna) && (m[inicio_fila-1][inicio_columna].color=='V' || m[inicio_fila-1][inicio_columna].color=='b')){	
+			return 1;
+		}else{
+			if(verificacion_dominio(inicio_fila+1,inicio_columna) && (m[inicio_fila+1][inicio_columna].color=='V' || m[inicio_fila+1][inicio_columna].color=='b')){	
+				return 1;
+			}else{
+				if(verificacion_dominio(inicio_fila,inicio_columna-1) && (m[inicio_fila][inicio_columna-1].color=='V' || m[inicio_fila][inicio_columna-1].color=='b')){	
+					return 1;
+				}else{
+					if(verificacion_dominio(inicio_fila,inicio_columna+1) && (m[inicio_fila][inicio_columna+1].color=='V' || m[inicio_fila][inicio_columna+1].color=='b')){	
+						return 1;
+					}else{
+						if(verificacion_dominio(inicio_fila-1,inicio_columna+1) && (m[inicio_fila-1][inicio_columna+1].color=='V' || m[inicio_fila-1][inicio_columna+1].color=='b')){	
+							return 1;
+						}else{
+							if(verificacion_dominio(inicio_fila-1,inicio_columna-1) && (m[inicio_fila-1][inicio_columna-1].color=='V' || m[inicio_fila-1][inicio_columna-1].color=='b')){	
+								return 1;
+							}else{
+								if(verificacion_dominio(inicio_fila+1,inicio_columna+1) && (m[inicio_fila+1][inicio_columna+1].color=='V' || m[inicio_fila+1][inicio_columna+1].color=='b')){	
+									return 1;
+								}else{
+									if(verificacion_dominio(inicio_fila+1,inicio_columna-1) && (m[inicio_fila+1][inicio_columna-1].color=='V' || m[inicio_fila+1][inicio_columna-1].color=='b')){	
+										return 1;
+									}else{
+										return 0;
+									}
+								}
+							}
+						}				
+					}
+				}
+			}
+		}
+	}else{
+		if(verificacion_dominio(inicio_fila-1,inicio_columna) && (m[inicio_fila-1][inicio_columna].color=='V' || m[inicio_fila-1][inicio_columna].color=='w')){	
+			return 1;
+		}else{
+			if(verificacion_dominio(inicio_fila+1,inicio_columna) && (m[inicio_fila+1][inicio_columna].color=='V' || m[inicio_fila+1][inicio_columna].color=='w')){	
+				return 1;
+			}else{
+				if(verificacion_dominio(inicio_fila,inicio_columna-1) && (m[inicio_fila][inicio_columna-1].color=='V' || m[inicio_fila][inicio_columna-1].color=='w')){	
+					return 1;
+				}else{
+					if(verificacion_dominio(inicio_fila,inicio_columna+1) && (m[inicio_fila][inicio_columna+1].color=='V' || m[inicio_fila][inicio_columna+1].color=='w')){	
+						return 1;
+					}else{
+						if(verificacion_dominio(inicio_fila-1,inicio_columna+1) && (m[inicio_fila-1][inicio_columna+1].color=='V' || m[inicio_fila-1][inicio_columna+1].color=='w')){	
+							return 1;
+						}else{
+							if(verificacion_dominio(inicio_fila-1,inicio_columna-1) && (m[inicio_fila-1][inicio_columna-1].color=='V' || m[inicio_fila-1][inicio_columna-1].color=='w')){	
+								return 1;
+							}else{
+								if(verificacion_dominio(inicio_fila+1,inicio_columna+1) && (m[inicio_fila+1][inicio_columna+1].color=='V' || m[inicio_fila+1][inicio_columna+1].color=='w')){	
+									return 1;
+								}else{
+									if(verificacion_dominio(inicio_fila+1,inicio_columna-1) && (m[inicio_fila+1][inicio_columna-1].color=='V' || m[inicio_fila+1][inicio_columna-1].color=='w')){	
+										return 1;
+									}else{
+										return 0;
+									}
+								}
+							}
+						}					
+					}
+				}
+			}
+		}
+	}
+}	
