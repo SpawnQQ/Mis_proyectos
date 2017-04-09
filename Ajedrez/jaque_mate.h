@@ -202,13 +202,6 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								return 0;
 							}else{
 								if(m[fila_rey][columna].color=='b' && (m[fila_rey][columna].tipo_pieza.nombre=='R' || m[fila_rey][columna].tipo_pieza.nombre=='Q')){
-
-
-
-
-
-
-
 									return 1;
 								}	
 							}
