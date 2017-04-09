@@ -4,6 +4,7 @@
 #include <metodos.h>
 #include <movimiento.h>
 #include <manejo_ficheros.h>
+#include <jaque_mate.h>
 
 int main(){
 	system("clear");

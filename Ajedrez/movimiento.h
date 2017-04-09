@@ -1095,35 +1095,3 @@ int mover_rey_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 		}
 	}
 }
-void buscar_rey(char color,int posicion[2],p (*m)[8]){
-	if(color=='w'){
-		//Buscamos el rey blanco
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				if(m[i][j].tipo_pieza.nombre=='K' && m[i][j].color=='w'){
-						posicion[0]=i;
-						posicion[1]=j;
-				}
-			}
-		}
-	}else{
-		//Buscamos el rey negro 
-		for(int i=0;i<8;i++){
-			for(int j=0;j<8;j++){
-				if(m[i][j].tipo_pieza.nombre=='K' && m[i][j].color=='b'){
-						posicion[0]=i;
-						posicion[1]=j;
-				}
-			}
-		}
-	}
-}
-void jaque(int turno, p (*m)[8]){
-	if(turno%2!=0){
-		//pieza blanca
-
-	}else{
-		
-	}
-}
-
