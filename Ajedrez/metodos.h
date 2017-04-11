@@ -132,6 +132,9 @@ void inicio_partida(p (*m)[8],int termino_partida){
 	//Iniciamos la partida
 	mostrar_tablero(m);
 	while(termino_partida==0){
+		if(jaque(cantidad_turnos,m)){
+			printf("Tu rey esta en jaque!!\n");
+		}
 		actualizar_PAP(cantidad_turnos,m);
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador);
 		scanf("%s", &seleccion_pieza);
