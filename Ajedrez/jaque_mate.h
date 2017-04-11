@@ -25,14 +25,6 @@ void buscar_rey(char color,int posicion[2],p (*m)[8]){
 		}
 	}
 }
-int jaque(int turno, p (*m)[8]){
-	if(turno%2!=0){
-		//pieza blanca
-
-	}else{
-		
-	}
-}
 
 int jaque_peon(char color,int fila_rey,int columna_rey,p (*m)[8]){
 	if(color=='w'){
@@ -157,7 +149,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 		if(direccion[0]=='a' && direccion[1]=='a'){
 			int fila = fila_rey - 1;
 			while (fila >= 0) {
-				if(m[fila][columna_rey].color=='V') {
+				if(m[fila][columna_rey].color=='V' && m[fila][columna_rey].tipo_pieza.nombre=='V') {
 					fila--;
 				}else{
 					if(m[fila][columna_rey].color=='w'){
@@ -175,8 +167,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 			//Abajo bb tope table por fila es 8
 			if(direccion[0]=='b' && direccion[1]=='b'){
 				int fila = fila_rey + 1;
-				while (fila <= 8) {
-					if(m[fila][columna_rey].color=='V') {
+				while (fila <= 7) {
+					if(m[fila][columna_rey].color=='V' && m[fila][columna_rey].tipo_pieza.nombre=='V') {
 						fila++;
 					}else{
 						if(m[fila][columna_rey].color=='w'){
@@ -195,7 +187,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 				if(direccion[0]=='i' && direccion[1]=='i'){
 					int columna = columna_rey - 1;
 					while (columna >= 0) {
-						if(m[fila_rey][columna].color=='V') {
+						if(m[fila_rey][columna].color=='V' && m[fila_rey][columna].tipo_pieza.nombre=='V') {
 							columna--;
 						}else{
 							if(m[fila_rey][columna].color=='w'){
@@ -213,8 +205,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 					//Derecha tope table por columna es 0
 					if(direccion[0]=='d' && direccion[1]=='d'){
 						int columna = columna_rey + 1;
-						while (columna <= 8) {
-							if(m[fila_rey][columna].color=='V') {
+						while (columna <= 7) {
+							if(m[fila_rey][columna].color=='V' && m[fila_rey][columna].tipo_pieza.nombre=='V') {
 								columna++;
 							}else{
 								if(m[fila_rey][columna].color=='w'){
@@ -229,12 +221,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 						//No encontro amenaza
 						return 0;
 					}else{
-						//Arriba derecha ad tope tabla por fila es 0 y columna es 8
+						//Arriba derecha ad tope tabla por fila es 0 y columna es 7
 						if(direccion[0]=='a' && direccion[1]=='d'){
 							int fila = fila_rey - 1;
 							int columna=columna_rey + 1;
-							while (fila >= 0 && columna <= 8) {
-								if(m[fila][columna].color=='V') {
+							while (fila >= 0 && columna <= 7) {
+								if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 									fila--;
 									columna++;
 								}else{
@@ -255,7 +247,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								int fila = fila_rey - 1;
 								int columna=columna_rey - 1;
 								while (fila >= 0 && columna >= 0) {
-									if(m[fila][columna].color=='V') {
+									if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 										fila--;
 										columna--;
 									}else{
@@ -271,12 +263,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								//No encontro amenaza
 								return 0;
 							}else{
-								//Abajo derecha bd tope tabla por fila es 8 y columna es 8
+								//Abajo derecha bd tope tabla por fila es 7 y columna es 7
 								if(direccion[0]=='b' && direccion[1]=='d'){
 									int fila = fila_rey + 1;
 									int columna=columna_rey + 1;
-									while (fila <= 8 && columna <= 8) {
-										if(m[fila][columna].color=='V') {
+									while (fila <= 7 && columna <= 7) {
+										if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 											fila++;
 											columna++;
 										}else{
@@ -292,12 +284,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 									//No encontro amenaza
 									return 0;
 								}else{
-									//Abajo Izquierda bi tope tabla por fila es 8 y columna es 0
+									//Abajo Izquierda bi tope tabla por fila es 7 y columna es 0
 									if(direccion[0]=='b' && direccion[1]=='i'){
 										int fila = fila_rey + 1;
 										int columna=columna_rey - 1;
-										while (fila <= 8 && columna >= 0) {
-											if(m[fila][columna].color=='V') {
+										while (fila <= 7 && columna >= 0) {
+											if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 												fila++;
 												columna--;
 											}else{
@@ -326,7 +318,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 		if(direccion[0]=='a' && direccion[1]=='a'){
 			int fila = fila_rey - 1;
 			while (fila >= 0) {
-				if(m[fila][columna_rey].color=='V') {
+				if(m[fila][columna_rey].color=='V' && m[fila][columna_rey].tipo_pieza.nombre=='V') {
 					fila--;
 				}else{
 					if(m[fila][columna_rey].color=='b'){
@@ -341,11 +333,11 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 			//No encontro amenaza
 			return 0;
 		}else{
-			//Abajo bb tope table por fila es 8
+			//Abajo bb tope table por fila es 7
 			if(direccion[0]=='b' && direccion[1]=='b'){
 				int fila = fila_rey + 1;
-				while (fila <= 8) {
-					if(m[fila][columna_rey].color=='V') {
+				while (fila <= 7) {
+					if(m[fila][columna_rey].color=='V' && m[fila][columna_rey].tipo_pieza.nombre=='V') {
 						fila++;
 					}else{
 						if(m[fila][columna_rey].color=='b'){
@@ -364,7 +356,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 				if(direccion[0]=='i' && direccion[1]=='i'){
 					int columna = columna_rey - 1;
 					while (columna >= 0) {
-						if(m[fila_rey][columna].color=='V') {
+						if(m[fila_rey][columna].color=='V' && m[fila_rey][columna].tipo_pieza.nombre=='V') {
 							columna--;
 						}else{
 							if(m[fila_rey][columna].color=='b'){
@@ -382,8 +374,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 					//Derecha tope table por columna es 0
 					if(direccion[0]=='d' && direccion[1]=='d'){
 						int columna = columna_rey + 1;
-						while (columna <= 8) {
-							if(m[fila_rey][columna].color=='V') {
+						while (columna <= 7) {
+							if(m[fila_rey][columna].color=='V' && m[fila_rey][columna].tipo_pieza.nombre=='V') {
 								columna++;
 							}else{
 								if(m[fila_rey][columna].color=='b'){
@@ -398,12 +390,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 						//No encontro amenaza
 						return 0;
 					}else{
-						//Arriba derecha ad tope tabla por fila es 0 y columna es 8
+						//Arriba derecha ad tope tabla por fila es 0 y columna es 7
 						if(direccion[0]=='a' && direccion[1]=='d'){
 							int fila = fila_rey - 1;
 							int columna=columna_rey + 1;
-							while (fila >= 0 && columna <= 8) {
-								if(m[fila][columna].color=='V') {
+							while (fila >= 0 && columna <= 7) {
+								if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 									fila--;
 									columna++;
 								}else{
@@ -424,7 +416,7 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								int fila = fila_rey - 1;
 								int columna=columna_rey - 1;
 								while (fila >= 0 && columna >= 0) {
-									if(m[fila][columna].color=='V') {
+									if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 										fila--;
 										columna--;
 									}else{
@@ -440,12 +432,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								//No encontro amenaza
 								return 0;
 							}else{
-								//Abajo derecha bd tope tabla por fila es 8 y columna es 8
+								//Abajo derecha bd tope tabla por fila es 7 y columna es 7
 								if(direccion[0]=='b' && direccion[1]=='d'){
 									int fila = fila_rey + 1;
 									int columna=columna_rey + 1;
-									while (fila <= 8 && columna <= 8) {
-										if(m[fila][columna].color=='V') {
+									while (fila <= 7 && columna <= 7) {
+										if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 											fila++;
 											columna++;
 										}else{
@@ -461,12 +453,12 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 									//No encontro amenaza
 									return 0;
 								}else{
-									//Abajo Izquierda bi tope tabla por fila es 8 y columna es 0
+									//Abajo Izquierda bi tope tabla por fila es 7 y columna es 0
 									if(direccion[0]=='b' && direccion[1]=='i'){
 										int fila = fila_rey + 1;
 										int columna=columna_rey - 1;
-										while (fila <= 8 && columna >= 0) {
-											if(m[fila][columna].color=='V') {
+										while (fila <= 7 && columna >= 0) {
+											if(m[fila][columna].color=='V' && m[fila][columna].tipo_pieza.nombre=='V') {
 												fila++;
 												columna--;
 											}else{
@@ -595,6 +587,29 @@ int jaque_rey(char color,int fila_rey,int columna_rey,p (*m)[8]){
 					}
 				}
 			}
+		}
+	}
+}
+
+int jaque(int turno, p (*m)[8]){
+	int posicion[2];
+	if(turno%2!=0){
+		//pieza blanca
+		buscar_rey('w',posicion,m);
+		int fila_rey=posicion[0],columna_rey=posicion[1];
+		if(jaque_peon('w',fila_rey,columna_rey,m) || jaque_caballo('w',fila_rey,columna_rey,m) || jaque_torre_alfil_reina('w',fila_rey,columna_rey,m) || jaque_rey('w',fila_rey,columna_rey,m)){
+			return 1;
+		}else{
+			return 0;
+		}
+
+	}else{
+		buscar_rey('b',posicion,m);
+		int fila_rey=posicion[0],columna_rey=posicion[1];
+		if(jaque_peon('b',fila_rey,columna_rey,m) || jaque_caballo('b',fila_rey,columna_rey,m) || jaque_torre_alfil_reina('b',fila_rey,columna_rey,m) || jaque_rey('b',fila_rey,columna_rey,m)){
+			return 1;
+		}else{
+			return 0;
 		}
 	}
 }
