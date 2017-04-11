@@ -120,6 +120,7 @@ void mostrar_tablero(p (*m)[8]){
 
 void inicio_partida(p (*m)[8],int termino_partida){
 	tablero_inicio(m);
+	p respaldo[8][8];
 	int cantidad_turnos=1;
 	char seleccion_pieza[2];
 	char posicion[2];
@@ -167,15 +168,26 @@ void inicio_partida(p (*m)[8],int termino_partida){
 						pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
 						pieza_remov[1]=m[destino_fila][destino_columna].color;
 
+
+						respaldar_tablero(respaldo,m);
+
 						elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
 						//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
 						if(mov_permitido==1){
-							system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
-							movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
-							cantidad_turnos++;
-							jugador=cantidad_turnos%2;
-							system("clear");
-							mostrar_tablero(m);
+							if(jaque(cantidad_turnos,m)){
+								system("clear");
+								respaldar_tablero(m,respaldo);
+								mostrar_tablero(m);
+								printf("Tu rey esta en jaque!!\n");
+							}else{
+								system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
+								movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
+								cantidad_turnos++;
+								jugador=cantidad_turnos%2;
+								system("clear");
+								mostrar_tablero(m);	
+							}
+							
 						}else{
 							system("clear");
 							printf("Movimiento no permitido\n");
@@ -277,4 +289,16 @@ void input(char seleccion[2]){
 		seleccion[0]=seleccion[1];
 		seleccion[1]=aux;
 	}
+}
+
+void respaldar_tablero(p (*respaldo)[8],p (*m)[8]){
+	for(int i=0;i<8;i++){
+		for(int j=0;j<8;j++){
+			respaldo[i][j].color=m[i][j].color;
+			respaldo[i][j].primer_turno=m[i][j].primer_turno;
+			respaldo[i][j].tipo_pieza.nombre=m[i][j].tipo_pieza.nombre;
+			respaldo[i][j].tipo_pieza.posicion[0]=m[i][j].tipo_pieza.posicion[0];
+			respaldo[i][j].tipo_pieza.posicion[1]=m[i][j].tipo_pieza.posicion[1];
+		}
+	}	
 }

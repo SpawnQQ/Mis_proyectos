@@ -479,7 +479,8 @@ if(m[inicio_fila][inicio_columna].color=='w'){
 						realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 						*mov_permitido=1;
 					}else{
-						if((destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && ( destino_fila-1 == inicio_fila && destino_columna == inicio_columna+1)){
+						//Arriba derecha
+						if((destino_fila-inicio_fila==inicio_columna-destino_columna) && (m[destino_fila][destino_columna].color=='V' || m[destino_fila][destino_columna].color=='b') && ( destino_fila == inicio_fila-1 && destino_columna == inicio_columna+1)){
 							realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 							*mov_permitido=1;
 						}else{
