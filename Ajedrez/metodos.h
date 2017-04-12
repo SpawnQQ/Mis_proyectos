@@ -174,7 +174,9 @@ void inicio_partida(p (*m)[8],int termino_partida){
 						elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
 						//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
 						if(mov_permitido==1){
+							//Si el movimiento es permitido
 							if(jaque(cantidad_turnos,m)){
+								//Verificamos si el movimiento efectuado deja vulnerable al rey
 								system("clear");
 								respaldar_tablero(m,respaldo);
 								mostrar_tablero(m);
