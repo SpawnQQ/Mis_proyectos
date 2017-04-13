@@ -713,13 +713,110 @@ int all_mov_peon(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 	}
 }
 
+int all_mov_caballo(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
+	int mov_permitido=0;
+	
+	//Izquierda Arriba
+	p respaldo[8][8];
+	
+	respaldar_tablero(respaldo,m);
+	if(fila_elegido-1 >= 0 && columna_elegido-2 >=0 && m[fila_elegido-1][columna_elegido-2].tipo_pieza.nombre != 'K'){
+		mover_caballo(fila_elegido,columna_elegido, fila_elegido-1,columna_elegido-2, m,&mov_permitido);
+	}
+	if(mov_permitido==1 && jaque(turno,m)==0 ){
+		//Si me permite el movimiento ,y si el rey no quedo vulnerable
+		respaldar_tablero(m,respaldo);
+		return 1;
+	}else{
+		//Izquierda abajo
+		if(fila_elegido+1 >= 0 && columna_elegido-2 >=0 && m[fila_elegido+1][columna_elegido-2].tipo_pieza.nombre != 'K'){
+			respaldar_tablero(m,respaldo);
+			mover_caballo(fila_elegido,columna_elegido, fila_elegido+1,columna_elegido-2, m,&mov_permitido);
+		}
+		if(mov_permitido==1 && jaque(turno,m)==0){
+			//Si me permite el movimiento ,y si el rey no quedo vulnerable
+			respaldar_tablero(m,respaldo);
+			return 1;
+		}else{
+			//Derecha arriba
+			if(fila_elegido-1 >= 0 && columna_elegido+2 >=0 && m[fila_elegido-1][columna_elegido+2].tipo_pieza.nombre != 'K'){
+				respaldar_tablero(m,respaldo);
+				mover_caballo(fila_elegido,columna_elegido, fila_elegido-1,columna_elegido+2, m,&mov_permitido);
+			}
+			if(mov_permitido==1 && jaque(turno,m)==0){
+				//Si me permite el movimiento ,y si el rey no quedo vulnerable
+				respaldar_tablero(m,respaldo);
+				return 1;
+			}else{
+				//Derecha abajo
+				if(fila_elegido+1 >= 0 && columna_elegido+2 >=0 && m[fila_elegido+1][columna_elegido+2].tipo_pieza.nombre != 'K'){
+					respaldar_tablero(m,respaldo);
+					mover_caballo(fila_elegido,columna_elegido, fila_elegido+1,columna_elegido+2, m,&mov_permitido);
+				}
+				if(mov_permitido==1 && jaque(turno,m)==0){
+					//Si me permite el movimiento ,y si el rey no quedo vulnerable
+					respaldar_tablero(m,respaldo);
+					return 1;
+				}else{
+					//Arriba derecha
+					if(fila_elegido-2 >= 0 && columna_elegido+1 >=0 && m[fila_elegido-2][columna_elegido+1].tipo_pieza.nombre != 'K'){
+						respaldar_tablero(m,respaldo);
+						mover_caballo(fila_elegido,columna_elegido, fila_elegido-2,columna_elegido+1, m,&mov_permitido);
+					}
+					if(mov_permitido==1 && jaque(turno,m)==0){
+						//Si me permite el movimiento ,y si el rey no quedo vulnerable
+						respaldar_tablero(m,respaldo);
+						return 1;
+					}else{
+						//Arriba izquierda
+						if(fila_elegido-2 >= 0 && columna_elegido-1 >=0 && m[fila_elegido-2][columna_elegido-1].tipo_pieza.nombre != 'K'){
+							respaldar_tablero(m,respaldo);
+							mover_caballo(fila_elegido,columna_elegido, fila_elegido-2,columna_elegido-1, m,&mov_permitido);
+						}
+						if(mov_permitido==1 && jaque(turno,m)==0){
+							//Si me permite el movimiento ,y si el rey no quedo vulnerable
+							respaldar_tablero(m,respaldo);
+							return 1;
+						}else{
+							//Abajo derecha
+							if(fila_elegido+2 >= 0 && columna_elegido+1 >=0 && m[fila_elegido+2][columna_elegido+1].tipo_pieza.nombre != 'K'){
+								respaldar_tablero(m,respaldo);
+								mover_caballo(fila_elegido,columna_elegido, fila_elegido+2,columna_elegido+1, m,&mov_permitido);
+							}
+							if(mov_permitido==1 && jaque(turno,m)==0){
+								//Si me permite el movimiento ,y si el rey no quedo vulnerable
+								respaldar_tablero(m,respaldo);
+								return 1;
+							}else{
+								//Abajo izquierda
+								if(fila_elegido+2 >= 0 && columna_elegido-1 >=0 && m[fila_elegido+2][columna_elegido-1].tipo_pieza.nombre != 'K'){
+									respaldar_tablero(m,respaldo);
+									mover_caballo(fila_elegido,columna_elegido, fila_elegido+2,columna_elegido-1, m,&mov_permitido);
+								}
+								if(mov_permitido==1 && jaque(turno,m)==0){
+									//Si me permite el movimiento ,y si el rey no quedo vulnerable
+									respaldar_tablero(m,respaldo);
+									return 1;
+								}else{
+									respaldar_tablero(m,respaldo);
+									return 0;
+								}
+							}		
+						}
+					}
+				}
+			}	
+		}
+	}
+}	
+
 int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 	if(m[fila_elegido][fila_elegido].color=='w'){
 		if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='P'){
 			return all_mov_peon(turno,fila_elegido,columna_elegido,m);
 		}else{
 			if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='N'){
-
+				return all_mov_caballo(turno,fila_elegido,columna_elegido,m);
 			}else{
 				if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='R'){
 
@@ -743,10 +840,10 @@ int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 			return all_mov_peon(turno,fila_elegido,columna_elegido,m);
 		}else{
 			if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='N'){
-
+				return all_mov_caballo(turno,fila_elegido,columna_elegido,m);
 			}else{
 				if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='R'){
-
+					
 				}else{
 					if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='B'){
 
