@@ -810,6 +810,69 @@ int all_mov_caballo(int turno, int fila_elegido, int columna_elegido, p (*m)[8])
 	}
 }	
 
+int all_mov_torre(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
+	int mov_permitido=0;
+	int i,j;
+	p respaldo[8][8];
+	
+	respaldar_tablero(respaldo,m);
+	//Arriba
+	for(i=fila_elegido-1;i>=0;i--){
+		if(m[i][columna_elegido].tipo_pieza.nombre != 'K'){
+			mover_torre(fila_elegido,columna_elegido, i,columna_elegido, m,&mov_permitido);
+			if(mov_permitido==1 && jaque(turno,m)==0){
+				respaldar_tablero(m,respaldo);
+				return 1;
+			}
+			respaldar_tablero(m,respaldo);
+		}
+	}
+	//Abajo
+	for(i=fila_elegido+1;i<8;i++){
+		if(m[i][columna_elegido].tipo_pieza.nombre != 'K'){
+			mover_torre(fila_elegido,columna_elegido, i,columna_elegido, m,&mov_permitido);
+			if(mov_permitido==1 && jaque(turno,m)==0){
+				respaldar_tablero(m,respaldo);
+				return 1;
+			}
+			respaldar_tablero(m,respaldo);
+		}
+	}
+	//Izquierda
+	for(j=columna_elegido-1;j>=0;j--){
+		if(m[fila_elegido][j].tipo_pieza.nombre != 'K'){
+			mover_torre(fila_elegido,columna_elegido, fila_elegido,j, m,&mov_permitido);
+			if(mov_permitido==1 && jaque(turno,m)==0){
+				respaldar_tablero(m,respaldo);
+				return 1;
+			}
+			respaldar_tablero(m,respaldo);
+		}
+	}
+	//Izquierda
+	for(j=columna_elegido+1;j<8;j++){
+		if(m[fila_elegido][j].tipo_pieza.nombre != 'K'){
+			mover_torre(fila_elegido,columna_elegido, fila_elegido,j, m,&mov_permitido);
+			if(mov_permitido==1 && jaque(turno,m)==0){
+				respaldar_tablero(m,respaldo);
+				return 1;
+			}
+			respaldar_tablero(m,respaldo);
+		}
+	}
+	respaldar_tablero(m,respaldo);
+	return 0;
+}
+
+int all_mov_alfil(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
+	int mov_permitido=0;
+	int i,j;
+	p respaldo[8][8];
+
+	respaldar_tablero(m,respaldo);
+	return 0;	
+}	
+
 int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 	if(m[fila_elegido][fila_elegido].color=='w'){
 		if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='P'){
@@ -819,7 +882,7 @@ int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 				return all_mov_caballo(turno,fila_elegido,columna_elegido,m);
 			}else{
 				if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='R'){
-
+					return all_mov_torre(turno,fila_elegido,columna_elegido,m);
 				}else{
 					if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='B'){
 
@@ -843,7 +906,7 @@ int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 				return all_mov_caballo(turno,fila_elegido,columna_elegido,m);
 			}else{
 				if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='R'){
-					
+					return all_mov_torre(turno,fila_elegido,columna_elegido,m);
 				}else{
 					if(m[fila_elegido][fila_elegido].tipo_pieza.nombre=='B'){
 
