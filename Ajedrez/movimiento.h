@@ -46,7 +46,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 						m[destino_fila+1][destino_columna].color='w';
 						*mov_permitido=1;
 					}else{
-						printf("Hay un obstaculo en su camino\n");
 						*mov_permitido=0;
 					}
 				}else{
@@ -55,7 +54,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 					*mov_permitido=1;
 				}
 			}else{
-				printf("Movimiento no permitido\n");
 				*mov_permitido=0;
 			}
 		}else{
@@ -70,7 +68,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 						m[destino_fila-1][destino_columna].color='b';
 						*mov_permitido=1;
 					}else{
-						printf("Hay un obstaculo en su camino\n");
 						*mov_permitido=0;
 					}
 				}else{
@@ -79,7 +76,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 					*mov_permitido=1;
 				}
 			}else{
-				printf("Movimiento no permitido\n");
 				*mov_permitido=0;
 
 			}
@@ -94,7 +90,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{	
-				printf("Hay un obstaculo en su camino\n");
 				 *mov_permitido=0;
 			}
 		}else{
@@ -104,7 +99,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
-				printf("Hay un obstaculo en su camino\n");
 				 *mov_permitido=0;
 			}
 		}
@@ -120,7 +114,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
-				printf("No hay pieza que comer\n");
 				*mov_permitido=0;
 			}
 		}else{
@@ -130,7 +123,6 @@ void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destin
 				realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 				*mov_permitido=1;
 			}else{
-				printf("No hay pieza que comer\n");
 				*mov_permitido=0;	
 			}
 		}

@@ -149,57 +149,64 @@ void inicio_partida(p (*m)[8],int termino_partida){
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
 				mostrar_tablero(m);
 			}else{
-				//Este while, sirve para verificar que el movimiento ingresado sea correcto
-				do{
-					int inicio_fila=transformar_num(seleccion_pieza[0]);
-					int inicio_columna=transformar_num(seleccion_pieza[1]);
-
+				int inicio_fila=transformar_num(seleccion_pieza[0]);
+				int inicio_columna=transformar_num(seleccion_pieza[1]);
+				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
+				if(jaque_elegir(cantidad_turnos,inicio_fila,inicio_columna,m)==0){
+					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 					mostrar_tablero(m);
-					printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
-					scanf("%s", &posicion);
-					input(posicion);
-					if(validacion_entrada(posicion)==1){
-						int destino_fila=transformar_num(posicion[0]);
-						int destino_columna=transformar_num(posicion[1]);
-					
-						pieza_mov[0]=m[inicio_fila][inicio_columna].tipo_pieza.nombre;
-						pieza_mov[1]=m[inicio_fila][inicio_columna].color;
+				}else{
 
-						pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
-						pieza_remov[1]=m[destino_fila][destino_columna].color;
+					//Este while, sirve para verificar que el movimiento ingresado sea correcto
+					do{
+
+						mostrar_tablero(m);
+						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
+						scanf("%s", &posicion);
+						input(posicion);
+						if(validacion_entrada(posicion)==1){
+							int destino_fila=transformar_num(posicion[0]);
+							int destino_columna=transformar_num(posicion[1]);
+						
+							pieza_mov[0]=m[inicio_fila][inicio_columna].tipo_pieza.nombre;
+							pieza_mov[1]=m[inicio_fila][inicio_columna].color;
+
+							pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
+							pieza_remov[1]=m[destino_fila][destino_columna].color;
 
 
-						respaldar_tablero(respaldo,m);
+							respaldar_tablero(respaldo,m);
 
-						elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
-						//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
-						if(mov_permitido==1){
-							//Si el movimiento es permitido
-							if(jaque(cantidad_turnos,m)){
-								//Verificamos si el movimiento efectuado deja vulnerable al rey
-								system("clear");
-								respaldar_tablero(m,respaldo);
-								mostrar_tablero(m);
-								printf("Tu rey esta en jaque!!\n");
+							elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
+							//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
+							if(mov_permitido==1){
+								//Si el movimiento es permitido
+								if(jaque(cantidad_turnos,m)){
+									//Verificamos si el movimiento efectuado deja vulnerable al rey
+									system("clear");
+									respaldar_tablero(m,respaldo);
+									mostrar_tablero(m);
+									printf("Tu rey esta en jaque!!\n");
+								}else{
+									system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
+									movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
+									cantidad_turnos++;
+									jugador=cantidad_turnos%2;
+									system("clear");
+									mostrar_tablero(m);	
+								}
+								
 							}else{
-								system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
-								movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
-								cantidad_turnos++;
-								jugador=cantidad_turnos%2;
 								system("clear");
-								mostrar_tablero(m);	
+								printf("Movimiento no permitido\n");
 							}
-							
 						}else{
 							system("clear");
 							printf("Movimiento no permitido\n");
-						}
-					}else{
-						system("clear");
-						printf("Movimiento no permitido\n");
-						mov_permitido=0;
-					}	
-				}while(mov_permitido==0);
+							mov_permitido=0;
+						}	
+					}while(mov_permitido==0);
+				}
 			}
 		}
 	}
