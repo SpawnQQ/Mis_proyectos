@@ -157,6 +157,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 					}else{
 						if(m[fila][columna_rey].color=='b' && (m[fila][columna_rey].tipo_pieza.nombre=='R' || m[fila][columna_rey].tipo_pieza.nombre=='Q')){
 							return 1;
+						}else{
+							return 0;
 						}	
 					}
 				}
@@ -176,7 +178,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 						}else{
 							if(m[fila][columna_rey].color=='b' && (m[fila][columna_rey].tipo_pieza.nombre=='R' || m[fila][columna_rey].tipo_pieza.nombre=='Q')){
 								return 1;
-							}	
+							}else{
+								return 0;
+							}
 						}
 					}
 				}
@@ -195,7 +199,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 							}else{
 								if(m[fila_rey][columna].color=='b' && (m[fila_rey][columna].tipo_pieza.nombre=='R' || m[fila_rey][columna].tipo_pieza.nombre=='Q')){
 									return 1;
-								}	
+								}else{
+									return 0;
+								}
 							}
 						}
 					}
@@ -214,6 +220,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								}else{
 									if(m[fila_rey][columna].color=='b' && (m[fila_rey][columna].tipo_pieza.nombre=='R' || m[fila_rey][columna].tipo_pieza.nombre=='Q')){
 										return 1;
+									}else{
+										return 0;
 									}	
 								}
 							}
@@ -235,7 +243,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 									}else{
 										if(m[fila][columna].color=='b' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 											return 1;
-										}	
+										}else{
+											return 0;
+										}
 									}
 								}
 							}
@@ -256,7 +266,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 										}else{
 											if(m[fila][columna].color=='b' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 												return 1;
-											}	
+											}else{
+												return 0;
+											}
 										}
 									}
 								}
@@ -277,7 +289,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 											}else{
 												if(m[fila][columna].color=='b' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 													return 1;
-												}	
+												}else{
+													return 0;
+												}
 											}
 										}
 									}
@@ -298,6 +312,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 												}else{
 													if(m[fila][columna].color=='b' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 														return 1;
+													}else{
+														return 0;
 													}	
 												}
 											}
@@ -326,6 +342,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 					}else{
 						if(m[fila][columna_rey].color=='w' && (m[fila][columna_rey].tipo_pieza.nombre=='R' || m[fila][columna_rey].tipo_pieza.nombre=='Q')){
 							return 1;
+						}else{
+							return 0;
 						}	
 					}
 				}
@@ -345,7 +363,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 						}else{
 							if(m[fila][columna_rey].color=='w' && (m[fila][columna_rey].tipo_pieza.nombre=='R' || m[fila][columna_rey].tipo_pieza.nombre=='Q')){
 								return 1;
-							}	
+							}else{
+								return 0;
+							}
 						}
 					}
 				}
@@ -364,7 +384,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 							}else{
 								if(m[fila_rey][columna].color=='w' && (m[fila_rey][columna].tipo_pieza.nombre=='R' || m[fila_rey][columna].tipo_pieza.nombre=='Q')){
 									return 1;
-								}	
+								}else{
+									return 0;
+								}
 							}
 						}
 					}
@@ -383,6 +405,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 								}else{
 									if(m[fila_rey][columna].color=='w' && (m[fila_rey][columna].tipo_pieza.nombre=='R' || m[fila_rey][columna].tipo_pieza.nombre=='Q')){
 										return 1;
+									}else{
+										return 0;
 									}	
 								}
 							}
@@ -404,6 +428,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 									}else{
 										if(m[fila][columna].color=='w' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 											return 1;
+										}else{
+											return 0;
 										}	
 									}
 								}
@@ -425,6 +451,8 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 										}else{
 											if(m[fila][columna].color=='w' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 												return 1;
+											}else{
+												return 0;
 											}	
 										}
 									}
@@ -446,7 +474,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 											}else{
 												if(m[fila][columna].color=='w' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 													return 1;
-												}	
+												}else{
+													return 0;
+												}
 											}
 										}
 									}
@@ -467,7 +497,9 @@ int verificacion_todas_direcciones_jaque(char color,char direccion[2],int fila_r
 												}else{
 													if(m[fila][columna].color=='w' && (m[fila][columna].tipo_pieza.nombre=='B' || m[fila][columna].tipo_pieza.nombre=='Q')){
 														return 1;
-													}	
+													}else{
+														return 0;
+													}
 												}
 											}
 										}
