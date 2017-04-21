@@ -185,8 +185,8 @@ void inicio_partida(p (*m)[8],int termino_partida){
 									//Verificamos si el movimiento efectuado deja vulnerable al rey
 									system("clear");
 									respaldar_tablero(m,respaldo);
-									mostrar_tablero(m);
 									printf("Tu rey esta en jaque!!\n");
+									mov_permitido=0;
 								}else{
 									system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
 									movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);

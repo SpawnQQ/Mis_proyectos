@@ -7,11 +7,9 @@
 #include <jaque_mate.h>
 
 int main(){
-	system("clear");
 	typedef struct pieza p;
 	p m[8][8];
 	int termino_partida=0;
 	creacion_historial();
-	inicio_partida(&m,termino_partida);
-	
+	inicio_partida(&m,termino_partida);	
 }
