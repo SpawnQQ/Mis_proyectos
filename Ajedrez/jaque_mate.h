@@ -1230,3 +1230,30 @@ int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 		}
 	}
 }
+
+//Si todos retornan 0, no existe un movimiento que evite el jaque.
+//Si al menos existe una pieza, que deje protegido al rey, no sera jaque mate.
+int jaque_mate( int turno,p (*m)[8]){
+	if(turno%2!=0){
+		//Piezas blancas
+		for(int i=0;i<8;i++){
+			for(int j=0; j<8; j++){
+				if(m[i][j].color=='w' && jaque_elegir(turno,i,j,m)){
+					//No hay jaque mate, ya que existe al menos un mov que deje protegido a tu rey
+					return 0;
+				}
+			}
+		}
+	}else{
+		for(int i=0;i<8;i++){
+			for(int j=0; j<8; j++){
+				if(m[i][j].color=='b' && jaque_elegir(turno,i,j,m)){
+					//No hay jaque mate, ya que existe al menos un mov que deje protegido a tu rey
+					return 0;
+				}
+			}
+		}
+	}
+	//Jaque mate
+	return 1;
+}

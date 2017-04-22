@@ -34,16 +34,16 @@ void tablero_inicio(p (*m)[8]){
 											matriz_setPieza(m,i,j,'w',true,'B',i,j);
 										}else{
 											if(i==0 && j==3){
-												matriz_setPieza(m,i,j,'b',true,'K',i,j);
+												matriz_setPieza(m,i,j,'b',true,'Q',i,j);
 											}else{
 												if(i==0 && j==4){
-													matriz_setPieza(m,i,j,'b',true,'Q',i,j);
+													matriz_setPieza(m,i,j,'b',true,'K',i,j);
 												}else{
 													if(i==7 && j==3){
-														matriz_setPieza(m,i,j,'w',true,'K',i,j);
+														matriz_setPieza(m,i,j,'w',true,'Q',i,j);
 													}else{
 														if(i==7 && j==4){
-															matriz_setPieza(m,i,j,'w',true,'Q',i,j);
+															matriz_setPieza(m,i,j,'w',true,'K',i,j);
 														}else{
 															matriz_setPieza(m,i,j,'V',false,'V',i,j);
 														}						
@@ -133,12 +133,16 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 	//Iniciamos la partida
 	mostrar_tablero(m);
 	while(termino_partida==0){
+		actualizar_PAP(cantidad_turnos,m);
 		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
-			printf("Tu rey esta en jaque!!\n");
+			if(jaque_mate(cantidad_turnos,m)){
+				goto fin_partida;
+			}else{
+				printf("Tu rey esta en jaque!!\n");
+			}
 		}
-		actualizar_PAP(cantidad_turnos,m);
-		printf("Jugador %d, seleccione pieza a mover: \n",jugador);
+		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 		scanf("\n%s", &seleccion_pieza);
 		system("clear");
 		input(seleccion_pieza);
@@ -210,6 +214,12 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 				}
 			}
 		}
+	}
+	fin_partida: ;
+	if(cantidad_turnos%2!=0){
+		printf("Jaque mate. Jugador 1 derrotado!\n");
+	}else{
+		printf("Jaque mate. Jugador 2 derrotado!\n");
 	}
 }
 
