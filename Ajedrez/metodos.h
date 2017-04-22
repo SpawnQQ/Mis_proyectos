@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#define ESCAPE 27 
 
 typedef struct pieza p;
 void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,int posicion_1,int posicion_2);
@@ -118,10 +119,9 @@ void mostrar_tablero(p (*m)[8]){
 	printf("   a  b  c  d  e  f  g  h\n");
 }
 
-void inicio_partida(p (*m)[8],int termino_partida){
-	tablero_inicio(m);
+void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 	p respaldo[8][8];
-	int cantidad_turnos=1;
+	cantidad_turnos++;
 	char seleccion_pieza[2];
 	char posicion[2];
 	char pieza_mov[2];
@@ -133,12 +133,13 @@ void inicio_partida(p (*m)[8],int termino_partida){
 	//Iniciamos la partida
 	mostrar_tablero(m);
 	while(termino_partida==0){
+		guardar_partida(m);
 		if(jaque(cantidad_turnos,m)){
 			printf("Tu rey esta en jaque!!\n");
 		}
 		actualizar_PAP(cantidad_turnos,m);
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador);
-		scanf("%s", &seleccion_pieza);
+		scanf("\n%s", &seleccion_pieza);
 		system("clear");
 		input(seleccion_pieza);
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
@@ -210,6 +211,11 @@ void inicio_partida(p (*m)[8],int termino_partida){
 			}
 		}
 	}
+}
+
+void inicio_partida(p (*m)[8],int termino_partida, int turno){
+	tablero_inicio(m);
+	desarrollo_partida(m,termino_partida, turno);
 }
 
 int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){

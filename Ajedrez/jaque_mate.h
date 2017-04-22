@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <curses.h>
 
 void buscar_rey(char color,int posicion[2],p (*m)[8]){
 	if(color=='w'){
@@ -1227,13 +1228,5 @@ int jaque_elegir(int turno, int fila_elegido, int columna_elegido, p (*m)[8]){
 				}
 			}
 		}
-	}
-}
-
-char color_contrario(int turno,  int fila_elegido, int columna_elegido, p (*m)[8]){
-	if(m[fila_elegido][columna_elegido].color=='w'){
-		return 'b';
-	}else{
-		return 'w';
 	}
 }

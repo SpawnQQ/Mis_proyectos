@@ -10,6 +10,7 @@ int main(){
 	typedef struct pieza p;
 	p m[8][8];
 	int termino_partida=0;
+	int turno=0;
 	creacion_historial();
-	inicio_partida(&m,termino_partida);	
+	inicio_partida(&m,termino_partida,turno);	
 }
