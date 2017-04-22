@@ -133,7 +133,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 	//Iniciamos la partida
 	mostrar_tablero(m);
 	while(termino_partida==0){
-		guardar_partida(m);
+		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
 			printf("Tu rey esta en jaque!!\n");
 		}
@@ -186,7 +186,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 									//Verificamos si el movimiento efectuado deja vulnerable al rey
 									system("clear");
 									respaldar_tablero(m,respaldo);
-									printf("Tu rey esta en jaque!!\n");
+									printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 									mov_permitido=0;
 								}else{
 									system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
