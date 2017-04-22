@@ -137,6 +137,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
 			if(jaque_mate(cantidad_turnos,m)){
+				termino_partida=0;
 				goto fin_partida;
 			}else{
 				printf("Tu rey esta en jaque!!\n");
