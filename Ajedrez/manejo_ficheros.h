@@ -27,7 +27,7 @@ void movimientos_historial(int turno,char inicio_mov[2],char final_mov[2],char p
 void guardar_partida(p (*m)[8], int turno){
 	FILE *fp;
 	fp = fopen ( "partida_guardada.txt", "w+" );
-	fprintf(fp,"%i \n",turno);
+	fprintf(fp,"%i\n",turno);
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
 			if(i==0 && j==0){
