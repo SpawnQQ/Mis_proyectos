@@ -491,7 +491,18 @@ if(m[inicio_fila][inicio_columna].color=='w'){
 										realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 										*mov_permitido=1;
 									}else{
-										*mov_permitido=0;
+										//Enroque largo
+										if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='w' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
+											enroque('l',inicio_fila,inicio_columna,m);
+											*mov_permitido=1;
+										}else{
+											if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='w' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
+												enroque('c',inicio_fila,inicio_columna,m);
+												*mov_permitido=1;
+											}else{
+												*mov_permitido=0;
+											}
+										}
 									}
 								}	
 							}	
@@ -542,7 +553,18 @@ if(m[inicio_fila][inicio_columna].color=='w'){
 										realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
 										*mov_permitido=1;
 									}else{
-										*mov_permitido=0;
+										//Enroque largo
+										if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='b' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
+											enroque('l',inicio_fila,inicio_columna,m);
+											*mov_permitido=1;
+										}else{
+											if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='b' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
+												enroque('c',inicio_fila,inicio_columna,m);
+												*mov_permitido=1;
+											}else{
+												*mov_permitido=0;
+											}
+										}
 									}
 								}	
 							}	
@@ -1087,4 +1109,50 @@ int mover_rey_restringido(int inicio_fila,int inicio_columna, p (*m)[8]){
 			}
 		}
 	}
+}
+
+int jaque_enroque(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8] ){
+	p respaldo[8][8];
+	respaldar_tablero(respaldo,m);
+	realizar_movimiento(inicio_fila,inicio_columna,destino_fila,destino_columna,m);
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		if(jaque(1,m)){
+			respaldar_tablero(m,respaldo);
+			return 1;
+		}else{
+			respaldar_tablero(m,respaldo);
+			return 0;
+		}
+	}else{
+		if(jaque(0,m)){
+			respaldar_tablero(m,respaldo);
+			return 1;
+		}else{
+			respaldar_tablero(m,respaldo);
+			return 0;
+		}
+	}
+}
+
+void enroque(char color, int inicio_fila, int inicio_columna, p (*m)[8]){
+	if(m[inicio_fila][inicio_columna].color=='w'){
+		if(color=='l'){
+			//Rey se mueve primero
+			realizar_movimiento(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m);
+			realizar_movimiento(inicio_fila,inicio_columna-4,inicio_fila,inicio_columna-1,m);
+		}else{
+			realizar_movimiento(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m);
+			realizar_movimiento(inicio_fila,inicio_columna+3,inicio_fila,inicio_columna+1,m);
+		}
+	}else{
+		if(color=='l'){
+			//Rey se mueve primero
+			realizar_movimiento(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m);
+			realizar_movimiento(inicio_fila,inicio_columna-4,inicio_fila,inicio_columna-1,m);
+		}else{
+			realizar_movimiento(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m);
+			realizar_movimiento(inicio_fila,inicio_columna+3,inicio_fila,inicio_columna+1,m);
+		}
+	}
+
 }
