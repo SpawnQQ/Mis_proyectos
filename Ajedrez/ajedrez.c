@@ -5,6 +5,7 @@
 #include <movimiento.h>
 #include <manejo_ficheros.h>
 #include <jaque_mate.h>
+#include <tablas.h>
 #include <SDL2/SDL.h>  
 
 int main(){

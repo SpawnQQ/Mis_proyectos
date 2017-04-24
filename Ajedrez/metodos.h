@@ -180,7 +180,6 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 							pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
 							pieza_remov[1]=m[destino_fila][destino_columna].color;
 
-
 							respaldar_tablero(respaldo,m);
 
 							elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
@@ -194,6 +193,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 									printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 									mov_permitido=0;
 								}else{
+									promocion_peon(destino_fila,destino_columna,respaldo,m);
 									system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
 									movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
 									cantidad_turnos++;
@@ -327,4 +327,74 @@ void respaldar_tablero(p (*respaldo)[8],p (*m)[8]){
 			respaldo[i][j].tipo_pieza.posicion[1]=m[i][j].tipo_pieza.posicion[1];
 		}
 	}	
+}
+
+void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*m)[8]){
+	if(m[destino_fila][destino_columna].tipo_pieza.nombre=='P' && (destino_fila==0 || destino_fila==7)){
+		char seleccion_pieza;
+		int aux=0;
+		if(m[destino_fila][destino_columna].color=='w'){
+			if(destino_fila==0){
+				while(aux==0){
+					printf("Promocion de peon, escoga pieza: Q o q -Reina-, B o b -Alfil-, N o n -Caballo-, R o r -Torre-\n");
+					//Validar
+					scanf("\n%c", &seleccion_pieza);
+					if(seleccion_pieza=='Q' || seleccion_pieza=='q'){
+						m[destino_fila][destino_columna].tipo_pieza.nombre='Q';
+						aux=1;
+					}else{
+						if(seleccion_pieza=='B' || seleccion_pieza=='b'){
+							m[destino_fila][destino_columna].tipo_pieza.nombre='B';
+							aux=1;
+						}else{
+							if(seleccion_pieza=='N' || seleccion_pieza=='n'){
+								m[destino_fila][destino_columna].tipo_pieza.nombre='N';
+								aux=1;
+							}else{
+								if(seleccion_pieza=='R' || seleccion_pieza=='r'){
+									m[destino_fila][destino_columna].tipo_pieza.nombre='R';
+									aux=1;
+								}else{
+									system("clear");
+									printf("Error, porfavor ingrese una pieza valida.\n");
+									mostrar_tablero(respaldo);
+								}
+							}
+						}
+					}
+				}
+			}
+		}else{
+			if(destino_fila==7){
+				while(aux==0){
+					printf("Promocion de peon, escoga pieza: Q o q -Reina-, B o b -Alfil-, N o n -Caballo-, R o r -Torre-\n");
+					//Validar
+					scanf("\n%c", &seleccion_pieza);
+					if(seleccion_pieza=='Q' || seleccion_pieza=='q'){
+						m[destino_fila][destino_columna].tipo_pieza.nombre='Q';
+						aux=1;
+					}else{
+						if(seleccion_pieza=='B' || seleccion_pieza=='b'){
+							m[destino_fila][destino_columna].tipo_pieza.nombre='B';
+							aux=1;
+						}else{
+							if(seleccion_pieza=='N' || seleccion_pieza=='n'){
+								m[destino_fila][destino_columna].tipo_pieza.nombre='N';
+								aux=1;
+							}else{
+								if(seleccion_pieza=='R' || seleccion_pieza=='r'){
+									m[destino_fila][destino_columna].tipo_pieza.nombre='R';
+									aux=1;
+								}else{
+									system("clear");
+									printf("Error, porfavor ingrese una pieza valida.\n");
+									mostrar_tablero(respaldo);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
