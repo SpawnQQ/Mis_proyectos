@@ -226,7 +226,6 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 
 void inicio_partida(p (*m)[8],int termino_partida, int turno){
 	tablero_inicio(m);
-	mostrar_tableroSDL(m);
 	desarrollo_partida(m,termino_partida, turno);
 }
 
