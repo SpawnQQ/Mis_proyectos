@@ -131,7 +131,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 	//Sabemos el jugador, dividiendo la cantidad de turnos por 2, asi sabemos si el turno es par o impar
 	int jugador=cantidad_turnos%2;
 	//Iniciamos la partida
-	mostrar_tableroSDL(m);
+	cargar_tablero_sdl(m);
 	while(termino_partida==0){
 		actualizar_PAP(cantidad_turnos,m);
 		guardar_partida(m,cantidad_turnos);
@@ -149,24 +149,24 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 		input(seleccion_pieza);
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
-			mostrar_tableroSDL(m);
+			cargar_tablero_sdl(m);
 		}else{
 			if(mover_restringido(seleccion_pieza,m)==0){
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
-				mostrar_tableroSDL(m);
+				cargar_tablero_sdl(m);
 			}else{
 				int inicio_fila=transformar_num(seleccion_pieza[0]);
 				int inicio_columna=transformar_num(seleccion_pieza[1]);
 				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
 				if(jaque_elegir(cantidad_turnos,inicio_fila,inicio_columna,m)==0){
 					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
-					mostrar_tableroSDL(m);
+					cargar_tablero_sdl(m);
 				}else{
 
 					//Este while, sirve para verificar que el movimiento ingresado sea correcto
 					do{
 
-						mostrar_tableroSDL(m);
+						cargar_tablero_sdl(m);
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						scanf("%s", &posicion);
 						input(posicion);
@@ -199,7 +199,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 									cantidad_turnos++;
 									jugador=cantidad_turnos%2;
 									system("clear");
-									mostrar_tableroSDL(m);	
+									cargar_tablero_sdl(m);	
 								}
 								
 							}else{
@@ -357,7 +357,7 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 								}else{
 									system("clear");
 									printf("Error, porfavor ingrese una pieza valida.\n");
-									mostrar_tableroSDL(respaldo);
+									cargar_tablero_sdl(respaldo);
 								}
 							}
 						}
@@ -388,7 +388,7 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 								}else{
 									system("clear");
 									printf("Error, porfavor ingrese una pieza valida.\n");
-									mostrar_tableroSDL(respaldo);
+									cargar_tablero_sdl(respaldo);
 								}
 							}
 						}

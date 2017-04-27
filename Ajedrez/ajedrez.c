@@ -20,8 +20,6 @@ int main(){
 	creacion_historial();
 	while(done == 0){
 		inicio_partida(&m,termino_partida,turno);
-		 while(SDL_PollEvent(&event)){
-			if(event.type == SDL_KEYDOWN) {done = 1;}
-		}
+		done=1;
 	}	
 }
