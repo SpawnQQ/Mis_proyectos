@@ -143,9 +143,10 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 				printf("Tu rey esta en jaque!!\n");
 			}
 		}
-		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
-		scanf("\n%s", &seleccion_pieza);
-		system("clear");
+		lectura_datos(seleccion_pieza);
+		//printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
+		//scanf("\n%s", &seleccion_pieza);
+		//system("clear");
 		input(seleccion_pieza);
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");

@@ -11,11 +11,13 @@ SDL_Event tecla;
 int done = 0;
 Uint8 *keys;
 
+SDL_MouseButtonEvent button;
+
 TTF_Font *fuente;
 SDL_Surface *texto = NULL;
 SDL_Surface *texto_dos = NULL;
 SDL_Color color_fuente = {0, 0, 0};
-SDL_Color color_fondo = { 189,189,189};
+SDL_Color color_fondo = { 210,210,210};
 
 tablero_x=50;
 tablero_y=50;
@@ -37,7 +39,7 @@ void inicio_SDL(){
 	SDL_WM_SetCaption("Ajedrez 1.0v","Ajedrez 1.0v");
 
 	//peon = SDL_LoadBMP("imagenes/Reina4.bmp");
-	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 189,189,189));
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 210,210,210));
 
 	TTF_Init();
 
@@ -421,15 +423,6 @@ void cargar_tablero_sdl(p (*m)[8]){
 	}
 	SDL_Flip (screen);
 
-	while(SDL_PollEvent(&tecla)){
-		if(tecla.type == SDL_QUIT){ exit(0);}
-		if(tecla.type ==SDL_KEYDOWN){
-			if(tecla.key.keysym.sym == SDLK_ESCAPE){
-				exit(0);
-			}
-		}
-	}
-
 	SDL_FreeSurface(tablero);
 	SDL_FreeSurface(Pw);
 	SDL_FreeSurface(Rw);
@@ -447,8 +440,37 @@ void cargar_tablero_sdl(p (*m)[8]){
 }
 
 void liberar_memoria(){
-	void TTF_Quit(void);
-	TTF_CloseFont( texto );
 	TTF_Quit();
 	SDL_Quit();
+	exit(0);
+}
+
+void lectura_datos(char posicion[2]){
+int salir=0;
+int x = 0, y = 0;
+	while(salir==0){
+		if(SDL_PollEvent(&event)){
+
+			if( event.type == SDL_MOUSEBUTTONDOWN ){
+				//En caso de que el event capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
+
+				if( event.button.button == SDL_BUTTON_LEFT ){
+					x = event.button.x;
+					y = event.button.y;
+					//Revisa que el mouse aun este dentro del area designada como nuestro boton
+					printf("%i, %i\n", x,y);
+				}
+			}
+
+			if(event.type == SDL_QUIT){ 
+				liberar_memoria();
+			}
+			if(event.type ==SDL_KEYDOWN){
+				if(event.key.keysym.sym == SDLK_ESCAPE){
+					liberar_memoria();
+
+				}
+			}
+		}
+	}
 }
