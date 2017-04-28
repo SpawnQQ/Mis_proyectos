@@ -1,5 +1,5 @@
-#define WIDTH 460
-#define HEIGHT 380
+#define WIDTH 500
+#define HEIGHT 460
 #define BPP 24
 #define MASK 255,255,255
 
@@ -11,15 +11,14 @@ SDL_Event tecla;
 int done = 0;
 Uint8 *keys;
 
-tablero_x=50;
-tablero_y=10;
+TTF_Font *fuente;
+SDL_Surface *texto = NULL;
+SDL_Surface *texto_dos = NULL;
+SDL_Color color_fuente = {0, 0, 0};
+SDL_Color color_fondo = { 255, 255, 255 };
 
-struct tipoFuente{
-  SDL_Surface *imagen;
-  int ancho, alto;
-  int anchoLetra, altoLetra;
-  int primeraLetra;
-} fuente;
+tablero_x=50;
+tablero_y=50;
 
 void inicio_SDL(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -38,6 +37,8 @@ void inicio_SDL(){
 	//peon = SDL_LoadBMP("imagenes/Reina4.bmp");
 	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
+	TTF_Init();
+
 	keys = SDL_GetKeyState(NULL);
 }
 
@@ -46,26 +47,203 @@ void inicio_SDL(){
 // (x,y)=50,96 6a
 // (x,y)=
 // f(x,y)=x,44*n, si el primer n es 8  Para la columna, para la fila deberia ser similar
+void agregar_contorno(){
+	lineRGBA(screen, tablero_x, tablero_y, tablero_x+352, tablero_y, 0, 0, 0, 255);
+	lineRGBA(screen, tablero_x, tablero_y, tablero_x, tablero_y+352, 0, 0, 0, 255);
+	lineRGBA(screen, tablero_x+352, tablero_y, tablero_x+352, tablero_y+352, 0, 0, 0, 255);
+	lineRGBA(screen, tablero_x, tablero_y+352, tablero_x+352, tablero_y+352, 0, 0, 0, 255);
+}
 
-int escribirLetra(int x, int y, char letra) {
-  SDL_Rect destino, origen; 
-  int fila, columna;
-  int letrasPorFila, letrasPorColumna;
-  
-  letrasPorFila = fuente.ancho/fuente.anchoLetra;
-  letrasPorColumna = fuente.alto/fuente.altoLetra;
-  fila = letra / letrasPorColumna;
-  columna = letra % letrasPorColumna;
-  origen.x = columna * fuente.anchoLetra;
-  origen.y = fila * fuente.altoLetra;
-  origen.w = 16;
-  origen.h = 16;
-  destino.x = x;
-  destino.y = y;
-  SDL_BlitSurface(fuente.imagen, &origen, screen, &destino);
+void agregar_referencia(p (*m)[8]){
+	int fila=14	,columna=0;
+	fuente=TTF_OpenFont( "fuentes/pixel.ttf", 40 );
+
+	for(int i=0;i<8;i++){
+		if(i==0){
+				texto=TTF_RenderText_Shaded(fuente,"8", color_fuente ,color_fondo);
+				SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+				SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+				texto=TTF_RenderText_Shaded(fuente,"8", color_fuente ,color_fondo);
+				SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+				SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+				columna=columna+44;
+			}else{
+				if(i==1){
+					texto=TTF_RenderText_Shaded(fuente,"7", color_fuente ,color_fondo);
+					SDL_Rect textLocation = { tablero_x-30,tablero_y+columna, 0, 0 };
+					SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+					texto=TTF_RenderText_Shaded(fuente,"7", color_fuente ,color_fondo);
+					SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+					SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+					columna=columna+44;
+				}else{
+					if(i==2){
+						texto=TTF_RenderText_Shaded(fuente,"6", color_fuente ,color_fondo);
+						SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+						SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+						texto=TTF_RenderText_Shaded(fuente,"6", color_fuente ,color_fondo);
+						SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+						SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+						columna=columna+44;
+					}else{
+						if(i==3){
+							texto=TTF_RenderText_Shaded(fuente,"5", color_fuente ,color_fondo);
+							SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+							SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+							texto=TTF_RenderText_Shaded(fuente,"5", color_fuente ,color_fondo);
+							SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+							SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+							columna=columna+44;
+						}else{
+							if(i==4){
+								texto=TTF_RenderText_Shaded(fuente,"4", color_fuente ,color_fondo);
+								SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+								SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+								texto=TTF_RenderText_Shaded(fuente,"4", color_fuente ,color_fondo);
+								SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+								SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+								columna=columna+44;
+							}else{
+								if(i==5){
+									texto=TTF_RenderText_Shaded(fuente,"3", color_fuente ,color_fondo);
+									SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+									SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+									texto=TTF_RenderText_Shaded(fuente,"3", color_fuente ,color_fondo);
+									SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+									SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+									columna=columna+44;
+								}else{
+									if(i==6){
+										texto=TTF_RenderText_Shaded(fuente,"2", color_fuente ,color_fondo);
+										SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+										SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+										texto=TTF_RenderText_Shaded(fuente,"2", color_fuente ,color_fondo);
+										SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+										SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+										columna=columna+44;
+									}else{
+										if(i==7){
+											texto=TTF_RenderText_Shaded(fuente,"1", color_fuente ,color_fondo);
+											SDL_Rect textLocation = { tablero_x-30, tablero_y+columna, 0, 0 };
+											SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+											texto=TTF_RenderText_Shaded(fuente,"1", color_fuente ,color_fondo);
+											SDL_Rect textLocation2 = { tablero_x+367, tablero_y+columna, 0, 0 };
+											SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+											columna=columna+44;
+										}	
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		for(int j=0;j<8;j++){
+			if(i==0){
+				if(j==0){
+					texto=TTF_RenderText_Shaded(fuente,"A", color_fuente ,color_fondo);
+					SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+					SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+					texto=TTF_RenderText_Shaded(fuente,"A", color_fuente ,color_fondo);
+					SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+					SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+					fila=fila+44;
+				}else{
+					if(j==1){
+						texto=TTF_RenderText_Shaded(fuente,"B", color_fuente ,color_fondo);
+						SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+						SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+						texto=TTF_RenderText_Shaded(fuente,"B", color_fuente ,color_fondo);
+						SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+						SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+						fila=fila+44;
+					}else{
+						if(j==2){
+							texto=TTF_RenderText_Shaded(fuente,"C", color_fuente ,color_fondo);
+							SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+							SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+							texto=TTF_RenderText_Shaded(fuente,"C", color_fuente ,color_fondo);
+							SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+							SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+							fila=fila+44;
+						}else{
+							if(j==3){
+								texto=TTF_RenderText_Shaded(fuente,"D", color_fuente ,color_fondo);
+								SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+								SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+								texto=TTF_RenderText_Shaded(fuente,"D", color_fuente ,color_fondo);
+								SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+								SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+								fila=fila+44;
+							}else{
+								if(j==4){
+									texto=TTF_RenderText_Shaded(fuente,"E", color_fuente ,color_fondo);
+									SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+									SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+									texto=TTF_RenderText_Shaded(fuente,"E", color_fuente ,color_fondo);
+									SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+									SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+									fila=fila+44;
+								}else{
+									if(j==5){
+										texto=TTF_RenderText_Shaded(fuente,"F", color_fuente ,color_fondo);
+										SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+										SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+										texto=TTF_RenderText_Shaded(fuente,"F", color_fuente ,color_fondo);
+										SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+										SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+										fila=fila+44;
+									}else{
+										if(j==6){
+											texto=TTF_RenderText_Shaded(fuente,"G", color_fuente ,color_fondo);
+											SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+											SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+											texto=TTF_RenderText_Shaded(fuente,"G", color_fuente ,color_fondo);
+											SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+											SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+											fila=fila+44;
+										}else{
+											if(j==7){
+												texto=TTF_RenderText_Shaded(fuente,"H", color_fuente ,color_fondo);
+												SDL_Rect textLocation = { fila+tablero_x, tablero_y-43, 0, 0 };
+												SDL_BlitSurface(texto, NULL, screen, &textLocation);
+
+												texto=TTF_RenderText_Shaded(fuente,"H", color_fuente ,color_fondo);
+												SDL_Rect textLocation2 = { fila+tablero_x, tablero_y+360, 0, 0 };
+												SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+												fila=fila+44;
+											}	
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+	SDL_FreeSurface(texto);
+
 }
 
 void cargar_tablero_sdl(p (*m)[8]){
+
 	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
 	dest.x = tablero_x;
 	dest.y = tablero_y;
@@ -74,6 +252,9 @@ void cargar_tablero_sdl(p (*m)[8]){
 
 	SDL_BlitSurface(tablero, NULL, screen, &dest);
 
+	agregar_contorno();
+
+	agregar_referencia(m);
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
 			if(m[i][j].color=='w'){
@@ -261,4 +442,11 @@ void cargar_tablero_sdl(p (*m)[8]){
 	SDL_FreeSurface(Qb);
 	SDL_FreeSurface(Kb);
 
+}
+
+void liberar_memoria(){
+	void TTF_Quit(void);
+	TTF_CloseFont( texto );
+	TTF_Quit();
+	SDL_Quit();
 }
