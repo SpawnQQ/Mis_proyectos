@@ -7,11 +7,19 @@ SDL_Surface *tablero, *screen, *bloque;
 SDL_Surface *Pw, *Pb,*Rw,*Rb,*Nw,*Nb,*Bw,*Bb,*Qw,*Qb,*Kw,*Kb;
 SDL_Rect dest;
 SDL_Event event;
+SDL_Event tecla;
 int done = 0;
 Uint8 *keys;
 
 tablero_x=50;
 tablero_y=10;
+
+struct tipoFuente{
+  SDL_Surface *imagen;
+  int ancho, alto;
+  int anchoLetra, altoLetra;
+  int primeraLetra;
+} fuente;
 
 void inicio_SDL(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -28,6 +36,7 @@ void inicio_SDL(){
 	}
 
 	//peon = SDL_LoadBMP("imagenes/Reina4.bmp");
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
 	keys = SDL_GetKeyState(NULL);
 }
@@ -38,10 +47,28 @@ void inicio_SDL(){
 // (x,y)=
 // f(x,y)=x,44*n, si el primer n es 8  Para la columna, para la fila deberia ser similar
 
+int escribirLetra(int x, int y, char letra) {
+  SDL_Rect destino, origen; 
+  int fila, columna;
+  int letrasPorFila, letrasPorColumna;
+  
+  letrasPorFila = fuente.ancho/fuente.anchoLetra;
+  letrasPorColumna = fuente.alto/fuente.altoLetra;
+  fila = letra / letrasPorColumna;
+  columna = letra % letrasPorColumna;
+  origen.x = columna * fuente.anchoLetra;
+  origen.y = fila * fuente.altoLetra;
+  origen.w = 16;
+  origen.h = 16;
+  destino.x = x;
+  destino.y = y;
+  SDL_BlitSurface(fuente.imagen, &origen, screen, &destino);
+}
+
 void cargar_tablero_sdl(p (*m)[8]){
 	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
-	dest.x = 50;
-	dest.y = 10;
+	dest.x = tablero_x;
+	dest.y = tablero_y;
 	dest.w = tablero -> w;
 	dest.h = tablero -> h;
 
@@ -53,8 +80,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 				if(m[i][j].tipo_pieza.nombre=='P' ){
 					Pw=IMG_Load("imagenes/piezas/Pw.png");
 
-					dest.x = 50+(j*44);
-					dest.y = 8+(i*44);
+					dest.x = tablero_x+(j*44);
+					dest.y = (tablero_y-2)+(i*44);
 
 					dest.w = Pw -> w;
 					dest.h = Pw -> h;
@@ -65,8 +92,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 					if(m[i][j].tipo_pieza.nombre=='R' ){
 						Rw=IMG_Load("imagenes/piezas/Rw.png");
 
-						dest.x = 50+(j*44);
-						dest.y = 8+(i*44);
+						dest.x = tablero_x+(j*44);
+						dest.y = (tablero_y-2)+(i*44);
 
 						dest.w = Rw -> w;
 						dest.h = Rw -> h;
@@ -77,8 +104,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 						if(m[i][j].tipo_pieza.nombre=='N' ){
 							Nw=IMG_Load("imagenes/piezas/Nw.png");
 
-							dest.x = 50+(j*44);
-							dest.y = 8+(i*44);
+							dest.x = tablero_x+(j*44);
+							dest.y = (tablero_y-2)+(i*44);
 
 							dest.w = Nw -> w;
 							dest.h = Nw -> h;
@@ -89,8 +116,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 							if(m[i][j].tipo_pieza.nombre=='B' ){
 								Bw=IMG_Load("imagenes/piezas/Bw.png");
 
-								dest.x = 50+(j*44);
-								dest.y = 8+(i*44);
+								dest.x = tablero_x+(j*44);
+								dest.y = (tablero_y-2)+(i*44);
 
 								dest.w = Bw -> w;
 								dest.h = Bw -> h;
@@ -101,8 +128,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 								if(m[i][j].tipo_pieza.nombre=='Q' ){
 									Qw=IMG_Load("imagenes/piezas/Qw.png");
 
-									dest.x = 50+(j*44);
-									dest.y = 8+(i*44);
+									dest.x = tablero_x+(j*44);
+									dest.y = (tablero_y-2)+(i*44);
 
 									dest.w = Qw -> w;
 									dest.h = Qw -> h;
@@ -113,8 +140,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 									if(m[i][j].tipo_pieza.nombre=='K' ){
 										Kw=IMG_Load("imagenes/piezas/Kw.png");
 
-										dest.x = 50+(j*44);
-										dest.y = 8+(i*44);
+										dest.x = tablero_x+(j*44);
+										dest.y = (tablero_y-2)+(i*44);
 
 										dest.w = Kw -> w;
 										dest.h = Kw -> h;
@@ -132,8 +159,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 				if(m[i][j].tipo_pieza.nombre=='P' ){
 					Pb=IMG_Load("imagenes/piezas/Pb.png");
 
-					dest.x = 50+(j*44);
-					dest.y = 8+(i*44);
+					dest.x = tablero_x+(j*44);
+					dest.y = (tablero_y-2)+(i*44);
 
 					dest.w = Pb -> w;
 					dest.h = Pb -> h;
@@ -144,8 +171,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 					if(m[i][j].tipo_pieza.nombre=='R' ){
 						Rb=IMG_Load("imagenes/piezas/Rb.png");
 
-						dest.x = 50+(j*44);
-						dest.y = 8+(i*44);
+						dest.x = tablero_x+(j*44);
+						dest.y = (tablero_y-2)+(i*44);
 
 						dest.w = Rb -> w;
 						dest.h = Rb -> h;
@@ -156,8 +183,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 						if(m[i][j].tipo_pieza.nombre=='N' ){
 							Nb=IMG_Load("imagenes/piezas/Nb.png");
 
-							dest.x = 50+(j*44);
-							dest.y = 8+(i*44);
+							dest.x = tablero_x+(j*44);
+							dest.y = (tablero_y-2)+(i*44);
 
 							dest.w = Nb -> w;
 							dest.h = Nb -> h;
@@ -168,8 +195,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 							if(m[i][j].tipo_pieza.nombre=='B' ){
 								Bb=IMG_Load("imagenes/piezas/Bb.png");
 
-								dest.x = 50+(j*44);
-								dest.y = 8+(i*44);
+								dest.x = tablero_x+(j*44);
+								dest.y = (tablero_y-2)+(i*44);
 
 								dest.w = Bb -> w;
 								dest.h = Bb -> h;
@@ -180,8 +207,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 								if(m[i][j].tipo_pieza.nombre=='Q' ){
 									Qb=IMG_Load("imagenes/piezas/Qb.png");
 
-									dest.x = 50+(j*44);
-									dest.y = 8+(i*44);
+									dest.x = tablero_x+(j*44);
+									dest.y = (tablero_y-2)+(i*44);
 
 									dest.w = Qb -> w;
 									dest.h = Qb -> h;
@@ -192,8 +219,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 									if(m[i][j].tipo_pieza.nombre=='K' ){
 										Kb=IMG_Load("imagenes/piezas/Kb.png");
 
-										dest.x = 50+(j*44);
-										dest.y = 8+(i*44);
+										dest.x = tablero_x+(j*44);
+										dest.y = (tablero_y-2)+(i*44);
 
 										dest.w = Kb -> w;
 										dest.h = Kb -> h;
@@ -210,6 +237,16 @@ void cargar_tablero_sdl(p (*m)[8]){
 		}
 	}
 	SDL_Flip (screen);
+
+	while(SDL_PollEvent(&tecla)){
+		if(tecla.type == SDL_QUIT){ exit(0);}
+		if(tecla.type ==SDL_KEYDOWN){
+			if(tecla.key.keysym.sym == SDLK_ESCAPE){
+				exit(0);
+			}
+		}
+	}
+
 	SDL_FreeSurface(tablero);
 	SDL_FreeSurface(Pw);
 	SDL_FreeSurface(Rw);
@@ -223,4 +260,5 @@ void cargar_tablero_sdl(p (*m)[8]){
 	SDL_FreeSurface(Bb);
 	SDL_FreeSurface(Qb);
 	SDL_FreeSurface(Kb);
+
 }
