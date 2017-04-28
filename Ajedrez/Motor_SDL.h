@@ -15,7 +15,7 @@ TTF_Font *fuente;
 SDL_Surface *texto = NULL;
 SDL_Surface *texto_dos = NULL;
 SDL_Color color_fuente = {0, 0, 0};
-SDL_Color color_fondo = { 255, 255, 255 };
+SDL_Color color_fondo = { 189,189,189};
 
 tablero_x=50;
 tablero_y=50;
@@ -34,8 +34,10 @@ void inicio_SDL(){
 		exit(1);
 	}
 
+	SDL_WM_SetCaption("Ajedrez 1.0v","Ajedrez 1.0v");
+
 	//peon = SDL_LoadBMP("imagenes/Reina4.bmp");
-	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 189,189,189));
 
 	TTF_Init();
 
