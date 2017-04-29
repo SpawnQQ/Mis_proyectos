@@ -27,30 +27,36 @@ void movimientos_historial(int turno,char inicio_mov[2],char final_mov[2],char p
 void guardar_partida(p (*m)[8], int turno){
 	FILE *fp;
 	fp = fopen ( "partida_guardada.txt", "w+" );
-	fprintf(fp,"%i\n",turno);
+	fprintf(fp,"%d\n",turno);
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
 			if(i==0 && j==0){
-				fprintf(fp, "%c%c %i%i %d",m[i][j].tipo_pieza.nombre,m[i][j].color,i, j,m[i][j].primer_turno);
+				fprintf(fp, "%c%c %d%d %d",m[i][j].tipo_pieza.nombre,m[i][j].color,i, j,m[i][j].primer_turno);
 			}else{
-				fprintf(fp, "\n%c%c %i%i %d",m[i][j].tipo_pieza.nombre,m[i][j].color,i, j,m[i][j].primer_turno);
+				fprintf(fp, "\n%c%c %d%d %d",m[i][j].tipo_pieza.nombre,m[i][j].color,i, j,m[i][j].primer_turno);
 			}
 		}
 	}
 	fclose ( fp );
 }
 
-void cargar_partida(p (*m)[8]){
+void cargar_partida(p (*m)[8], int turno[]){
 	FILE *fp;
+	char posicion_uno,posicion_dos,turno_pieza;
 	fp = fopen ( "partida_guardada.txt", "r" );
-	if( fp )
+	if( fp ){
       printf( "Cargando...\n" );
-   	else{
+	}else{
    		printf( "Error, no existe ninguna partida guardada\n" );
    	}
+   	fscanf( fp,"%d\n",&turno[0]);
    	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
-			fscanf( fp, "%c%c %i%i %d\n",m[i][j].tipo_pieza.nombre,m[i][j].color,m[i][j].tipo_pieza.posicion[0], m[i][j].tipo_pieza.posicion[1],m[i][j].primer_turno);
+			fscanf( fp, "%c%c %c%c %c\n",&m[i][j].tipo_pieza.nombre,&m[i][j].color, &posicion_uno, &posicion_dos, &turno_pieza);
+			m[i][j].tipo_pieza.posicion[0]=(int) posicion_uno;
+			m[i][j].tipo_pieza.posicion[1]=(int) posicion_dos;
+			m[i][j].primer_turno=(int) turno_pieza;
+			m[i][j].primer_turno=m[i][j].primer_turno-48;
 		}
 	}
 	fclose ( fp );

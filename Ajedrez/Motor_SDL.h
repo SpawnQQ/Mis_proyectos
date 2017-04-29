@@ -258,7 +258,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 
 	agregar_contorno();
 
-	agregar_referencia(m);
+	//agregar_referencia(m);
+	
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
 			if(m[i][j].color=='w'){
@@ -458,7 +459,71 @@ int x = 0, y = 0;
 					x = event.button.x;
 					y = event.button.y;
 					//Revisa que el mouse aun este dentro del area designada como nuestro boton
-					printf("%i, %i\n", x,y);
+
+					if((y >= tablero_y && y < tablero_y+44) && (x >=tablero_x && x <=tablero_x+352)){
+						posicion[0]='8';		
+					}else{
+						if((y >= tablero_y+44 && y < tablero_y+(44*2))&& (x >=tablero_x && x <=tablero_x+352)){
+							posicion[0]='7';
+						}else{
+							if((y >= tablero_y+(44*2) && y < tablero_y+(44*3))&& (x >=tablero_x && x <=tablero_x+352)){
+								posicion[0]='6';
+							}else{
+								if((y >= tablero_y+(44*3) && y < tablero_y+(44*4)) && (x >=tablero_x && x <=tablero_x+352)){
+									posicion[0]='5';
+								}else{
+									if((y >= tablero_y+(44*4) && y < tablero_y+(44*5))&& (x >=tablero_x && x <=tablero_x+352)){
+										posicion[0]='4';
+									}else{
+										if((y >= tablero_y+(44*5) && y < tablero_y+(44*6))&& (x >=tablero_x && x <=tablero_x+352)){
+											posicion[0]='3';				
+										}else{
+											if((y >= tablero_y+(44*6) && y < tablero_y+(44*7))&& (x >=tablero_x && x <=tablero_x+352)){
+												posicion[0]='2';					
+											}else{
+												if((y >= tablero_y+(44*7) && y <= tablero_y+(44*8))&& (x >=tablero_x && x <=tablero_x+352)){
+													posicion[0]='1';			
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if((x >= tablero_x && x < tablero_x+44) && (y >=tablero_y && y <=tablero_y+352)){
+						posicion[1]='a';			
+					}else{
+						if((x >= tablero_x+44 && x < tablero_x+(44*2)) && (y >=tablero_y && y <=tablero_y+352)){
+							posicion[1]='b';
+						}else{
+							if((x >= tablero_x+(44*2) && x < tablero_x+(44*3))&& (y >=tablero_y && y <=tablero_y+352)){
+								posicion[1]='c';
+							}else{
+								if((x >= tablero_x+(44*3) && x < tablero_x+(44*4))&& (y >=tablero_y && y <=tablero_y+352)){
+									posicion[1]='d';
+								}else{
+									if((x >= tablero_x+(44*4) && x < tablero_x+(44*5))&& (y >=tablero_y && y <=tablero_y+352)){
+										posicion[1]='e';
+									}else{
+										if((x >= tablero_x+(44*5) && x < tablero_x+(44*6))&& (y >=tablero_y && y <=tablero_y+352)){
+											posicion[1]='f';				
+										}else{
+											if((x >= tablero_x+(44*6) && x < tablero_x+(44*7))&& (y >=tablero_y && y <=tablero_y+352)){
+												posicion[1]='g';
+											}else{
+												if((x >= tablero_x+(44*7) && x <= tablero_x+(44*8))&& (y >=tablero_y && y <=tablero_y+352)){
+													posicion[1]='h';
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					salir=1;
 				}
 			}
 

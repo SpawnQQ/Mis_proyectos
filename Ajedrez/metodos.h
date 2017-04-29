@@ -4,48 +4,48 @@
 #define ESCAPE 27 
 
 typedef struct pieza p;
-void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,int posicion_1,int posicion_2);
+void matriz_setPieza( p (*m)[8],int i, int j,char color, int turno,char nombre,int posicion_1,int posicion_2);
 
 void tablero_inicio(p (*m)[8]){
 	for(int i=0;i<8;i++){
 		for(int j=0;j<8;j++){
 			if(i==1){
-				matriz_setPieza(m,i,j,'b',true,'P',i,j);
+				matriz_setPieza(m,i,j,'b',1,'P',i,j);
 			}else{
 				if(i==6){
-					matriz_setPieza(m,i,j,'w',true,'P',i,j);	
+					matriz_setPieza(m,i,j,'w',1,'P',i,j);	
 				}else{
 					if(i==0 && (j==0 || j==7)){
-						matriz_setPieza(m,i,j,'b',true,'R',i,j);					
+						matriz_setPieza(m,i,j,'b',1,'R',i,j);					
 					}else{
 						if(i==7 && (j==0 || j==7)){
-							matriz_setPieza(m,i,j,'w',true,'R',i,j);
+							matriz_setPieza(m,i,j,'w',1,'R',i,j);
 						}else{
 							if(i==0 && (j==1 || j==6)){
-								matriz_setPieza(m,i,j,'b',true,'N',i,j);
+								matriz_setPieza(m,i,j,'b',1,'N',i,j);
 							}else{
 								if(i==7 && (j==1 || j==6)){
-									matriz_setPieza(m,i,j,'w',true,'N',i,j);
+									matriz_setPieza(m,i,j,'w',1,'N',i,j);
 								}else{
 									if(i==0 && (j==2 || j==5)){
-										matriz_setPieza(m,i,j,'b',true,'B',i,j);
+										matriz_setPieza(m,i,j,'b',1,'B',i,j);
 									}else{
 										if(i==7 && (j==2 || j==5)){
-											matriz_setPieza(m,i,j,'w',true,'B',i,j);
+											matriz_setPieza(m,i,j,'w',1,'B',i,j);
 										}else{
 											if(i==0 && j==3){
-												matriz_setPieza(m,i,j,'b',true,'Q',i,j);
+												matriz_setPieza(m,i,j,'b',1,'Q',i,j);
 											}else{
 												if(i==0 && j==4){
-													matriz_setPieza(m,i,j,'b',true,'K',i,j);
+													matriz_setPieza(m,i,j,'b',1,'K',i,j);
 												}else{
 													if(i==7 && j==3){
-														matriz_setPieza(m,i,j,'w',true,'Q',i,j);
+														matriz_setPieza(m,i,j,'w',1,'Q',i,j);
 													}else{
 														if(i==7 && j==4){
-															matriz_setPieza(m,i,j,'w',true,'K',i,j);
+															matriz_setPieza(m,i,j,'w',1,'K',i,j);
 														}else{
-															matriz_setPieza(m,i,j,'V',false,'V',i,j);
+															matriz_setPieza(m,i,j,'V',0,'V',i,j);
 														}						
 													}
 												}
@@ -65,7 +65,7 @@ void tablero_inicio(p (*m)[8]){
 }
 
 //Funcion para cambiar el valor de una casilla de la matriz
-void matriz_setPieza( p (*m)[8],int i, int j,char color, bool turno,char nombre,int posicion_1,int posicion_2){
+void matriz_setPieza( p (*m)[8],int i, int j,char color, int turno,char nombre,int posicion_1,int posicion_2){
 	m[i][j].color=color;
 	m[i][j].primer_turno=turno;
 	m[i][j].tipo_pieza.nombre=nombre;
@@ -119,57 +119,82 @@ void mostrar_tablero(p (*m)[8]){
 	printf("   a  b  c  d  e  f  g  h\n");
 }
 
-void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
+void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 	p respaldo[8][8];
+	int cantidad_turnos=turnos[0];
 	cantidad_turnos++;
 	char seleccion_pieza[2];
 	char posicion[2];
 	char pieza_mov[2];
 	char pieza_remov[2];
 	int mov_permitido=1;
+	int conocer_jaque;
 
 	//Sabemos el jugador, dividiendo la cantidad de turnos por 2, asi sabemos si el turno es par o impar
 	int jugador=cantidad_turnos%2;
 	//Iniciamos la partida
 	cargar_tablero_sdl(m);
 	while(termino_partida==0){
+		conocer_jaque=0;
 		actualizar_PAP(cantidad_turnos,m);
 		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
+			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
 				termino_partida=1;
 				goto fin_partida;
-			}else{
+			}else{ 
 				printf("Tu rey esta en jaque!!\n");
 			}
 		}
+		if(cantidad_turnos%2!=0 && conocer_jaque==0){
+			SDL_WM_SetCaption("Turno de las blancas","Ajedrez 1.0v");
+		}else{
+			if(cantidad_turnos%2==0 && conocer_jaque==0){
+				SDL_WM_SetCaption("Turno de las negras","Ajedrez 1.0v");
+			}else{
+				if(cantidad_turnos%2!=0 && conocer_jaque==1){
+					SDL_WM_SetCaption("¡El rey blanco esta en jaque!","Ajedrez 1.0v");
+				}else{
+					if(cantidad_turnos%2==0 && conocer_jaque==1){
+						SDL_WM_SetCaption("¡El rey negro esta en jaque!","Ajedrez 1.0v");
+					}
+				}
+			}
+			
+		}
+		
+		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 		lectura_datos(seleccion_pieza);
-		//printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 		//scanf("\n%s", &seleccion_pieza);
-		//system("clear");
+		////system("clear");
 		input(seleccion_pieza);
 		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
 			printf("Error de tipeo, porfavor seleccione nuevamente\n");
 			cargar_tablero_sdl(m);
 		}else{
 			if(mover_restringido(seleccion_pieza,m)==0){
+				printf("Erro 3\n");
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
 				cargar_tablero_sdl(m);
 			}else{
+				printf("Erro 4\n");
 				int inicio_fila=transformar_num(seleccion_pieza[0]);
 				int inicio_columna=transformar_num(seleccion_pieza[1]);
 				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
 				if(jaque_elegir(cantidad_turnos,inicio_fila,inicio_columna,m)==0){
+					printf("Erro 5\n");
 					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 					cargar_tablero_sdl(m);
 				}else{
-
+					printf("Erro 6\n");
 					//Este while, sirve para verificar que el movimiento ingresado sea correcto
 					do{
 
 						cargar_tablero_sdl(m);
-						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
-						scanf("%s", &posicion);
+						printf("Erro 7\n");
+						//printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
+						lectura_datos(posicion);
 						input(posicion);
 						if(validacion_entrada(posicion)==1){
 							int destino_fila=transformar_num(posicion[0]);
@@ -189,26 +214,28 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 								//Si el movimiento es permitido
 								if(jaque(cantidad_turnos,m)){
 									//Verificamos si el movimiento efectuado deja vulnerable al rey
-									system("clear");
+									//system("clear");
 									respaldar_tablero(m,respaldo);
 									printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 									mov_permitido=0;
 								}else{
 									promocion_peon(destino_fila,destino_columna,respaldo,m);
-									system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
+									//Aca va la funcion del sonido
+									//system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
 									movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
 									cantidad_turnos++;
 									jugador=cantidad_turnos%2;
-									system("clear");
-									cargar_tablero_sdl(m);	
+									//system("clear");
+									cargar_tablero_sdl(m);
+									printf("Error 1\n");
 								}
 								
 							}else{
-								system("clear");
+								//system("clear");
 								printf("Movimiento no permitido\n");
 							}
 						}else{
-							system("clear");
+							//system("clear");
 							printf("Movimiento no permitido\n");
 							mov_permitido=0;
 						}	
@@ -225,11 +252,16 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int cantidad_turnos){
 	}
 }
 
-void inicio_partida(p (*m)[8],int termino_partida, int turno){
+void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	tablero_inicio(m);
 	desarrollo_partida(m,termino_partida, turno);
 }
 
+void continuar_partida(p (*m)[8],int termino_partida, int turno[]){
+	cargar_partida(m,turno);
+	turno[0]--;
+	desarrollo_partida(m,termino_partida, turno);
+}
 int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 	int i_posicion=transformar_num(seleccion[0]);
 	int j_posicion=transformar_num(seleccion[1]);
@@ -356,7 +388,7 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 									m[destino_fila][destino_columna].tipo_pieza.nombre='R';
 									aux=1;
 								}else{
-									system("clear");
+									//system("clear");
 									printf("Error, porfavor ingrese una pieza valida.\n");
 									cargar_tablero_sdl(respaldo);
 								}
@@ -387,7 +419,7 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 									m[destino_fila][destino_columna].tipo_pieza.nombre='R';
 									aux=1;
 								}else{
-									system("clear");
+									//system("clear");
 									printf("Error, porfavor ingrese una pieza valida.\n");
 									cargar_tablero_sdl(respaldo);
 								}
