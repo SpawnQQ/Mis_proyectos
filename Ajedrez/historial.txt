@@ -1,8 +1,3 @@
 Historial de movimientos
-1 select(Nw) 1g goto 3h
-2 select(Nb) 8b goto 6a
-3 select(Nw) 3h goto 5g
-4 select(Nb) 6a goto 4b
-5 select(Nw) 5g goto 6e
-6 select(Nb) 4b goto 5d
-7 select(Nw) 6e goto 8d remove(Qb)
+1 select(Pw) 2a goto 4a
+2 select(Nb) 8g goto 6h
