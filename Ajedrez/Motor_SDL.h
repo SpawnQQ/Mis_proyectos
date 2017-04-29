@@ -58,6 +58,77 @@ void agregar_contorno(){
 	lineRGBA(screen, tablero_x, tablero_y+352, tablero_x+352, tablero_y+352, 0, 0, 0, 255);
 }
 
+void contorno_unico(char a, char b){
+	int x,y;
+	if(a=='8' ){
+		y=tablero_y;
+	}else{
+		if(a=='7' ){
+			y=tablero_y+44;
+		}else{
+			if(a=='6' ){
+				y=tablero_y+(44*2);
+			}else{
+				if(a=='5' ){
+					y=tablero_y+(44*3);
+				}else{
+					if(a=='4' ){
+						y=tablero_y+(44*4);	
+					}else{
+						if(a=='3' ){
+							y=tablero_y+(44*5);
+						}else{
+							if(a=='2' ){
+								y=tablero_y+(44*6);
+							}else{
+								if(a=='1' ){
+									y=tablero_y+(44*7);								
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if(b=='a' ){
+		x=tablero_x;
+	}else{
+		if(b=='b' ){
+			x=tablero_x+44;
+		}else{
+			if(b=='c' ){
+				x=tablero_x+(44*2);
+			}else{
+				if(b=='d' ){
+					x=tablero_x+(44*3);
+				}else{
+					if(b=='e' ){
+						x=tablero_x+(44*4);	
+					}else{
+						if(b=='f' ){
+							x=tablero_x+(44*5);
+						}else{
+							if(b=='g' ){
+								x=tablero_x+(44*6);
+							}else{
+								if(b=='h' ){
+									x=tablero_x+(44*7);								
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	lineRGBA(screen, x, y, x+44, y, 0, 0, 255, 255);
+	lineRGBA(screen, x, y, x, y+44, 0, 0, 255, 255);
+	lineRGBA(screen, x+44, y, x+44, y+44, 0, 0, 255, 255);
+	lineRGBA(screen, x, y+44, x+44, y+44, 0, 0, 255, 255);
+	SDL_Flip (screen);
+}
+
 void agregar_referencia(p (*m)[8]){
 	int fila=14	,columna=0;
 	fuente=TTF_OpenFont( "fuentes/pixel.ttf", 40 );

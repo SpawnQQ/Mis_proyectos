@@ -178,7 +178,6 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
 				cargar_tablero_sdl(m);
 			}else{
-				printf("Erro 4\n");
 				int inicio_fila=transformar_num(seleccion_pieza[0]);
 				int inicio_columna=transformar_num(seleccion_pieza[1]);
 				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
@@ -187,12 +186,10 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 					cargar_tablero_sdl(m);
 				}else{
-					printf("Erro 6\n");
 					//Este while, sirve para verificar que el movimiento ingresado sea correcto
 					do{
-
 						cargar_tablero_sdl(m);
-			
+						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						lectura_datos(posicion);
 						input(posicion);
