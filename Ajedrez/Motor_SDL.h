@@ -273,6 +273,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 					dest.h = Pw -> h;
 
 					SDL_BlitSurface(Pw, NULL, screen, &dest);
+					SDL_FreeSurface(Pw);
 					
 				}else{
 					if(m[i][j].tipo_pieza.nombre=='R' ){
@@ -285,7 +286,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 						dest.h = Rw -> h;
 
 						SDL_BlitSurface(Rw, NULL, screen, &dest);
-						
+						SDL_FreeSurface(Rw);
 					}else{
 						if(m[i][j].tipo_pieza.nombre=='N' ){
 							Nw=IMG_Load("imagenes/piezas/Nw.png");
@@ -297,6 +298,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 							dest.h = Nw -> h;
 
 							SDL_BlitSurface(Nw, NULL, screen, &dest);
+							SDL_FreeSurface(Nw);
 							
 						}else{
 							if(m[i][j].tipo_pieza.nombre=='B' ){
@@ -309,6 +311,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 								dest.h = Bw -> h;
 
 								SDL_BlitSurface(Bw, NULL, screen, &dest);
+								SDL_FreeSurface(Bw);
 								
 							}else{
 								if(m[i][j].tipo_pieza.nombre=='Q' ){
@@ -321,6 +324,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 									dest.h = Qw -> h;
 
 									SDL_BlitSurface(Qw, NULL, screen, &dest);
+									SDL_FreeSurface(Qw);
 									
 								}else{
 									if(m[i][j].tipo_pieza.nombre=='K' ){
@@ -333,6 +337,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 										dest.h = Kw -> h;
 
 										SDL_BlitSurface(Kw, NULL, screen, &dest);
+										SDL_FreeSurface(Kw);
 										
 									}
 								}
@@ -352,6 +357,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 					dest.h = Pb -> h;
 
 					SDL_BlitSurface(Pb, NULL, screen, &dest);
+					SDL_FreeSurface(Pb);
 									
 				}else{
 					if(m[i][j].tipo_pieza.nombre=='R' ){
@@ -364,6 +370,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 						dest.h = Rb -> h;
 
 						SDL_BlitSurface(Rb, NULL, screen, &dest);
+						SDL_FreeSurface(Rb);
 												
 					}else{
 						if(m[i][j].tipo_pieza.nombre=='N' ){
@@ -375,7 +382,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 							dest.w = Nb -> w;
 							dest.h = Nb -> h;
 
-							SDL_BlitSurface(Nb, NULL, screen, &dest);							
+							SDL_BlitSurface(Nb, NULL, screen, &dest);
+							SDL_FreeSurface(Nb);						
 							
 						}else{
 							if(m[i][j].tipo_pieza.nombre=='B' ){
@@ -388,6 +396,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 								dest.h = Bb -> h;
 
 								SDL_BlitSurface(Bb, NULL, screen, &dest);
+								SDL_FreeSurface(Bb);
 															
 							}else{
 								if(m[i][j].tipo_pieza.nombre=='Q' ){
@@ -399,7 +408,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 									dest.w = Qb -> w;
 									dest.h = Qb -> h;
 
-									SDL_BlitSurface(Qb, NULL, screen, &dest);									
+									SDL_BlitSurface(Qb, NULL, screen, &dest);
+									SDL_FreeSurface(Qb);									
 									
 								}else{
 									if(m[i][j].tipo_pieza.nombre=='K' ){
@@ -412,6 +422,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 										dest.h = Kb -> h;
 
 										SDL_BlitSurface(Kb, NULL, screen, &dest);
+										SDL_FreeSurface(Kb);
 																		
 									}
 								}
@@ -424,7 +435,9 @@ void cargar_tablero_sdl(p (*m)[8]){
 	}
 	SDL_Flip (screen);
 
+	
 	SDL_FreeSurface(tablero);
+	/*
 	SDL_FreeSurface(Pw);
 	SDL_FreeSurface(Rw);
 	SDL_FreeSurface(Nw);
@@ -437,6 +450,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 	SDL_FreeSurface(Bb);
 	SDL_FreeSurface(Qb);
 	SDL_FreeSurface(Kb);
+	*/	
 
 }
 
@@ -449,6 +463,8 @@ void liberar_memoria(){
 void lectura_datos(char posicion[2]){
 int salir=0;
 int x = 0, y = 0;
+posicion[0]='1';
+posicion[1]='1';
 	while(salir==0){
 		if(SDL_PollEvent(&event)){
 
@@ -492,19 +508,19 @@ int x = 0, y = 0;
 						}
 					}
 
-					if((x >= tablero_x && x < tablero_x+44) && (y >=tablero_y && y <=tablero_y+352)){
+					if(((x >= tablero_x) && (x < tablero_x+44)) && ((y >=tablero_y) && (y <=tablero_y+352))){
 						posicion[1]='a';			
 					}else{
-						if((x >= tablero_x+44 && x < tablero_x+(44*2)) && (y >=tablero_y && y <=tablero_y+352)){
+						if(((x >= tablero_x+44) && (x < tablero_x+(44*2))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 							posicion[1]='b';
 						}else{
-							if((x >= tablero_x+(44*2) && x < tablero_x+(44*3))&& (y >=tablero_y && y <=tablero_y+352)){
+							if(((x >= tablero_x+(44*2)) && (x < tablero_x+(44*3))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 								posicion[1]='c';
 							}else{
-								if((x >= tablero_x+(44*3) && x < tablero_x+(44*4))&& (y >=tablero_y && y <=tablero_y+352)){
+								if(((x >= tablero_x+(44*3)) && (x < tablero_x+(44*4))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 									posicion[1]='d';
 								}else{
-									if((x >= tablero_x+(44*4) && x < tablero_x+(44*5))&& (y >=tablero_y && y <=tablero_y+352)){
+									if((x >= tablero_x+(44*4) && x < tablero_x+(44*5)) && (y >=tablero_y && y <=tablero_y+352)){
 										posicion[1]='e';
 									}else{
 										if((x >= tablero_x+(44*5) && x < tablero_x+(44*6))&& (y >=tablero_y && y <=tablero_y+352)){

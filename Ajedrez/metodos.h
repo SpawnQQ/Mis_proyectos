@@ -174,7 +174,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 			cargar_tablero_sdl(m);
 		}else{
 			if(mover_restringido(seleccion_pieza,m)==0){
-				printf("Erro 3\n");
+
 				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
 				cargar_tablero_sdl(m);
 			}else{
@@ -183,7 +183,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 				int inicio_columna=transformar_num(seleccion_pieza[1]);
 				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
 				if(jaque_elegir(cantidad_turnos,inicio_fila,inicio_columna,m)==0){
-					printf("Erro 5\n");
+
 					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
 					cargar_tablero_sdl(m);
 				}else{
@@ -192,8 +192,8 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 					do{
 
 						cargar_tablero_sdl(m);
-						printf("Erro 7\n");
-						//printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
+			
+						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						lectura_datos(posicion);
 						input(posicion);
 						if(validacion_entrada(posicion)==1){
@@ -227,7 +227,7 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 									jugador=cantidad_turnos%2;
 									//system("clear");
 									cargar_tablero_sdl(m);
-									printf("Error 1\n");
+
 								}
 								
 							}else{
