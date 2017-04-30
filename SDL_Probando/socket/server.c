@@ -24,6 +24,8 @@ int main(int argc, char **argv){
 
   //Declaramos una variable que contendrá los mensajes que recibamos
   char buffer[100];
+
+  //transforma un string a entero
   puerto = atoi(argv[1]);
 
   //creamos el socket
@@ -38,6 +40,9 @@ int main(int argc, char **argv){
 
   //esta macro especifica nuestra dirección
   servidor.sin_addr.s_addr = INADDR_ANY; 
+
+  //Guardamos la direccion ip
+  const char * ip_servidor=inet_ntoa(servidor.sin_addr);
 
   //asignamos un puerto al socket
   if(bind(conexion_servidor, (struct sockaddr *)&servidor, sizeof(servidor)) < 0){ 
@@ -72,7 +77,7 @@ int main(int argc, char **argv){
     close(conexion_servidor);
     return 1;
   }else{
-    printf("%s\n", buffer);
+    printf("%s %s\n", buffer,ip_servidor);
   }
 
   bzero((char *)&buffer, sizeof(buffer));
@@ -80,7 +85,7 @@ int main(int argc, char **argv){
   printf("Escribe un mensaje: ");
   fgets(buffer, 100, stdin);
   send(conexion_cliente, buffer, 100, 0);
-  
+
   close(conexion_servidor);
   return 0;
 }

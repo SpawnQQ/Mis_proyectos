@@ -5,7 +5,13 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_net.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <socket_sdl.h>
+
 
 #define WIDTH 800
 #define HEIGHT 700
@@ -31,8 +37,8 @@ struct nave{
 } minave;
 
 int main(){
-
-
+	char buffer;
+/*
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 	    printf("No se ha podido iniciar SDL: %s\n", SDL_GetError());
@@ -72,8 +78,22 @@ int main(){
 
    	//SDL_Rect textLocation = { 100, 100, 0, 0 };
    	lineRGBA(screen, 20, 10, 70, 90, 255, 0, 0, 255);
+*/
+	//SDL_Flip(screen);
+	printf("Desea ser servidor o cliente? ");
+	scanf("\n%c", &buffer);
+	if(buffer=='s'){
+		create_server();
+	}else{
+		conect_server();
+	}
 
-	SDL_Flip(screen);
-
+	while(1){
+		if(buffer=='s'){
+			server_socket();
+		}else{
+			client_socket();
+		}
+	}
 	return 0;
 }
