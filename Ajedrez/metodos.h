@@ -359,6 +359,8 @@ void respaldar_tablero(p (*respaldo)[8],p (*m)[8]){
 	}	
 }
 
+//Promocion peon force que se convirtiera en reina, se planea crear una interfaz en sdl para que el usuario escoga pieza.
+
 void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*m)[8]){
 	if(m[destino_fila][destino_columna].tipo_pieza.nombre=='P' && (destino_fila==0 || destino_fila==7)){
 		char seleccion_pieza;
@@ -366,9 +368,11 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 		if(m[destino_fila][destino_columna].color=='w'){
 			if(destino_fila==0){
 				while(aux==0){
+					//promocion();
 					printf("Promocion de peon, escoga pieza: Q o q -Reina-, B o b -Alfil-, N o n -Caballo-, R o r -Torre-\n");
 					//Validar
-					scanf("\n%c", &seleccion_pieza);
+					seleccion_pieza='Q';
+					//scanf("\n%c", &seleccion_pieza);
 					if(seleccion_pieza=='Q' || seleccion_pieza=='q'){
 						m[destino_fila][destino_columna].tipo_pieza.nombre='Q';
 						aux=1;
@@ -397,9 +401,11 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 		}else{
 			if(destino_fila==7){
 				while(aux==0){
+
 					printf("Promocion de peon, escoga pieza: Q o q -Reina-, B o b -Alfil-, N o n -Caballo-, R o r -Torre-\n");
 					//Validar
-					scanf("\n%c", &seleccion_pieza);
+					seleccion_pieza='Q';
+					//scanf("\n%c", &seleccion_pieza);
 					if(seleccion_pieza=='Q' || seleccion_pieza=='q'){
 						m[destino_fila][destino_columna].tipo_pieza.nombre='Q';
 						aux=1;

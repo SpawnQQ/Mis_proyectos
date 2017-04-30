@@ -1,8 +1,8 @@
 void creacion_historial(){
-   FILE *fp;
-   fp = fopen ( "historial.txt", "w+" );
-   fprintf(fp, "Historial de movimientos");
-   fclose ( fp );
+	FILE *fp;
+	fp = fopen ( "historial.txt", "w+" );
+	fprintf(fp, "Historial de movimientos");
+	fclose ( fp );
 }
 
 void movimientos_historial(int turno,char inicio_mov[2],char final_mov[2],char pieza_mov[2],char pieza_remov[2]){
@@ -22,6 +22,13 @@ void movimientos_historial(int turno,char inicio_mov[2],char final_mov[2],char p
 		}
 	}
 	fclose ( fp );
+}
+
+void historial_algebraico(int turno, char color,char nombre,  char final_mov[2]){
+	FILE *fp;
+	fp = fopen ( "historial.txt", "a" );
+	
+	fclose ( fp );	
 }
 
 void guardar_partida(p (*m)[8], int turno){

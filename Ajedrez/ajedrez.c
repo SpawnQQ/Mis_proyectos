@@ -10,6 +10,7 @@
 #include <SDL/SDL_gfxPrimitives.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_net.h>
 #include <Motor_SDL.h>
 
 int main(){

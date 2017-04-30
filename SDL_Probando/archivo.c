@@ -4,6 +4,8 @@
 #include <SDL/SDL_gfxPrimitives.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_net.h>
+#include <socket_sdl.h>
 
 #define WIDTH 800
 #define HEIGHT 700
@@ -60,6 +62,7 @@ int main(){
    }
 
 	texto=TTF_RenderText_Shaded(fuente,"Hola tenemos problemas con las fuentes", color_fuente,color_fondo );
+	SDL_BlitSurface(texto, NULL, screen, NULL);
 
 	 if (texto == NULL)
    	{
@@ -72,28 +75,5 @@ int main(){
 
 	SDL_Flip(screen);
 
-	keys = SDL_GetKeyState(NULL);
-	 // Esperamos la pulsación de una tecla para salir 
-
-	if( evento.type == SDL_MOUSEBUTTONDOWN ){
-		//En caso de que el evento capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
-
-		if( evento.button.button == SDL_BUTTON_LEFT ){
-			x = evento.button.x;
-			y = evento.button.y;
-			//Revisa que el mouse aun este dentro del area designada como nuestro boton
-
-				if( ( x > caja.x ) && ( x < caja.x + caja.w ) && ( y > caja.y ) && ( y < caja.y + caja.h ) ){
-					seccion_caja = &seccion[ SECCION_MOUSE_PRESIONADO ];
-				}
-		}
-	}
-
-	while(done == 0){
-		while(SDL_PollEvent(&event)){
-			if(event.type == SDL_KEYDOWN) {done = 1;}
-		}
-
-}
 	return 0;
 }
