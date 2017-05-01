@@ -69,10 +69,10 @@ void create_server(){
 
 }
 
-void conect_server(){
+void conect_server(char direccion[15]){
 
 	//Asignacion
-	conectando_servidor = gethostbyname("127.0.0.1");
+	conectando_servidor = gethostbyname(direccion);
 
 	//Comprobación
 	if(conectando_servidor == NULL){

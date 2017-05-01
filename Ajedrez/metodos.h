@@ -253,14 +253,16 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 //################################################### Desarollo del juego ###################################################
 
 void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
-
+	char direccion[15];
 	char buffer;
 	printf("Desea ser servidor o cliente? ");
 	scanf("\n%c", &buffer);
 	if(buffer=='s'){
 		create_server();
 	}else{
-		conect_server();
+		printf("Porfavor ingrese direccion\n");
+		scanf("\n%s", &direccion);
+		conect_server(direccion);
 	}
 
 	p respaldo[8][8];
