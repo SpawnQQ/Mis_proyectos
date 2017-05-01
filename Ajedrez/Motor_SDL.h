@@ -558,8 +558,7 @@ void liberar_memoria(){
 void lectura_datos(char posicion[2]){
 int salir=0;
 int x = 0, y = 0;
-posicion[0]='1';
-posicion[1]='1';
+
 	while(salir==0){
 		if(SDL_PollEvent(&event)){
 

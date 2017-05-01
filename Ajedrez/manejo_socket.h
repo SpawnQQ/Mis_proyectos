@@ -2,10 +2,7 @@
 #include <stdlib.h>
 
 #define PORT 5000
-#define BLOCK 1024
 const char * ip_servidor;
-
-const char * DATOS=".txt";
 
 int puerto;
 
@@ -23,20 +20,6 @@ struct sockaddr_in cliente;
 //Declaración de la estructura con información del host
 struct hostent *conectando_servidor;
 int  conexion;
-
-
-int sockfd, bytenumero;
-int sin_size, confd;
-long bff, erecv;
-char buf[1024];
-
-int leido;
-int ienv;
-long siz;
-struct hostent *he;
-
-char bff[5];
-char bufer[1024];
 
 
 void create_server(){
@@ -86,7 +69,6 @@ void create_server(){
 
 }
 
-
 void conect_server(){
 
 	//Asignacion
@@ -127,108 +109,37 @@ void conect_server(){
 	}
 }
 
-void client_socket(){
-
+void client_socket(char datos[2]){
 
 	//inet_ntoa(); está definida en <arpa/inet.h>
 	printf("Conectado con %s:%d\n",inet_ntoa(cliente.sin_addr),htons(cliente.sin_port));
-	printf("Escribe un mensaje: ");
+	printf("Escribe un mensaje: \n");
 	
-	scanf("\n%s", &buffer);
+	lectura_datos(datos);
 	//envio
-	send(conexion, buffer, 100, 0);
-	bzero(buffer, 100);
+	send(conexion, datos, 2, 0);
+	bzero(datos, 2);
 
 	//recepción
-	recv(conexion, buffer, 100, 0);
-	printf("%s\n", buffer);
+	recv(conexion, datos, 2, 0);
+	printf("%s\n", datos);
 }
 
-void server_socket(){
-
+void server_socket(char datos[2]){
 	//Comenzamos a recibir datos del cliente
-	if(recv(conexion_cliente, buffer, 100, 0) < 0){
+	if(recv(conexion_cliente, datos, 2, 0) < 0){
 
 	//Si recv() recibe 0 el cliente ha cerrado la conexion. Si es menor que 0 ha habido algún error.
 	printf("Error al recibir los datos\n");
 	close(conexion_servidor);
 	}else{
-	printf("%s\n", buffer);
+	printf("%s\n", datos);
 	}
 
-	bzero((char *)&buffer, sizeof(buffer));
-
-	printf("Escribe un mensaje: ");
-	scanf("\n%s", &buffer);
-	send(conexion_cliente, buffer, 100, 0);
-
+	bzero((char *)&datos, sizeof(datos));
+	printf("Escribe un mensaje: \n");
+	lectura_datos(datos);
+	send(conexion_cliente, datos, 2, 0);
 
 close(conexion_servidor);
-}
-
-void recv_client_server(){
-	sin_size = sizeof(struct sockaddr_in);
- 
-	conexion_cliente = accept(conexion_cliente, (struct sockaddr *)&host_servidor, &sin_size);
-	
-	recv(conexion_cliente, &bff, sizeof(long), 0);
-	
-	send(conexion_cliente, "listo", 5, 0);
-	
-	printf("%d", bff);
-	
-	FILE *flito = fopen("salida.txt", "wb");
-	
-	erecv = 0;
-	bytenumero = 0;
-	
-	while(erecv < bff){
-	   
-		bytenumero = recv(conexion_cliente, buf, sizeof(buf), 0);
-	    fwrite(buf, 1, bytenumero, flito);
-	   
-	    erecv = erecv + bytenumero;
-	    printf("%d", erecv);
-	    
-	}
-	 
-	 
-	fclose(flito);
-	close(conexion_cliente);
-}
-
-void send_client_server(){
-	FILE *pfile, *flista;
-
-	pfile = fopen("partida_guardada.txt", "rb");
-
-	fseek(pfile, 0, SEEK_END);
-	siz = ftell(pfile);
-	rewind(pfile);
-	
-	printf("%ld", siz);
- 
-	send(conexion, &siz, sizeof siz, 0);
-	
-	recv(conexion, bff, sizeof(bff), 0);
-	
-	printf("\n%s\n", bff);
-	
-	ienv = 0;
-	leido = 0;
-
-	
-	while(!feof(pfile)){
-	
-	leido = fread(bufer, 1, sizeof(bufer), pfile);
-	send(conexion, bufer, leido, 0);
-	ienv = ienv + leido;
-	
-	printf("%d", ienv);
-	
-  }
-  
-  
-  fclose(pfile);
-  close(conexion);
 }

@@ -119,7 +119,7 @@ void mostrar_tablero(p (*m)[8]){
 	printf("   a  b  c  d  e  f  g  h\n");
 }
 
-void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
+void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 	p respaldo[8][8];
 	int cantidad_turnos=turnos[0];
 	cantidad_turnos++;
@@ -249,15 +249,157 @@ void desarrollo_partida(p (*m)[8],int termino_partida, int turnos[]){
 	}
 }
 
+void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
+
+	char buffer;
+	printf("Desea ser servidor o cliente? ");
+	scanf("\n%c", &buffer);
+	if(buffer=='s'){
+		create_server();
+	}else{
+		conect_server();
+	}
+
+	p respaldo[8][8];
+	int cantidad_turnos=turnos[0];
+	cantidad_turnos++;
+	char seleccion_pieza[2];
+	char posicion[2];
+	char pieza_mov[2];
+	char pieza_remov[2];
+	int mov_permitido=1;
+	int conocer_jaque;
+
+	//Sabemos el jugador, dividiendo la cantidad de turnos por 2, asi sabemos si el turno es par o impar
+	int jugador=cantidad_turnos%2;
+	//Iniciamos la partida
+	cargar_tablero_sdl(m);
+	while(termino_partida==0){
+		conocer_jaque=0;
+		actualizar_PAP(cantidad_turnos,m);
+		guardar_partida(m,cantidad_turnos);
+		if(jaque(cantidad_turnos,m)){
+			conocer_jaque=1;
+			if(jaque_mate(cantidad_turnos,m)){
+				termino_partida=1;
+				goto fin_partida;
+			}else{ 
+				printf("Tu rey esta en jaque!!\n");
+			}
+		}
+		if(cantidad_turnos%2!=0 && conocer_jaque==0){
+			SDL_WM_SetCaption("Turno de las blancas","Ajedrez 1.0v");
+		}else{
+			if(cantidad_turnos%2==0 && conocer_jaque==0){
+				SDL_WM_SetCaption("Turno de las negras","Ajedrez 1.0v");
+			}else{
+				if(cantidad_turnos%2!=0 && conocer_jaque==1){
+					SDL_WM_SetCaption("¡El rey blanco esta en jaque!","Ajedrez 1.0v");
+				}else{
+					if(cantidad_turnos%2==0 && conocer_jaque==1){
+						SDL_WM_SetCaption("¡El rey negro esta en jaque!","Ajedrez 1.0v");
+					}
+				}
+			}
+			
+		}
+		
+		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
+
+		lectura_datos(seleccion_pieza);
+
+		//scanf("\n%s", &seleccion_pieza);
+		////system("clear");
+		input(seleccion_pieza);
+		if(verificacion_seleccion_pieza(m,seleccion_pieza,jugador)==0 ){
+			printf("Error de tipeo, porfavor seleccione nuevamente\n");
+			cargar_tablero_sdl(m);
+		}else{
+			if(mover_restringido(seleccion_pieza,m)==0){
+
+				printf("Pieza con movimiento restringido. Porfavor elegir otra\n");
+				cargar_tablero_sdl(m);
+			}else{
+				int inicio_fila=transformar_num(seleccion_pieza[0]);
+				int inicio_columna=transformar_num(seleccion_pieza[1]);
+				//jaque_elegir si retorna 0, no hay ningun movimiento de la pieza elejida que resguarde al rey
+				if(jaque_elegir(cantidad_turnos,inicio_fila,inicio_columna,m)==0){
+
+					printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
+					cargar_tablero_sdl(m);
+				}else{
+					//Este while, sirve para verificar que el movimiento ingresado sea correcto
+					do{
+						cargar_tablero_sdl(m);
+						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
+						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
+
+						lectura_datos(posicion);
+						input(posicion);
+						if(validacion_entrada(posicion)==1){
+							int destino_fila=transformar_num(posicion[0]);
+							int destino_columna=transformar_num(posicion[1]);
+						
+							pieza_mov[0]=m[inicio_fila][inicio_columna].tipo_pieza.nombre;
+							pieza_mov[1]=m[inicio_fila][inicio_columna].color;
+
+							pieza_remov[0]=m[destino_fila][destino_columna].tipo_pieza.nombre;
+							pieza_remov[1]=m[destino_fila][destino_columna].color;
+
+							respaldar_tablero(respaldo,m);
+
+							elegir_movimiento_pieza(inicio_fila,inicio_columna,destino_fila,destino_columna, m, &mov_permitido);
+							//Preguntamos si el movimiento es valido, no es valido, repetira la pregunta
+							if(mov_permitido==1){
+								//Si el movimiento es permitido
+								if(jaque(cantidad_turnos,m)){
+									//Verificamos si el movimiento efectuado deja vulnerable al rey
+									//system("clear");
+									respaldar_tablero(m,respaldo);
+									printf("Movimiento no permitido. No puedes dejar vulnerable a tu rey.\n");
+									mov_permitido=0;
+								}else{
+									promocion_peon(destino_fila,destino_columna,respaldo,m);
+									//Aca va la funcion del sonido
+									//system("/usr/bin/mpg123 -q /home/dahaka/Mis_proyectos/Ajedrez/tablero0.1.mp3");
+									movimientos_historial(cantidad_turnos,seleccion_pieza,posicion,pieza_mov,pieza_remov);
+									cantidad_turnos++;
+									jugador=cantidad_turnos%2;
+									//system("clear");
+									cargar_tablero_sdl(m);
+
+								}
+								
+							}else{
+								//system("clear");
+								printf("Movimiento no permitido\n");
+							}
+						}else{
+							//system("clear");
+							printf("Movimiento no permitido\n");
+							mov_permitido=0;
+						}	
+					}while(mov_permitido==0);
+				}
+			}
+		}
+	}
+	fin_partida: ;
+	if(cantidad_turnos%2!=0){
+		printf("Jaque mate. Jugador 1 derrotado!\n");
+	}else{
+		printf("Jaque mate. Jugador 2 derrotado!\n");
+	}
+}
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	tablero_inicio(m);
-	desarrollo_partida(m,termino_partida, turno);
+	desarrollo_partida_custom(m,termino_partida, turno);
 }
 
 void continuar_partida(p (*m)[8],int termino_partida, int turno[]){
 	cargar_partida(m,turno);
 	turno[0]--;
-	desarrollo_partida(m,termino_partida, turno);
+	desarrollo_partida_custom(m,termino_partida, turno);
 }
 int verificacion_seleccion_pieza(p (*m)[8], char seleccion[2],int jugador){
 	int i_posicion=transformar_num(seleccion[0]);

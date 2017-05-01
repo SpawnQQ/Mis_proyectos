@@ -38,6 +38,7 @@ struct nave{
 
 int main(){
 	char buffer;
+	int aux=0;
 /*
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -90,10 +91,12 @@ int main(){
 
 	while(1){
 		if(buffer=='s'){
-			server_socket();
+			lee_paquete();
 		}else{
-			client_socket();
+			envia_paquete();
 		}
+		printf("%i",aux);
+		aux++;
 	}
 	return 0;
 }
