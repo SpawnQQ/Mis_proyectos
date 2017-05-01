@@ -90,7 +90,7 @@ void create_server(){
 void conect_server(){
 
 	//Asignacion
-	conectando_servidor = gethostbyname("127.0.0.1");
+	conectando_servidor = gethostbyname("192.168.0.121");
 
 	//Comprobación
 	if(conectando_servidor == NULL){

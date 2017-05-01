@@ -143,3 +143,39 @@ void server_socket(char datos[2]){
 
 close(conexion_servidor);
 }
+
+//############# Funciones send, recv para cliente y servidor ################\\
+
+void send_servidor(char datos[2]){
+	bzero(datos, 2);
+	printf("Ejecute una accion.\n");
+	lectura_datos(datos);
+	send(conexion, datos, 2, 0);
+	close(conexion);
+}
+
+void send_cliente(char datos[2]){
+	bzero((char *)&datos, sizeof(datos));
+	printf("Ejecute una accion.\n");
+	lectura_datos(datos);
+	send(conexion_cliente, datos, 2, 0);
+	close(conexion_servidor);
+}
+
+void recv_servidor(char datos[2]){
+	//bzero((char *)&datos, sizeof(datos));
+	printf("Esperando datos del cliente...\n");
+	while(recv(conexion_cliente, datos, 2, 0)<0){
+
+	}
+	
+}
+
+void recv_cliente(char datos[2]){
+	//bzero(datos, 2);
+	printf("Esperando datos del servidor...\n");
+	while(recv(conexion, datos, 2, 0)<0){
+
+	}
+	
+}

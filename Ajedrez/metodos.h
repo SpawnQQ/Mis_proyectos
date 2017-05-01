@@ -306,7 +306,20 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 		
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 
-		lectura_datos(seleccion_pieza);
+		if(buffer=='s'){
+			if(cantidad_turnos%2==0){
+				send_cliente(seleccion_pieza);
+			}else{
+				recv_cliente(seleccion_pieza);
+			}
+		}else{
+			if(cantidad_turnos%2==0){
+				recv_servidor(seleccion_pieza);
+			}else{
+				send_servidor(seleccion_pieza);
+			}
+		}
+		//lectura_datos(seleccion_pieza);
 
 		//scanf("\n%s", &seleccion_pieza);
 		////system("clear");
@@ -333,8 +346,21 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 						cargar_tablero_sdl(m);
 						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
-
-						lectura_datos(posicion);
+						
+						if(buffer=='s'){
+							if(cantidad_turnos%2==0){
+								send_cliente(posicion);
+							}else{
+								recv_cliente(posicion);
+							}
+						}else{
+							if(cantidad_turnos%2==0){
+								recv_servidor(posicion);
+							}else{
+								send_servidor(posicion);
+							}
+						}
+						//lectura_datos(posicion);
 						input(posicion);
 						if(validacion_entrada(posicion)==1){
 							int destino_fila=transformar_num(posicion[0]);
@@ -393,7 +419,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 }
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	tablero_inicio(m);
-	desarrollo_partida_custom(m,termino_partida, turno);
+	desarrollo_partida_multi(m,termino_partida, turno);
 }
 
 void continuar_partida(p (*m)[8],int termino_partida, int turno[]){

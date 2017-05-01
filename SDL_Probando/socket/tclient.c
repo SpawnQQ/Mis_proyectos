@@ -20,7 +20,7 @@ FILE *pfile, *flista;
 char bff[5];
 char bufer[1024];
  
-he = gethostbyname("127.0.0.1");
+he = gethostbyname("192.168.0.121");
  
 sockfd = socket(AF_INET, SOCK_STREAM, 0);
  
