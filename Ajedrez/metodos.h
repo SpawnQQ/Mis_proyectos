@@ -293,16 +293,32 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 			}
 		}
 		if(cantidad_turnos%2!=0 && conocer_jaque==0){
-			SDL_WM_SetCaption("Turno de las blancas","Ajedrez 1.0v");
+			if(buffer=='s'){
+				SDL_WM_SetCaption("Turno de las blancas. Esperando datos del cliente...","Ajedrez 1.0v");
+			}else{
+				SDL_WM_SetCaption("Turno de las blancas. Ejecute una accion.","Ajedrez 1.0v");
+			}
 		}else{
 			if(cantidad_turnos%2==0 && conocer_jaque==0){
-				SDL_WM_SetCaption("Turno de las negras","Ajedrez 1.0v");
+				if(buffer=='s'){
+					SDL_WM_SetCaption("Turno de las negras. Ejecute una accion.","Ajedrez 1.0v");
+				}else{
+					SDL_WM_SetCaption("Turno de las negras. Esperando datos del servidor...","Ajedrez 1.0v");
+				}
 			}else{
 				if(cantidad_turnos%2!=0 && conocer_jaque==1){
-					SDL_WM_SetCaption("¡El rey blanco esta en jaque!","Ajedrez 1.0v");
+					if(buffer=='s'){
+						SDL_WM_SetCaption("¡El rey blanco esta en jaque!. Esperando datos del cliente...","Ajedrez 1.0v");
+					}else{
+						SDL_WM_SetCaption("¡El rey blanco esta en jaque!. Ejecute una accion.","Ajedrez 1.0v");
+					}
 				}else{
 					if(cantidad_turnos%2==0 && conocer_jaque==1){
-						SDL_WM_SetCaption("¡El rey negro esta en jaque!","Ajedrez 1.0v");
+						if(buffer=='s'){
+							SDL_WM_SetCaption("¡El rey negro esta en jaque!. Ejecute una accion.","Ajedrez 1.0v");
+						}else{
+							SDL_WM_SetCaption("¡El rey negro esta en jaque!. Esperando datos del servidor...","Ajedrez 1.0v");
+						}
 					}
 				}
 			}
@@ -424,7 +440,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 }
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	tablero_inicio(m);
-	desarrollo_partida_multi(m,termino_partida, turno);
+	desarrollo_partida_custom(m,termino_partida, turno);
 }
 
 void continuar_partida(p (*m)[8],int termino_partida, int turno[]){
