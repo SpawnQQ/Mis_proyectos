@@ -249,6 +249,9 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 	}
 }
 
+
+//################################################### Desarollo del juego ###################################################
+
 void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 
 	char buffer;
@@ -310,11 +313,11 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 			if(cantidad_turnos%2==0){
 				send_cliente(seleccion_pieza);
 			}else{
-				recv_cliente(seleccion_pieza);
+				recv_servidor(seleccion_pieza);
 			}
 		}else{
 			if(cantidad_turnos%2==0){
-				recv_servidor(seleccion_pieza);
+				recv_cliente(seleccion_pieza);
 			}else{
 				send_servidor(seleccion_pieza);
 			}
@@ -351,11 +354,11 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 							if(cantidad_turnos%2==0){
 								send_cliente(posicion);
 							}else{
-								recv_cliente(posicion);
+								recv_servidor(posicion);
 							}
 						}else{
 							if(cantidad_turnos%2==0){
-								recv_servidor(posicion);
+								recv_cliente(posicion);
 							}else{
 								send_servidor(posicion);
 							}

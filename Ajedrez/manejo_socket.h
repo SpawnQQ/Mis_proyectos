@@ -148,18 +148,22 @@ close(conexion_servidor);
 
 void send_servidor(char datos[2]){
 	bzero(datos, 2);
+
+	//bzero((char *)&datos, sizeof(datos));
 	printf("Ejecute una accion.\n");
 	lectura_datos(datos);
 	send(conexion, datos, 2, 0);
-	close(conexion);
+	printf("%c%c\n", datos[0],datos[1]);
+	//close(conexion);
 }
 
 void send_cliente(char datos[2]){
-	bzero((char *)&datos, sizeof(datos));
+	bzero(datos, 2);
+
 	printf("Ejecute una accion.\n");
 	lectura_datos(datos);
 	send(conexion_cliente, datos, 2, 0);
-	close(conexion_servidor);
+	//close(conexion_servidor);
 }
 
 void recv_servidor(char datos[2]){
@@ -168,6 +172,7 @@ void recv_servidor(char datos[2]){
 	while(recv(conexion_cliente, datos, 2, 0)<0){
 
 	}
+	printf("%c%c\n", datos[0],datos[1]);
 	
 }
 
@@ -177,5 +182,5 @@ void recv_cliente(char datos[2]){
 	while(recv(conexion, datos, 2, 0)<0){
 
 	}
-	
+	printf("%c%c\n", datos[0],datos[1]);
 }
