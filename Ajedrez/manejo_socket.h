@@ -169,8 +169,8 @@ void send_cliente(char datos[2]){
 void recv_servidor(char datos[2]){
 	//bzero((char *)&datos, sizeof(datos));
 	printf("Esperando datos del cliente...\n");
-	while(recv(conexion_cliente, datos, 2, 0)<0){
-
+	if(recv(conexion_cliente, datos, 2, 0)<0){
+		exit(0);
 	}
 	printf("%c%c\n", datos[0],datos[1]);
 	
@@ -179,8 +179,8 @@ void recv_servidor(char datos[2]){
 void recv_cliente(char datos[2]){
 	//bzero(datos, 2);
 	printf("Esperando datos del servidor...\n");
-	while(recv(conexion, datos, 2, 0)<0){
-
+	if(recv(conexion, datos, 2, 0)<0){
+		exit(0);
 	}
 	printf("%c%c\n", datos[0],datos[1]);
 }
