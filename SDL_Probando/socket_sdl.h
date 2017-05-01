@@ -35,7 +35,7 @@ int ienv;
 long siz;
 struct hostent *he;
 
-char bff[5];
+char bffc[5];
 char bufer[1024];
 
 
@@ -210,9 +210,9 @@ void send_client_server(){
  
 	send(conexion, &siz, sizeof siz, 0);
 	
-	recv(conexion, bff, sizeof(bff), 0);
+	recv(conexion, bffc, sizeof(bffc), 0);
 	
-	printf("\n%s\n", bff);
+	printf("\n%s\n", bffc);
 	
 	ienv = 0;
 	leido = 0;

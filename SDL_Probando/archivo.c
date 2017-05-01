@@ -91,9 +91,9 @@ int main(){
 
 	while(1){
 		if(buffer=='s'){
-			lee_paquete();
+			recv_client_server();
 		}else{
-			envia_paquete();
+			send_client_server();
 		}
 		printf("%i",aux);
 		aux++;
