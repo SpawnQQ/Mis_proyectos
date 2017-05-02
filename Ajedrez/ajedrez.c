@@ -33,4 +33,5 @@ int main(){
 
 		done=1;
 	}
+	salir();
 }

@@ -185,3 +185,8 @@ void recv_cliente(char datos[2]){
 	}
 	printf("%c%c\n", datos[0],datos[1]);
 }
+
+void cerrar_socket(){
+	close(conexion);
+	close(conexion_servidor);
+}

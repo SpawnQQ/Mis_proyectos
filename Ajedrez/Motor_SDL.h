@@ -665,3 +665,21 @@ void promocion(){
 
 	SDL_Flip (screen);
 }
+
+void salir(){
+	int salir=0;
+	cerrar_socket();
+	while(salir==0){
+		if(SDL_PollEvent(&event)){
+			if(event.type == SDL_QUIT){ 
+				liberar_memoria();
+			}
+			if(event.type ==SDL_KEYDOWN){
+				if(event.key.keysym.sym == SDLK_ESCAPE){
+					liberar_memoria();
+
+				}
+			}
+		}
+	}
+}

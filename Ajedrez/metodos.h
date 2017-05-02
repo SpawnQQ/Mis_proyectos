@@ -254,10 +254,10 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 
 void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 	char direccion[15];
-	char buffer;
+	char host;
 	printf("Desea ser servidor o cliente? ");
-	scanf("\n%c", &buffer);
-	if(buffer=='s'){
+	scanf("\n%c", &host);
+	if(host=='s'){
 		create_server();
 	}else{
 		printf("Porfavor ingrese direccion\n");
@@ -287,34 +287,47 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
 				termino_partida=1;
+				if(cantidad_turnos%2==0){
+					if(host=='s'){
+						SDL_WM_SetCaption("¡Derrota!","Ajedrez 1.0v");
+					}else{
+						SDL_WM_SetCaption("¡Victoria!","Ajedrez 1.0v");
+					}
+				}else{
+					if(host=='s'){
+						SDL_WM_SetCaption("¡Victoria!","Ajedrez 1.0v");
+					}else{
+						SDL_WM_SetCaption("¡Derrota!","Ajedrez 1.0v");
+					}
+				}
 				goto fin_partida;
 			}else{ 
 				printf("Tu rey esta en jaque!!\n");
 			}
 		}
 		if(cantidad_turnos%2!=0 && conocer_jaque==0){
-			if(buffer=='s'){
+			if(host=='s'){
 				SDL_WM_SetCaption("Turno de las blancas. Esperando datos del cliente...","Ajedrez 1.0v");
 			}else{
 				SDL_WM_SetCaption("Turno de las blancas. Ejecute una accion.","Ajedrez 1.0v");
 			}
 		}else{
 			if(cantidad_turnos%2==0 && conocer_jaque==0){
-				if(buffer=='s'){
+				if(host=='s'){
 					SDL_WM_SetCaption("Turno de las negras. Ejecute una accion.","Ajedrez 1.0v");
 				}else{
 					SDL_WM_SetCaption("Turno de las negras. Esperando datos del servidor...","Ajedrez 1.0v");
 				}
 			}else{
 				if(cantidad_turnos%2!=0 && conocer_jaque==1){
-					if(buffer=='s'){
+					if(host=='s'){
 						SDL_WM_SetCaption("¡El rey blanco esta en jaque!. Esperando datos del cliente...","Ajedrez 1.0v");
 					}else{
 						SDL_WM_SetCaption("¡El rey blanco esta en jaque!. Ejecute una accion.","Ajedrez 1.0v");
 					}
 				}else{
 					if(cantidad_turnos%2==0 && conocer_jaque==1){
-						if(buffer=='s'){
+						if(host=='s'){
 							SDL_WM_SetCaption("¡El rey negro esta en jaque!. Ejecute una accion.","Ajedrez 1.0v");
 						}else{
 							SDL_WM_SetCaption("¡El rey negro esta en jaque!. Esperando datos del servidor...","Ajedrez 1.0v");
@@ -327,7 +340,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 		
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 
-		if(buffer=='s'){
+		if(host=='s'){
 			if(cantidad_turnos%2==0){
 				send_cliente(seleccion_pieza);
 			}else{
@@ -368,7 +381,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						
-						if(buffer=='s'){
+						if(host=='s'){
 							if(cantidad_turnos%2==0){
 								send_cliente(posicion);
 							}else{
