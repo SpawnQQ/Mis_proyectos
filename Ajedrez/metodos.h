@@ -378,7 +378,23 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 					//Este while, sirve para verificar que el movimiento ingresado sea correcto
 					do{
 						cargar_tablero_sdl(m);
-						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
+
+						//Color del contorno de la casilla seleccionada
+
+						if(host=='s'){
+							if(cantidad_turnos%2==0){
+								contorno_unico_azul(seleccion_pieza[0],seleccion_pieza[1]);
+							}else{
+								contorno_unico_rojo(seleccion_pieza[0],seleccion_pieza[1]);
+							}
+						}else{
+							if(cantidad_turnos%2==0){
+								contorno_unico_rojo(seleccion_pieza[0],seleccion_pieza[1]);
+							}else{
+								contorno_unico_azul(seleccion_pieza[0],seleccion_pieza[1]);
+							}
+						}
+
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						
 						if(host=='s'){
