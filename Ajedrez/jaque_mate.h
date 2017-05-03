@@ -27,13 +27,13 @@ void buscar_rey(char color,int posicion[2],p (*m)[8]){
 }
 
 int jaque_peon(char color,int fila_rey,int columna_rey,p (*m)[8]){
-	if(color=='w'){
+	if(color=='b'){
 		//Abajo derecha
-		if(verificacion_dominio(fila_rey+1,columna_rey+1) && m[fila_rey+1][columna_rey+1].tipo_pieza.nombre=='P' && m[fila_rey+1][columna_rey+1].color=='b'){
+		if(verificacion_dominio(fila_rey+1,columna_rey+1) && m[fila_rey+1][columna_rey+1].tipo_pieza.nombre=='P' && m[fila_rey+1][columna_rey+1].color=='w'){
 			return 1;
 		}else{
 			//Abajo izquierda
-			if(verificacion_dominio(fila_rey+1,columna_rey-1)  && m[fila_rey+1][columna_rey-1].tipo_pieza.nombre=='P' && m[fila_rey+1][columna_rey-1].color=='b'){
+			if(verificacion_dominio(fila_rey+1,columna_rey-1)  && m[fila_rey+1][columna_rey-1].tipo_pieza.nombre=='P' && m[fila_rey+1][columna_rey-1].color=='w'){
 				return 1;
 			}else{
 				return 0;
@@ -41,11 +41,11 @@ int jaque_peon(char color,int fila_rey,int columna_rey,p (*m)[8]){
 		}
 	}else{
 		//Arriba derecha
-		if(verificacion_dominio(fila_rey-1,columna_rey+1) && m[fila_rey-1][columna_rey+1].tipo_pieza.nombre=='P' && m[fila_rey-1][columna_rey+1].color=='w'){
+		if(verificacion_dominio(fila_rey-1,columna_rey+1) && m[fila_rey-1][columna_rey+1].tipo_pieza.nombre=='P' && m[fila_rey-1][columna_rey+1].color=='b'){
 			return 1;
 		}else{
 			//Arriba izquierda
-			if(verificacion_dominio(fila_rey-1,columna_rey-1) && m[fila_rey-1][columna_rey-1].tipo_pieza.nombre=='P' && m[fila_rey-1][columna_rey-1].color=='w'){
+			if(verificacion_dominio(fila_rey-1,columna_rey-1) && m[fila_rey-1][columna_rey-1].tipo_pieza.nombre=='P' && m[fila_rey-1][columna_rey-1].color=='b'){
 				return 1;
 			}else{
 				return 0;
