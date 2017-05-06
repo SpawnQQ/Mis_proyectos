@@ -26,7 +26,6 @@ int main(){
 	typedef struct pieza p;
 	p m[8][8];
 	int termino_partida=0;
-	creacion_historial();
 	while(done == 0){
 		inicio_partida(&m,termino_partida,turno);
 		//continuar_partida(&m,termino_partida,turno);

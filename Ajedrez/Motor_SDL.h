@@ -3,7 +3,9 @@
 #define BPP 24
 #define MASK 255,255,255
 
-SDL_Surface *tablero, *screen, *bloque;
+typedef struct pieza p;
+
+SDL_Surface *tablero, *screen, *bloque, *desple;
 SDL_Surface *Pw, *Pb,*Rw,*Rb,*Nw,*Nb,*Bw,*Bb,*Qw,*Qb,*Kw,*Kb;
 SDL_Rect dest;
 SDL_Event event;
@@ -23,39 +25,6 @@ SDL_Color color_menu = { 230,230,230};
 
 tablero_x=50;
 tablero_y=60;
-
-void crear_menu(){
-	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
-
-	dest.x = 0;
-	dest.y = 0;
-	dest.w = WIDTH;
-	dest.h = 30;
-
-   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
-   	//lineRGBA(screen, 0, 0, WIDTH, 0, 0, 0, 0, 255);
-	lineRGBA(screen, 0, 30,WIDTH , 30, 0, 0, 0, 255);
-
-	texto=TTF_RenderText_Shaded(fuente,"Archivo", color_fuente ,color_menu);
-	SDL_Rect textLocation = { 5, 7, 0, 0 };
-	SDL_BlitSurface(texto, NULL, screen, &textLocation);
-	SDL_FreeSurface(texto);
-
-	texto=TTF_RenderText_Shaded(fuente,"Modo", color_fuente ,color_menu);
-	SDL_Rect textLocation2 = { 70, 7, 0, 0 };
-	SDL_BlitSurface(texto, NULL, screen, &textLocation2);
-	SDL_FreeSurface(texto);
-
-	texto=TTF_RenderText_Shaded(fuente,"Configuracion", color_fuente ,color_menu);
-	SDL_Rect textLocation3 = { 125, 7, 0, 0 };
-	SDL_BlitSurface(texto, NULL, screen, &textLocation3);
-	SDL_FreeSurface(texto);
-
-	texto=TTF_RenderText_Shaded(fuente,"Salir", color_fuente ,color_menu);
-	SDL_Rect textLocation4 = { 235, 7, 0, 0 };
-	SDL_BlitSurface(texto, NULL, screen, &textLocation4);
-	SDL_FreeSurface(texto);
-}
 
 void inicio_SDL(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -526,6 +495,8 @@ void agregar_referencia(p (*m)[8]){
 
 void cargar_tablero_sdl(p (*m)[8]){
 
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 210,210,210));
+
 	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
 	dest.x = tablero_x;
 	dest.y = tablero_y;
@@ -744,6 +715,7 @@ void lectura_datos(char posicion[2]){
 int salir=0;
 int x = 0, y = 0;
 
+
 	while(salir==0){
 		if(SDL_PollEvent(&event)){
 
@@ -756,28 +728,36 @@ int x = 0, y = 0;
 					//Revisa que el mouse aun este dentro del area designada como nuestro boton
 
 					if((y >= tablero_y && y < tablero_y+44) && (x >=tablero_x && x <=tablero_x+352)){
-						posicion[0]='8';		
+						posicion[0]='8';
+						salir=1;	
 					}else{
 						if((y >= tablero_y+44 && y < tablero_y+(44*2))&& (x >=tablero_x && x <=tablero_x+352)){
 							posicion[0]='7';
+							salir=1;
 						}else{
 							if((y >= tablero_y+(44*2) && y < tablero_y+(44*3))&& (x >=tablero_x && x <=tablero_x+352)){
 								posicion[0]='6';
+								salir=1;
 							}else{
 								if((y >= tablero_y+(44*3) && y < tablero_y+(44*4)) && (x >=tablero_x && x <=tablero_x+352)){
 									posicion[0]='5';
+									salir=1;
 								}else{
 									if((y >= tablero_y+(44*4) && y < tablero_y+(44*5))&& (x >=tablero_x && x <=tablero_x+352)){
 										posicion[0]='4';
+										salir=1;
 									}else{
 										if((y >= tablero_y+(44*5) && y < tablero_y+(44*6))&& (x >=tablero_x && x <=tablero_x+352)){
-											posicion[0]='3';				
+											posicion[0]='3';
+											salir=1;				
 										}else{
 											if((y >= tablero_y+(44*6) && y < tablero_y+(44*7))&& (x >=tablero_x && x <=tablero_x+352)){
-												posicion[0]='2';					
+												posicion[0]='2';
+												salir=1;					
 											}else{
 												if((y >= tablero_y+(44*7) && y <= tablero_y+(44*8))&& (x >=tablero_x && x <=tablero_x+352)){
-													posicion[0]='1';			
+													posicion[0]='1';
+													salir=1;			
 												}
 											}
 										}
@@ -788,28 +768,36 @@ int x = 0, y = 0;
 					}
 
 					if(((x >= tablero_x) && (x < tablero_x+44)) && ((y >=tablero_y) && (y <=tablero_y+352))){
-						posicion[1]='a';			
+						posicion[1]='a';
+						salir=1;			
 					}else{
 						if(((x >= tablero_x+44) && (x < tablero_x+(44*2))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 							posicion[1]='b';
+							salir=1;
 						}else{
 							if(((x >= tablero_x+(44*2)) && (x < tablero_x+(44*3))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 								posicion[1]='c';
+								salir=1;
 							}else{
 								if(((x >= tablero_x+(44*3)) && (x < tablero_x+(44*4))) && ((y >=tablero_y) && (y <=tablero_y+352))){
 									posicion[1]='d';
+									salir=1;
 								}else{
 									if((x >= tablero_x+(44*4) && x < tablero_x+(44*5)) && (y >=tablero_y && y <=tablero_y+352)){
 										posicion[1]='e';
+										salir=1;
 									}else{
 										if((x >= tablero_x+(44*5) && x < tablero_x+(44*6))&& (y >=tablero_y && y <=tablero_y+352)){
-											posicion[1]='f';				
+											posicion[1]='f';
+											salir=1;				
 										}else{
 											if((x >= tablero_x+(44*6) && x < tablero_x+(44*7))&& (y >=tablero_y && y <=tablero_y+352)){
 												posicion[1]='g';
+												salir=1;
 											}else{
 												if((x >= tablero_x+(44*7) && x <= tablero_x+(44*8))&& (y >=tablero_y && y <=tablero_y+352)){
 													posicion[1]='h';
+													salir=1;
 												}
 											}
 										}
@@ -818,7 +806,25 @@ int x = 0, y = 0;
 							}
 						}
 					}
-					salir=1;
+					if((y >= 0 && y < 30) && (x >= 0 && x<63)){
+						menu('a');
+						salir=1;
+					}else{
+						if((y >= 0 && y < 30) && (x >= 63 && x<116)){
+							menu('m');
+							salir=1;
+						}else{
+							if((y >= 0 && y < 30) && (x >= 116 && x<223)){
+								menu('c');
+								salir=1;
+							}else{
+								if((y >= 0 && y < 30) && (x >= 223 && x<270)){
+									menu('s');
+									salir=1;
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -851,4 +857,211 @@ void salir(){
 			}
 		}
 	}
+}
+
+void crear_menu(){
+	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
+
+	dest.x = 0;
+	dest.y = 0;
+	dest.w = WIDTH;
+	dest.h = 30;
+
+   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+   	//lineRGBA(screen, 0, 0, WIDTH, 0, 0, 0, 0, 255);
+	lineRGBA(screen, 0, 30,WIDTH , 30, 0, 0, 0, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Archivo", color_fuente ,color_menu);
+	SDL_Rect textLocation = { 5, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 63, 0, 63, 30, 230, 230, 230, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Modo", color_fuente ,color_menu);
+	SDL_Rect textLocation2 = { 70, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 116, 0, 116, 30, 230, 230, 230, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Configuracion", color_fuente ,color_menu);
+	SDL_Rect textLocation3 = { 123, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 223, 0, 223, 30, 230, 230, 230, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Salir", color_fuente ,color_menu);
+	SDL_Rect textLocation4 = { 230, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation4);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 270, 0, 270, 30, 230, 230, 230, 255);
+
+}
+
+void menu(char opcion){
+	int salir=0;
+	int R=0,G=0,B=0,x,y;
+	int turno[1];
+	turno[0]=0;
+	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
+	if(opcion=='a'){
+		dest.x = 0;
+		dest.y = 31;
+		dest.w = 150;
+		dest.h = 115;
+
+	   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+
+	   	lineRGBA(screen, 150, 31, 150, 145, R , G, B, 255);
+
+		texto=TTF_RenderText_Shaded(fuente,"Partida nueva", color_fuente ,color_menu);
+		SDL_Rect textLocation = { 5, 31, 0, 0 };
+		SDL_BlitSurface(texto, NULL, screen, &textLocation);
+		SDL_FreeSurface(texto);
+
+		//lineRGBA(screen, 0, 55, 150, 55, R , G, B, 255);
+
+		texto=TTF_RenderText_Shaded(fuente,"Guardar partida", color_fuente ,color_menu);
+		SDL_Rect textLocation2 = { 5, 61, 0, 0 };
+		SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+		SDL_FreeSurface(texto);
+
+		//lineRGBA(screen, 0, 85, 150, 85, R, G, B, 255);
+
+		texto=TTF_RenderText_Shaded(fuente,"Cargar partida", color_fuente ,color_menu);
+		SDL_Rect textLocation3 = { 5, 91, 0, 0 };
+		SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+		SDL_FreeSurface(texto);
+
+		//lineRGBA(screen, 0, 115, 150, 115, R, G, B, 255);
+
+		texto=TTF_RenderText_Shaded(fuente,"Historial", color_fuente ,color_menu);
+		SDL_Rect textLocation4 = { 5, 121, 0, 0 };
+		SDL_BlitSurface(texto, NULL, screen, &textLocation4);
+		SDL_FreeSurface(texto);
+
+		lineRGBA(screen, 0, 145, 150, 145, R, G, B, 255);
+
+		SDL_Flip (screen);
+
+		while(salir==0){
+		if(SDL_PollEvent(&event)){
+
+			if( event.type == SDL_MOUSEBUTTONDOWN ){
+				//En caso de que el event capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
+
+				if( event.button.button == SDL_BUTTON_LEFT ){
+					x = event.button.x;
+					y = event.button.y;
+
+					if((y >= 31 && y < 55) && (x >= 0 && x<150)){
+						//Partida nueva
+						salir=1;
+					}else{
+						if((y >= 55 && y < 85) && (x >= 0 && x<150)){
+							//Guardar partida
+							salir=1;
+						}else{
+							if((y >= 85 && y < 115) && (x >= 0 && x<150)){
+								//Cargar partida
+								salir=1;
+							}else{
+								if((y >= 115 && y < 145) && (x >= 0 && x<150)){
+									//Historial
+									salir=1;
+								}else{
+									salir=1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}		
+	}
+
+
+	}else{
+		if(opcion=='m'){
+			dest.x = 65;
+			dest.y = 31;
+			dest.w = 150;
+			dest.h = 85;
+
+		   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+
+		   	lineRGBA(screen, 65, 31, 65, 115, R , G, B, 255);
+		   	lineRGBA(screen, 215, 31, 215, 115, R , G, B, 255);
+
+			texto=TTF_RenderText_Shaded(fuente,"Custom", color_fuente ,color_menu);
+			SDL_Rect textLocation = { 70, 31, 0, 0 };
+			SDL_BlitSurface(texto, NULL, screen, &textLocation);
+			SDL_FreeSurface(texto);
+
+			//lineRGBA(screen, 65, 55, 215, 55, R , G, B, 255);
+
+			texto=TTF_RenderText_Shaded(fuente,"Multi-player", color_fuente ,color_menu);
+			SDL_Rect textLocation2 = { 70, 61, 0, 0 };
+			SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+			SDL_FreeSurface(texto);
+
+			//lineRGBA(screen, 65, 85, 215, 85, R, G, B, 255);
+
+			texto=TTF_RenderText_Shaded(fuente,"Jugador vs IA", color_fuente ,color_menu);
+			SDL_Rect textLocation3 = { 70, 91, 0, 0 };
+			SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+			SDL_FreeSurface(texto);
+
+			lineRGBA(screen, 65, 115, 215, 115, R, G, B, 255);
+
+			SDL_Flip (screen);
+
+			while(salir==0){
+			if(SDL_PollEvent(&event)){
+
+				if( event.type == SDL_MOUSEBUTTONDOWN ){
+					//En caso de que el event capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
+
+					if( event.button.button == SDL_BUTTON_LEFT ){
+						x = event.button.x;
+						y = event.button.y;
+
+						if((y >= 0 && y < 30) && (x >= 0 && x<63)){
+							salir=1;
+						}else{
+							if((y >= 0 && y < 30) && (x >= 63 && x<116)){
+								salir=1;
+							}else{
+								if((y >= 0 && y < 30) && (x >= 116 && x<223)){
+									salir=1;
+								}else{
+									if((y >= 0 && y < 30) && (x >= 223 && x<270)){
+										salir=1;
+									}
+								}
+							}
+						}
+					}
+				}
+			}		
+		}
+
+		}else{
+			if(opcion=='c'){
+
+			}else{
+				if(opcion=='s'){
+
+				}
+			}
+		}
+	}
+
+}
+
+void bucle(int x, int y){
+
 }

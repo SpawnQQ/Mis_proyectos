@@ -468,6 +468,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 	}
 }
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
+	creacion_historial();
 	tablero_inicio(m);
 	desarrollo_partida_custom(m,termino_partida, turno);
 }

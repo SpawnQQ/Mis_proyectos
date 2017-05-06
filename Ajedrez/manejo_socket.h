@@ -4,6 +4,8 @@
 #define PORT 5000
 const char * ip_servidor;
 
+typedef struct pieza p;
+
 int puerto;
 
 //############### Servidor ##################
