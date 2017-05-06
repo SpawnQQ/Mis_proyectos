@@ -18,9 +18,44 @@ SDL_Surface *texto = NULL;
 SDL_Surface *texto_dos = NULL;
 SDL_Color color_fuente = {0, 0, 0};
 SDL_Color color_fondo = { 210,210,210};
+SDL_Color color_menu = { 230,230,230};
+
 
 tablero_x=50;
-tablero_y=50;
+tablero_y=60;
+
+void crear_menu(){
+	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
+
+	dest.x = 0;
+	dest.y = 0;
+	dest.w = WIDTH;
+	dest.h = 30;
+
+   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+   	//lineRGBA(screen, 0, 0, WIDTH, 0, 0, 0, 0, 255);
+	lineRGBA(screen, 0, 30,WIDTH , 30, 0, 0, 0, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Archivo", color_fuente ,color_menu);
+	SDL_Rect textLocation = { 5, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation);
+	SDL_FreeSurface(texto);
+
+	texto=TTF_RenderText_Shaded(fuente,"Modo", color_fuente ,color_menu);
+	SDL_Rect textLocation2 = { 70, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+	SDL_FreeSurface(texto);
+
+	texto=TTF_RenderText_Shaded(fuente,"Configuracion", color_fuente ,color_menu);
+	SDL_Rect textLocation3 = { 125, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+	SDL_FreeSurface(texto);
+
+	texto=TTF_RenderText_Shaded(fuente,"Salir", color_fuente ,color_menu);
+	SDL_Rect textLocation4 = { 235, 7, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation4);
+	SDL_FreeSurface(texto);
+}
 
 void inicio_SDL(){
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -499,6 +534,8 @@ void cargar_tablero_sdl(p (*m)[8]){
 
 	SDL_BlitSurface(tablero, NULL, screen, &dest);
 
+	crear_menu();
+	
 	agregar_contorno();
 
 	agregar_referencia(m);

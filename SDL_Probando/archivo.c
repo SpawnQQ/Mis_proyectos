@@ -39,7 +39,7 @@ struct nave{
 int main(){
 	char buffer;
 	int aux=0;
-/*
+
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 	    printf("No se ha podido iniciar SDL: %s\n", SDL_GetError());
@@ -60,7 +60,7 @@ int main(){
   		printf("No se ha podido iniciar TTF: %s\n", SDL_GetError());
     	exit(1);	
   	}
-	fuente=TTF_OpenFont( "pixel.ttf", 60 );
+	fuente=TTF_OpenFont( "arial.ttf", 20 );
 
 	if (fuente == NULL)
    {
@@ -77,10 +77,29 @@ int main(){
     	exit(1);
    	}
 
-   	//SDL_Rect textLocation = { 100, 100, 0, 0 };
-   	lineRGBA(screen, 20, 10, 70, 90, 255, 0, 0, 255);
-*/
-	//SDL_Flip(screen);
+	dest.x = 50;
+	dest.y = 50;
+	dest.w = 500;
+	dest.h = 100;
+
+   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 255,255,255));
+	SDL_Flip(screen);
+
+	while(1){
+		if(SDL_PollEvent(&event)){
+			if(event.type == SDL_QUIT){ 
+				exit(0);
+			}
+			if(event.type ==SDL_KEYDOWN){
+				if(event.key.keysym.sym == SDLK_ESCAPE){
+					exit(0);
+
+				}
+			}
+		}
+	}
+	
+/*
 	printf("Desea ser servidor o cliente? ");
 	scanf("\n%c", &buffer);
 	if(buffer=='s'){
@@ -99,4 +118,5 @@ int main(){
 		aux++;
 	}
 	return 0;
+	*/
 }
