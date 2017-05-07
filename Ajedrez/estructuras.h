@@ -10,6 +10,6 @@ struct tipo{
 struct pieza{
 	char color;
 	struct tipo tipo_pieza;
-	bool primer_turno;
+	int primer_turno;
 	struct pieza *enlace;
 };

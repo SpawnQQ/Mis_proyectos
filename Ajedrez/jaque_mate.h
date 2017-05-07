@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <curses.h>
 
 void buscar_rey(char color,int posicion[2],p (*m)[8]){
 	if(color=='w'){
