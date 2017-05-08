@@ -776,6 +776,8 @@ void menu(char opcion){
 									cambio_mod=true;
 									modalidad=2;
 									salir=1;
+								}else{
+									salir=1;
 								}
 							}
 						}
