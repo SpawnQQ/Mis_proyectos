@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #define ESCAPE 27 
 
+int modalidad=0;
+bool cambio_mod=false;
+SDL_Event eventos_menu;
+int forzar_termino=0;
+
 typedef struct pieza p;
 void matriz_setPieza( p (*m)[8],int i, int j,char color, int turno,char nombre,int posicion_1,int posicion_2);
 
@@ -141,8 +146,9 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 		if(jaque(cantidad_turnos,m)){
 			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
+				forzar_termino=1;
 				termino_partida=1;
-				goto fin_partida;
+				goto fin_partida_custom;
 			}else{ 
 				printf("Tu rey esta en jaque!!\n");
 			}
@@ -166,6 +172,10 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 		
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 		lectura_datos(seleccion_pieza);
+		if(cambio_mod==true){
+			goto fin_partida_custom;
+		}
+
 		//scanf("\n%s", &seleccion_pieza);
 		////system("clear");
 		input(seleccion_pieza);
@@ -192,6 +202,10 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 						contorno_unico(seleccion_pieza[0],seleccion_pieza[1]);
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						lectura_datos(posicion);
+						if(cambio_mod==true){
+							goto fin_partida_custom;
+						}
+
 						input(posicion);
 						if(validacion_entrada(posicion)==1){
 							int destino_fila=transformar_num(posicion[0]);
@@ -241,7 +255,7 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 			}
 		}
 	}
-	fin_partida: ;
+	fin_partida_custom: ;
 	if(cantidad_turnos%2!=0){
 		printf("Jaque mate. Jugador 1 derrotado!\n");
 	}else{
@@ -287,6 +301,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
 				termino_partida=1;
+				forzar_termino=1;
 				if(cantidad_turnos%2==0){
 					if(host=='s'){
 						SDL_WM_SetCaption("¡Derrota!","Ajedrez 1.0v");
@@ -300,7 +315,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 						SDL_WM_SetCaption("¡Derrota!","Ajedrez 1.0v");
 					}
 				}
-				goto fin_partida;
+				goto fin_partida_multi;
 			}else{ 
 				printf("Tu rey esta en jaque!!\n");
 			}
@@ -353,6 +368,10 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 				send_servidor(seleccion_pieza);
 			}
 		}
+
+		if(cambio_mod==true){
+			goto fin_partida_multi;
+		}
 		//lectura_datos(seleccion_pieza);
 
 		//scanf("\n%s", &seleccion_pieza);
@@ -394,7 +413,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 								contorno_unico_azul(seleccion_pieza[0],seleccion_pieza[1]);
 							}
 						}
-
+						
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						
 						if(host=='s'){
@@ -410,6 +429,11 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 								send_servidor(posicion);
 							}
 						}
+
+						if(cambio_mod==true){
+							goto fin_partida_multi;
+						}
+
 						//lectura_datos(posicion);
 						input(posicion);
 						if(validacion_entrada(posicion)==1){
@@ -460,7 +484,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 			}
 		}
 	}
-	fin_partida: ;
+	fin_partida_multi: ;
 	if(cantidad_turnos%2!=0){
 		printf("Jaque mate. Jugador 1 derrotado!\n");
 	}else{
@@ -470,7 +494,33 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	creacion_historial();
 	tablero_inicio(m);
-	desarrollo_partida_custom(m,termino_partida, turno);
+	if(modalidad==0){
+		desarrollo_partida_custom(m,termino_partida, turno);
+	}else{
+		if(modalidad==1){
+			desarrollo_partida_multi(m,termino_partida, turno);
+		}
+	}
+	while(forzar_termino==0){
+		if(cambio_mod==true){
+			cambio_mod=false;
+			if(modalidad==0){
+				creacion_historial();
+				tablero_inicio(m);
+				termino_partida=0;
+				desarrollo_partida_custom(m,termino_partida, turno);
+			}else{
+				if(modalidad==0){
+					creacion_historial();
+					tablero_inicio(m);
+					termino_partida=0;
+					desarrollo_partida_multi(m,termino_partida, turno);
+				}
+			}
+		}
+	}
+	
+
 }
 
 void continuar_partida(p (*m)[8],int termino_partida, int turno[]){
@@ -652,4 +702,97 @@ void promocion_peon(int destino_fila, int destino_columna,p (*respaldo)[8] ,p (*
 			}
 		}
 	}
+}
+
+void menu(char opcion){
+	int salir=0;
+	int R=0,G=0,B=0,x,y;
+	int turno[1];
+	turno[0]=0;
+	if(opcion=='a'){
+		menu_archivo();
+		while(salir==0){
+		if(SDL_PollEvent(&eventos_menu)){
+
+			if( eventos_menu.type == SDL_MOUSEBUTTONDOWN ){
+				//En caso de que el eventos_menu capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
+
+				if( eventos_menu.button.button == SDL_BUTTON_LEFT ){
+					x = eventos_menu.button.x;
+					y = eventos_menu.button.y;
+
+					if((y >= 31 && y < 55) && (x >= 0 && x<150)){
+						//Partida nueva
+						salir=1;
+					}else{
+						if((y >= 55 && y < 85) && (x >= 0 && x<150)){
+							//Guardar partida
+							salir=1;
+						}else{
+							if((y >= 85 && y < 115) && (x >= 0 && x<150)){
+								//Cargar partida
+								salir=1;
+							}else{
+								if((y >= 115 && y < 145) && (x >= 0 && x<150)){
+									//Historial
+									salir=1;
+								}else{
+									salir=1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}		
+	}
+
+
+	}else{
+		if(opcion=='m'){
+			menu_modo();
+			while(salir==0){
+			if(SDL_PollEvent(&eventos_menu)){
+
+				if( eventos_menu.type == SDL_MOUSEBUTTONDOWN ){
+					//En caso de que el eventos_menu capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
+
+					if( eventos_menu.button.button == SDL_BUTTON_LEFT ){
+						x = eventos_menu.button.x;
+						y = eventos_menu.button.y;
+
+						if((y >= 31 && y < 61 ) && (x >= 65 && x<215)){
+							cambio_mod=true;
+							modalidad=0;
+							salir=1;
+							printf("Hola\n");
+						}else{
+							if((y >= 61 && y < 91) && (x >= 65 && x<215)){
+								cambio_mod=true;
+								modalidad=1;
+								salir=1;
+							}else{
+								if((y >= 91 && y < 115) && (x >= 65 && x<215)){
+									cambio_mod=true;
+									modalidad=2;
+									salir=1;
+								}
+							}
+						}
+					}
+				}
+			}		
+		}
+
+		}else{
+			if(opcion=='c'){
+
+			}else{
+				if(opcion=='s'){
+
+				}
+			}
+		}
+	}
+
 }

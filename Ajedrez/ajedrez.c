@@ -1,3 +1,8 @@
+#include <SDL/SDL.h> 
+#include <SDL/SDL_gfxPrimitives.h>
+#include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_net.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <estructuras.h>
@@ -6,11 +11,6 @@
 #include <manejo_ficheros.h>
 #include <jaque_mate.h>
 #include <tablas.h>
-#include <SDL/SDL.h> 
-#include <SDL/SDL_gfxPrimitives.h>
-#include <SDL/SDL_ttf.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_net.h>
 #include <Motor_SDL.h>
 #include <unistd.h>
 #include <sys/socket.h>

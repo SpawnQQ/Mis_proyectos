@@ -901,167 +901,81 @@ void crear_menu(){
 
 }
 
-void menu(char opcion){
-	int salir=0;
+void menu_archivo(){ 
 	int R=0,G=0,B=0,x,y;
-	int turno[1];
-	turno[0]=0;
 	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
-	if(opcion=='a'){
-		dest.x = 0;
-		dest.y = 31;
-		dest.w = 150;
-		dest.h = 115;
+	dest.x = 0;
+	dest.y = 31;
+	dest.w = 150;
+	dest.h = 115;
+	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
 
-	   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+	lineRGBA(screen, 150, 31, 150, 145, R , G, B, 255);
 
-	   	lineRGBA(screen, 150, 31, 150, 145, R , G, B, 255);
-
-		texto=TTF_RenderText_Shaded(fuente,"Partida nueva", color_fuente ,color_menu);
-		SDL_Rect textLocation = { 5, 31, 0, 0 };
-		SDL_BlitSurface(texto, NULL, screen, &textLocation);
-		SDL_FreeSurface(texto);
+	texto=TTF_RenderText_Shaded(fuente,"Partida nueva", color_fuente ,color_menu);
+	SDL_Rect textLocation = { 5, 31, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation);
+	SDL_FreeSurface(texto);
 
 		//lineRGBA(screen, 0, 55, 150, 55, R , G, B, 255);
 
-		texto=TTF_RenderText_Shaded(fuente,"Guardar partida", color_fuente ,color_menu);
-		SDL_Rect textLocation2 = { 5, 61, 0, 0 };
-		SDL_BlitSurface(texto, NULL, screen, &textLocation2);
-		SDL_FreeSurface(texto);
+	texto=TTF_RenderText_Shaded(fuente,"Guardar partida", color_fuente ,color_menu);
+	SDL_Rect textLocation2 = { 5, 61, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+	SDL_FreeSurface(texto);
 
-		//lineRGBA(screen, 0, 85, 150, 85, R, G, B, 255);
+	//lineRGBA(screen, 0, 85, 150, 85, R, G, B, 255);
 
-		texto=TTF_RenderText_Shaded(fuente,"Cargar partida", color_fuente ,color_menu);
-		SDL_Rect textLocation3 = { 5, 91, 0, 0 };
-		SDL_BlitSurface(texto, NULL, screen, &textLocation3);
-		SDL_FreeSurface(texto);
+	texto=TTF_RenderText_Shaded(fuente,"Cargar partida", color_fuente ,color_menu);
+	SDL_Rect textLocation3 = { 5, 91, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+	SDL_FreeSurface(texto);
 
-		//lineRGBA(screen, 0, 115, 150, 115, R, G, B, 255);
+	//lineRGBA(screen, 0, 115, 150, 115, R, G, B, 255);
 
-		texto=TTF_RenderText_Shaded(fuente,"Historial", color_fuente ,color_menu);
-		SDL_Rect textLocation4 = { 5, 121, 0, 0 };
-		SDL_BlitSurface(texto, NULL, screen, &textLocation4);
-		SDL_FreeSurface(texto);
+	texto=TTF_RenderText_Shaded(fuente,"Historial", color_fuente ,color_menu);
+	SDL_Rect textLocation4 = { 5, 121, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation4);
+	SDL_FreeSurface(texto);
 
-		lineRGBA(screen, 0, 145, 150, 145, R, G, B, 255);
+	lineRGBA(screen, 0, 145, 150, 145, R, G, B, 255);
 
-		SDL_Flip (screen);
-
-		while(salir==0){
-		if(SDL_PollEvent(&event)){
-
-			if( event.type == SDL_MOUSEBUTTONDOWN ){
-				//En caso de que el event capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
-
-				if( event.button.button == SDL_BUTTON_LEFT ){
-					x = event.button.x;
-					y = event.button.y;
-
-					if((y >= 31 && y < 55) && (x >= 0 && x<150)){
-						//Partida nueva
-						salir=1;
-					}else{
-						if((y >= 55 && y < 85) && (x >= 0 && x<150)){
-							//Guardar partida
-							salir=1;
-						}else{
-							if((y >= 85 && y < 115) && (x >= 0 && x<150)){
-								//Cargar partida
-								salir=1;
-							}else{
-								if((y >= 115 && y < 145) && (x >= 0 && x<150)){
-									//Historial
-									salir=1;
-								}else{
-									salir=1;
-								}
-							}
-						}
-					}
-				}
-			}
-		}		
-	}
-
-
-	}else{
-		if(opcion=='m'){
-			dest.x = 65;
-			dest.y = 31;
-			dest.w = 150;
-			dest.h = 85;
-
-		   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
-
-		   	lineRGBA(screen, 65, 31, 65, 115, R , G, B, 255);
-		   	lineRGBA(screen, 215, 31, 215, 115, R , G, B, 255);
-
-			texto=TTF_RenderText_Shaded(fuente,"Custom", color_fuente ,color_menu);
-			SDL_Rect textLocation = { 70, 31, 0, 0 };
-			SDL_BlitSurface(texto, NULL, screen, &textLocation);
-			SDL_FreeSurface(texto);
-
-			//lineRGBA(screen, 65, 55, 215, 55, R , G, B, 255);
-
-			texto=TTF_RenderText_Shaded(fuente,"Multi-player", color_fuente ,color_menu);
-			SDL_Rect textLocation2 = { 70, 61, 0, 0 };
-			SDL_BlitSurface(texto, NULL, screen, &textLocation2);
-			SDL_FreeSurface(texto);
-
-			//lineRGBA(screen, 65, 85, 215, 85, R, G, B, 255);
-
-			texto=TTF_RenderText_Shaded(fuente,"Jugador vs IA", color_fuente ,color_menu);
-			SDL_Rect textLocation3 = { 70, 91, 0, 0 };
-			SDL_BlitSurface(texto, NULL, screen, &textLocation3);
-			SDL_FreeSurface(texto);
-
-			lineRGBA(screen, 65, 115, 215, 115, R, G, B, 255);
-
-			SDL_Flip (screen);
-
-			while(salir==0){
-			if(SDL_PollEvent(&event)){
-
-				if( event.type == SDL_MOUSEBUTTONDOWN ){
-					//En caso de que el event capturado fuera la presión del botón izquierdo del mouse se continuara con el código entre llaves
-
-					if( event.button.button == SDL_BUTTON_LEFT ){
-						x = event.button.x;
-						y = event.button.y;
-
-						if((y >= 0 && y < 30) && (x >= 0 && x<63)){
-							salir=1;
-						}else{
-							if((y >= 0 && y < 30) && (x >= 63 && x<116)){
-								salir=1;
-							}else{
-								if((y >= 0 && y < 30) && (x >= 116 && x<223)){
-									salir=1;
-								}else{
-									if((y >= 0 && y < 30) && (x >= 223 && x<270)){
-										salir=1;
-									}
-								}
-							}
-						}
-					}
-				}
-			}		
-		}
-
-		}else{
-			if(opcion=='c'){
-
-			}else{
-				if(opcion=='s'){
-
-				}
-			}
-		}
-	}
-
+	SDL_Flip (screen);
 }
 
-void bucle(int x, int y){
+void menu_modo(){
+	int R=0,G=0,B=0,x,y;
+	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
+	dest.x = 65;
+	dest.y = 31;
+	dest.w = 150;
+	dest.h = 85;
 
+	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 230,230,230));
+
+	lineRGBA(screen, 65, 31, 65, 115, R , G, B, 255);
+	lineRGBA(screen, 215, 31, 215, 115, R , G, B, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Custom", color_fuente ,color_menu);
+	SDL_Rect textLocation = { 70, 31, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 65, 55, 215, 55, R , G, B, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Multi-player", color_fuente ,color_menu);
+	SDL_Rect textLocation2 = { 70, 61, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation2);
+	SDL_FreeSurface(texto);
+
+	//lineRGBA(screen, 65, 85, 215, 85, R, G, B, 255);
+
+	texto=TTF_RenderText_Shaded(fuente,"Jugador vs IA", color_fuente ,color_menu);
+	SDL_Rect textLocation3 = { 70, 91, 0, 0 };
+	SDL_BlitSurface(texto, NULL, screen, &textLocation3);
+	SDL_FreeSurface(texto);
+
+	lineRGBA(screen, 65, 115, 215, 115, R, G, B, 255);
+
+	SDL_Flip (screen);
 }
