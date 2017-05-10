@@ -4,7 +4,9 @@
 #define ESCAPE 27 
 
 int modalidad=0;
+int archivo=0; 
 bool cambio_mod=false;
+bool cambio_arch=false;
 SDL_Event eventos_menu;
 int forzar_termino=0;
 
@@ -142,12 +144,18 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 	while(termino_partida==0){
 		conocer_jaque=0;
 		actualizar_PAP(cantidad_turnos,m);
-		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
 			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
 				forzar_termino=1;
 				termino_partida=1;
+
+				if(cantidad_turnos%2==0){
+					SDL_WM_SetCaption("¡Victoria de las blancas!","Ajedrez 1.0v");
+				}else{
+					SDL_WM_SetCaption("¡Victoria de las negras!","Ajedrez 1.0v");
+				}
+
 				goto fin_partida_custom;
 			}else{ 
 				printf("Tu rey esta en jaque!!\n");
@@ -173,6 +181,9 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 		printf("Jugador %d, seleccione pieza a mover: \n",jugador*(-1)+2);
 		lectura_datos(seleccion_pieza);
 		if(cambio_mod==true){
+			goto fin_partida_custom;
+		}
+		if(cambio_arch==true){
 			goto fin_partida_custom;
 		}
 
@@ -203,6 +214,10 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 						printf("Pieza %c%c, posicion %s. Ingrese un movimiento: \n",m[inicio_fila][inicio_columna].tipo_pieza.nombre,m[inicio_fila][inicio_columna].color,&seleccion_pieza);
 						lectura_datos(posicion);
 						if(cambio_mod==true){
+							goto fin_partida_custom;
+						}
+
+						if(cambio_arch==true){
 							goto fin_partida_custom;
 						}
 
@@ -238,7 +253,7 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 									jugador=cantidad_turnos%2;
 									//system("clear");
 									cargar_tablero_sdl(m);
-
+									guardar_partida(m,cantidad_turnos);
 								}
 								
 							}else{
@@ -256,11 +271,6 @@ void desarrollo_partida_custom(p (*m)[8],int termino_partida, int turnos[]){
 		}
 	}
 	fin_partida_custom: ;
-	if(cantidad_turnos%2!=0){
-		printf("Jaque mate. Jugador 1 derrotado!\n");
-	}else{
-		printf("Jaque mate. Jugador 2 derrotado!\n");
-	}
 }
 
 
@@ -296,7 +306,6 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 	while(termino_partida==0){
 		conocer_jaque=0;
 		actualizar_PAP(cantidad_turnos,m);
-		guardar_partida(m,cantidad_turnos);
 		if(jaque(cantidad_turnos,m)){
 			conocer_jaque=1;
 			if(jaque_mate(cantidad_turnos,m)){
@@ -467,7 +476,7 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 									jugador=cantidad_turnos%2;
 									//system("clear");
 									cargar_tablero_sdl(m);
-
+									guardar_partida(m,cantidad_turnos);
 								}
 								
 							}else{
@@ -485,11 +494,6 @@ void desarrollo_partida_multi(p (*m)[8],int termino_partida, int turnos[]){
 		}
 	}
 	fin_partida_multi: ;
-	if(cantidad_turnos%2!=0){
-		printf("Jaque mate. Jugador 1 derrotado!\n");
-	}else{
-		printf("Jaque mate. Jugador 2 derrotado!\n");
-	}
 }
 void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 	creacion_historial();
@@ -508,15 +512,58 @@ void inicio_partida(p (*m)[8],int termino_partida, int turno[]){
 				creacion_historial();
 				tablero_inicio(m);
 				termino_partida=0;
+				turno[0]=0;
 				desarrollo_partida_custom(m,termino_partida, turno);
 			}else{
-				if(modalidad==0){
+				if(modalidad==1){
+
 					creacion_historial();
 					tablero_inicio(m);
 					termino_partida=0;
+					turno[0]=0;
 					desarrollo_partida_multi(m,termino_partida, turno);
 				}
 			}
+		}
+		if(cambio_arch==true){
+			cambio_arch=false;
+			if(archivo==0){
+				if(modalidad==0){
+					//Deberia cargar el historial
+					creacion_historial();
+					tablero_inicio(m);
+					termino_partida=0;
+					turno[0]=0;
+					desarrollo_partida_custom(m,termino_partida, turno);
+				}else{
+					/*
+					if(modalidad==1){
+						creacion_historial();
+						tablero_inicio(m);
+						termino_partida=0;
+						turno[0]=0;
+						desarrollo_partida_multi(m,termino_partida, turno);
+					}*/
+					//No puedes cargar partida ni iniciar partida nueva en modo multijugador.
+				}
+			}else{
+				if(archivo==2){
+					if(modalidad==0){
+						//Deberia cargar el historial
+						cargar_partida(m,turno);
+						turno[0]--;
+						desarrollo_partida_custom(m,termino_partida, turno);
+					}else{
+						/*
+						if(modalidad==1){
+							cargar_partida(m,turno);
+							turno[0]--;
+							desarrollo_partida_multi(m,termino_partida, turno);
+						}
+						*/
+					}
+				}
+			}			
 		}
 	}
 	
@@ -723,18 +770,26 @@ void menu(char opcion){
 
 					if((y >= 31 && y < 55) && (x >= 0 && x<150)){
 						//Partida nueva
+						cambio_arch=true;
+						archivo=0;
 						salir=1;
 					}else{
 						if((y >= 55 && y < 85) && (x >= 0 && x<150)){
 							//Guardar partida
+							cambio_arch=true;
+							archivo=1;
 							salir=1;
 						}else{
 							if((y >= 85 && y < 115) && (x >= 0 && x<150)){
 								//Cargar partida
+								cambio_arch=true;
+								archivo=2;
 								salir=1;
 							}else{
 								if((y >= 115 && y < 145) && (x >= 0 && x<150)){
 									//Historial
+									cambio_arch=true;
+									archivo=3;
 									salir=1;
 								}else{
 									salir=1;
@@ -765,7 +820,6 @@ void menu(char opcion){
 							cambio_mod=true;
 							modalidad=0;
 							salir=1;
-							printf("Hola\n");
 						}else{
 							if((y >= 61 && y < 91) && (x >= 65 && x<215)){
 								cambio_mod=true;

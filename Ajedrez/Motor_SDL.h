@@ -1,4 +1,4 @@
-#define WIDTH 500
+#define WIDTH 825
 #define HEIGHT 460
 #define BPP 24
 #define MASK 255,255,255
@@ -495,7 +495,10 @@ void agregar_referencia(p (*m)[8]){
 
 void cargar_tablero_sdl(p (*m)[8]){
 
+	//Esto siempre va primero
 	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 210,210,210));
+
+	historial_sdl();
 
 	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
 	dest.x = tablero_x;
@@ -978,4 +981,27 @@ void menu_modo(){
 	lineRGBA(screen, 65, 115, 215, 115, R, G, B, 255);
 
 	SDL_Flip (screen);
+}
+
+void historial_sdl(){
+
+	fuente=TTF_OpenFont( "fuentes/arial.ttf", 15 );
+
+	dest.x = 417+tablero_x;
+	dest.y = tablero_y;
+	dest.w = 300;
+	dest.h = 8*44;
+
+   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 255,255,255));
+   	lineRGBA(screen, 417+tablero_x, tablero_y, 717+tablero_x, tablero_y, 0, 0, 0, 255);
+   	lineRGBA(screen, 417+tablero_x, tablero_y, 417+tablero_x, tablero_y+(8*44), 0, 0, 0, 255);
+   	lineRGBA(screen, 717+tablero_x, tablero_y, 717+tablero_x, tablero_y+(8*44), 0, 0, 0, 255);
+   	lineRGBA(screen, 417+tablero_x, tablero_y+(8*44), 717+tablero_x, tablero_y+(8*44), 0, 0, 0, 255);
+	//lineRGBA(screen, 400, 60,600 , 60, 0, 0, 0, 255);
+
+	//texto=TTF_RenderText_Shaded(fuente,"Archivo", color_fuente ,color_menu);
+	//SDL_Rect textLocation = { 5, 7, 0, 0 };
+	//SDL_BlitSurface(texto, NULL, screen, &textLocation);
+	//SDL_FreeSurface(texto);
+
 }
