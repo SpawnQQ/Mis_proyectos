@@ -1,10 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_gfxPrimitives.h>
+#include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_net.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <socket_sdl.h>
 
-#define WIDTH 460
-#define HEIGHT 380
+
+#define WIDTH 800
+#define HEIGHT 700
 #define BPP 24
 #define MASK 255,255,255
 
@@ -14,12 +24,21 @@ SDL_Event event;
 int done = 0;
 Uint8 *keys;
 
+TTF_Font *fuente;
+SDL_Surface *texto;
+SDL_Surface *imprimir;
+SDL_Color color_fuente = {255, 255, 255};
+SDL_Color color_fondo = { 0, 0, 0 };
+
+SDL_Rect seccion[8];
+
 struct nave{
     int x,y;
 } minave;
 
 int main(){
-
+	char buffer;
+	int aux=0;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -34,60 +53,70 @@ int main(){
     	exit(1);
 	}
 
-	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
-	if(tablero == NULL)
-	{
-    	printf("No se ha podido cargar la imagen: %s\n", SDL_GetError());
+	 SDL_WM_SetCaption("Ajedrez 1.0v","Ajedrez 1.0v");
+
+	 if (TTF_Init() != 0)
+  	{
+  		printf("No se ha podido iniciar TTF: %s\n", SDL_GetError());
+    	exit(1);	
+  	}
+	fuente=TTF_OpenFont( "arial.ttf", 20 );
+
+	if (fuente == NULL)
+   {
+   		printf("Error al abrir la color_fuente: %s\n", SDL_GetError());
     	exit(1);
-	}
+   }
 
+	texto=TTF_RenderText_Shaded(fuente,"Hola tenemos problemas con las fuentes", color_fuente,color_fondo );
+	SDL_BlitSurface(texto, NULL, screen, NULL);
 
+	 if (texto == NULL)
+   	{
+   		printf("Error texto vacio %s\n", SDL_GetError());
+    	exit(1);
+   	}
 
-	minave.x = 50;
-	minave.y = 10;
+	dest.x = 50;
+	dest.y = 50;
+	dest.w = 500;
+	dest.h = 100;
 
-	dest.x = minave.x;
-	dest.y = minave.y;
-	dest.w = tablero -> w;
-	dest.h = tablero -> h;
-
-	SDL_BlitSurface(tablero, NULL, screen, &dest);
+   	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 255,255,255));
 	SDL_Flip(screen);
-	SDL_FreeSurface(tablero);
 
-	//peon = SDL_LoadBMP("imagenes/Reina4.bmp");
-	peon=IMG_Load("imagenes/piezas/Rw.png");
-	if(peon == NULL)
-	{
-    	printf("No se ha podido cargar la imagen: %s\n", SDL_GetError());
-    	exit(1);
+	while(1){
+		if(SDL_PollEvent(&event)){
+			if(event.type == SDL_QUIT){ 
+				exit(0);
+			}
+			if(event.type ==SDL_KEYDOWN){
+				if(event.key.keysym.sym == SDLK_ESCAPE){
+					exit(0);
+
+				}
+			}
+		}
+	}
+	
+/*
+	printf("Desea ser servidor o cliente? ");
+	scanf("\n%c", &buffer);
+	if(buffer=='s'){
+		create_server();
+	}else{
+		conect_server();
 	}
 
-	dest.x = 50+(7*44);
-	dest.y = 8+(0*44);
-
-	// (x,y)=50,8 8a
-	// (x,y)=50,52 7a
-	// (x,y)=50,96 6a
-	// (x,y)=
-	// f(x,y)=x,44*n, si el primer n es 8  Para la columna, para la fila deberia ser similar
-
-	dest.w = peon -> w;
-	dest.h = peon -> h;
-
-	SDL_BlitSurface(peon, NULL, screen, &dest);
-	SDL_Flip (screen);
-	SDL_FreeSurface(peon);
-
-
-	keys = SDL_GetKeyState(NULL);
-	 // Esperamos la pulsación de una tecla para salir 
-	while(done == 0)
-{
-    while(SDL_PollEvent(&event))
-    {
-        if(event.type == SDL_KEYDOWN) {done = 1;}
-    }
-} 
+	while(1){
+		if(buffer=='s'){
+			recv_client_server();
+		}else{
+			send_client_server();
+		}
+		printf("%i",aux);
+		aux++;
+	}
 	return 0;
+	*/
 }

@@ -31,7 +31,7 @@ void elegir_movimiento_pieza(int inicio_fila,int inicio_columna, int destino_fil
 
 //Buscamos los casos posibles para el mov, si no cumple ningun caso posible, el movimiento no se podra realizar
 void mover_peon(int inicio_fila,int inicio_columna, int destino_fila, int destino_columna, p (*m)[8],int *mov_permitido){
-	if(m[inicio_fila][inicio_columna].primer_turno==true){
+	if(m[inicio_fila][inicio_columna].primer_turno==1){
 		//Puede avanzar dos espacios
 		//Si la pieza es blanca -w-
 		if(m[inicio_fila][inicio_columna].color=='w'){
@@ -492,11 +492,11 @@ if(m[inicio_fila][inicio_columna].color=='w'){
 										*mov_permitido=1;
 									}else{
 										//Enroque largo
-										if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='w' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
+										if(m[inicio_fila][inicio_columna].primer_turno==1 && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='w' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==1) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
 											enroque('l',inicio_fila,inicio_columna,m);
 											*mov_permitido=1;
 										}else{
-											if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='w' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
+											if(m[inicio_fila][inicio_columna].primer_turno==1 && jaque(1,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='w' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==1) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
 												enroque('c',inicio_fila,inicio_columna,m);
 												*mov_permitido=1;
 											}else{
@@ -554,11 +554,11 @@ if(m[inicio_fila][inicio_columna].color=='w'){
 										*mov_permitido=1;
 									}else{
 										//Enroque largo
-										if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='b' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
+										if(m[inicio_fila][inicio_columna].primer_turno==1 && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna-2==destino_columna) && m[inicio_fila][inicio_columna-1].color=='V' && m[inicio_fila][inicio_columna-2].color=='V' && m[inicio_fila][inicio_columna-3].color=='V' && (m[inicio_fila][inicio_columna-4].color=='b' && m[inicio_fila][inicio_columna-4].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna-4].primer_turno==1) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna-2,m)==0){
 											enroque('l',inicio_fila,inicio_columna,m);
 											*mov_permitido=1;
 										}else{
-											if(m[inicio_fila][inicio_columna].primer_turno==true && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='b' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==true) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
+											if(m[inicio_fila][inicio_columna].primer_turno==1 && jaque(0,m)==0 && (inicio_fila==destino_fila && inicio_columna+2==destino_columna) && m[inicio_fila][inicio_columna+1].color=='V' && m[inicio_fila][inicio_columna+2].color=='V' && (m[inicio_fila][inicio_columna+3].color=='b' && m[inicio_fila][inicio_columna+3].tipo_pieza.nombre=='R' && m[inicio_fila][inicio_columna+3].primer_turno==1) && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+1,m)==0 && jaque_enroque(inicio_fila,inicio_columna,inicio_fila,inicio_columna+2,m)==0){
 												enroque('c',inicio_fila,inicio_columna,m);
 												*mov_permitido=1;
 											}else{
@@ -583,14 +583,14 @@ void realizar_movimiento(int inicio_fila,int inicio_columna, int destino_fila, i
 	//Modificamos destino primeramente
 	m[destino_fila][destino_columna].color=m[inicio_fila][inicio_columna].color;
 	//Ya tocaste la pieza una vez al menos
-	m[destino_fila][destino_columna].primer_turno=false;
+	m[destino_fila][destino_columna].primer_turno=0;
 	m[destino_fila][destino_columna].tipo_pieza.nombre=m[inicio_fila][inicio_columna].tipo_pieza.nombre;
 	m[destino_fila][destino_columna].tipo_pieza.posicion[0]=m[inicio_fila][inicio_columna].tipo_pieza.posicion[0];
 	m[destino_fila][destino_columna].tipo_pieza.posicion[1]=m[inicio_fila][inicio_columna].tipo_pieza.posicion[1];
 
 	//Modificamos la pieza que se movio
 	m[inicio_fila][inicio_columna].color='V';
-	m[inicio_fila][inicio_columna].primer_turno=false;
+	m[inicio_fila][inicio_columna].primer_turno=0;
 	m[inicio_fila][inicio_columna].tipo_pieza.nombre='V';
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[0]=i;
 	m[inicio_fila][inicio_columna].tipo_pieza.posicion[1]=j;
@@ -704,7 +704,7 @@ int verificacion_todas_direcciones(char direccion[2],int inicio_fila,int inicio_
 
 void borrar_pieza(int fila, int columna,p (*m)[8]){
 	m[fila][columna].color='V';
-	m[fila][columna].primer_turno=false;
+	m[fila][columna].primer_turno=0;
 	m[fila][columna].tipo_pieza.nombre='V';
 	m[fila][columna].tipo_pieza.posicion[0]=fila;
 	m[fila][columna].tipo_pieza.posicion[1]=columna;
