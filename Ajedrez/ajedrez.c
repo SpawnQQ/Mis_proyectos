@@ -1,3 +1,4 @@
+#include <postgresql/libpq-fe.h>
 #include <SDL/SDL.h> 
 #include <SDL/SDL_gfxPrimitives.h>
 #include <SDL/SDL_ttf.h>
@@ -18,6 +19,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <manejo_socket.h>
+#include <postgres.h>
 
 int main(){
 	int turno[1];
@@ -26,6 +28,8 @@ int main(){
 	typedef struct pieza p;
 	p m[8][8];
 	int termino_partida=0;
+	conexion_postgres();
+	logear();
 	while(done == 0){
 		inicio_partida(&m,termino_partida,turno);
 		//continuar_partida(&m,termino_partida,turno);

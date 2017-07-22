@@ -1,11 +1,11 @@
 3
 Rb 00 1
-VV 01 0
+Nb 01 1
 Bb 02 1
 Qb 03 1
 Kb 04 1
 Bb 05 1
-Nb 06 1
+VV 06 0
 Rb 07 1
 Pb 10 1
 Pb 11 1
@@ -15,14 +15,14 @@ Pb 14 1
 Pb 15 1
 Pb 16 1
 Pb 17 1
-Nb 20 0
+VV 20 0
 VV 21 0
 VV 22 0
 VV 23 0
 VV 24 0
 VV 25 0
 VV 26 0
-VV 27 0
+Nb 27 0
 VV 30 0
 VV 31 0
 VV 32 0

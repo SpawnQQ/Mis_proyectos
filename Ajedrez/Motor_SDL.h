@@ -1,4 +1,5 @@
-#define WIDTH 825
+//#define WIDTH 825
+#define WIDTH 460
 #define HEIGHT 460
 #define BPP 24
 #define MASK 255,255,255
@@ -498,7 +499,7 @@ void cargar_tablero_sdl(p (*m)[8]){
 	//Esto siempre va primero
 	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 210,210,210));
 
-	historial_sdl();
+	//historial_sdl();
 
 	tablero = SDL_LoadBMP("imagenes/tablero_cafe2.bmp");
 	dest.x = tablero_x;
