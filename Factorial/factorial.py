@@ -59,4 +59,5 @@ def factorial(n):
 	return resultado
 #print factorial(100)
 resultado=factorial(5000)
+
 print resultado[0],'e+',resultado[1]
