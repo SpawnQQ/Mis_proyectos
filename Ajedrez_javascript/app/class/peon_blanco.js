@@ -46,8 +46,49 @@ Object.defineProperty(peon_blanco.prototype, 'score', {
 
 peon_blanco.prototype = new pieza_blanca();
 
-peon_blanco.prototype.movimiento = function() {
-	console.log("Peon blanco");
+peon_blanco.prototype.movimiento = function(board,posicion_seleccion, posicion_destino) {
+	if(board[posicion_seleccion[0]][posicion_seleccion[1]].firstMove == true){
+		board[posicion_seleccion[0]][posicion_seleccion[1]].firstMove = false;
+		if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] && board[posicion_destino[0]][posicion_destino[1]].name == "-"){
+			board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+			return true;
+		}else{
+			//Peon al paso, se debe hacer una verificacion.
+			if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 2 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] && board[posicion_destino[0]][posicion_destino[1]].name == "-" && board[posicion_destino[0]+1][posicion_destino[1]].name == "-") {
+				board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+				return true;
+			}else{
+				if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] + 1 && board[posicion_destino[0]][posicion_destino[1]].name != "-" && board[posicion_destino[0]][posicion_destino[1]].color != "w"){
+					board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+					return true;
+				}else{
+					if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] - 1 && board[posicion_destino[0]][posicion_destino[1]].name != "-" && board[posicion_destino[0]][posicion_destino[1]].color != "w"){
+						board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+						return true;
+					}else{
+						return false;
+					}
+				}			
+			}
+		}
+	}else{
+		if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] && board[posicion_destino[0]][posicion_destino[1]].name == "-"){
+			board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+			return true;
+		}else{
+			if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] + 1 && board[posicion_destino[0]][posicion_destino[1]].name != "-" && board[posicion_destino[0]][posicion_destino[1]].color != "w"){
+				board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+				return true;
+			}else{
+				if(posicion_destino[0] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[0] - 1 && posicion_destino[1] == board[posicion_seleccion[0]][posicion_seleccion[1]].position[1] - 1 && board[posicion_destino[0]][posicion_destino[1]].name != "-" && board[posicion_destino[0]][posicion_destino[1]].color != "w"){
+					board[posicion_seleccion[0]][posicion_seleccion[1]].position = posicion_destino;
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}
+	}
 }
 
 module.exports = peon_blanco;
